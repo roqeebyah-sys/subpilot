@@ -1,5 +1,7 @@
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
+import SyncButton from './sync-button'
+
 
 // This is a Server Component — it runs on the server, not the browser
 // That means we can check the session before the page even loads
@@ -52,9 +54,7 @@ export default async function DashboardPage() {
             SubPilot needs read-only access to your Stripe data to track subscribers,
             detect churn risk, and surface revenue opportunities.
           </p>
-          <button className="bg-[#635bff] hover:bg-[#5851e6] text-white font-medium px-6 py-3 rounded-lg text-sm transition-colors">
-            Connect Stripe →
-          </button>
+          <SyncButton />
           <p className="text-white/20 text-xs mt-3">Read-only access · We never touch your money</p>
         </div>
 
