@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import SyncButton from './sync-button'
 import ChurnScoreButton from './churn-score-button'
+import AIInsightsPanel from './ai-insights-panel'
 
 type DashboardData = {
   metrics: {
@@ -239,6 +240,8 @@ export default function DashboardClient({ session }: { session: any }) {
                 </div>
               </div>
             </div>
+{/* AI INSIGHTS */}
+<AIInsightsPanel />
 {/* CHURN ANALYSIS */}
 {data && (
   <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 mb-6">
