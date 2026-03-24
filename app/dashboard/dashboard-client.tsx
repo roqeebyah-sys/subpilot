@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import SyncButton from './sync-button'
 import ChurnScoreButton from './churn-score-button'
+import CSVUploadButton from './csv-upload-button'
 import AIInsightsPanel from './ai-insights-panel'
 
 type DashboardData = {
@@ -240,6 +241,9 @@ export default function DashboardClient({ session }: { session: any }) {
                 </div>
               </div>
             </div>
+{/* CSV UPLOAD */}
+<CSVUploadButton />
+
 {/* AI INSIGHTS */}
 <AIInsightsPanel />
 {/* CHURN ANALYSIS */}

@@ -44,7 +44,7 @@ export default function Home() {
         </h1>
 
         <p className="text-xl text-white/60 max-w-2xl mx-auto mb-6 leading-relaxed">
-          See which Clients are about to cancel — and exactly what to do to keep them.
+          See which customers are about to cancel — and exactly what to do to keep them.
           SubPilot watches your subscribers 24/7 so you don't have to.
         </p>
 
