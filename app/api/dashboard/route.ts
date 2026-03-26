@@ -22,8 +22,8 @@ export async function GET(req: NextRequest) {
 
     const userId = session.user.id
 
-    // Get user plan fresh from DB (JWT may be stale after upgrade)
-    const user  = await User.findById(userId).select('plan').lean() as { plan?: string } | null
+    // Get user plan and patreon status fresh from DB
+    const user  = await User.findById(userId).select('plan patreonConnected').lean() as { plan?: string; patreonConnected?: boolean } | null
     const plan  = (user?.plan as string) || 'starter'
     const limit = PLAN_LIMITS[plan] ?? 100
 
@@ -82,10 +82,18 @@ export async function GET(req: NextRequest) {
     const fourteenDaysAgo = new Date()
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14)
 
-    const atRisk = active.filter(s => {
-      if (!s.lastActiveAt) return true
-      return new Date(s.lastActiveAt) < fourteenDaysAgo
-    })
+    const atRisk = active
+      .filter(s => {
+        if (!s.lastActiveAt) return true
+        return new Date(s.lastActiveAt) < fourteenDaysAgo
+      })
+      // Sort by churn score descending, then by days inactive
+      .sort((a, b) => {
+        const scoreA = a.churnScore ?? 0
+        const scoreB = b.churnScore ?? 0
+        if (scoreB !== scoreA) return scoreB - scoreA
+        return (b.daysInactive ?? 0) - (a.daysInactive ?? 0)
+      })
 
     // ── FORMAT SUBSCRIBER LIST ───────────────────────────────────────
     // Apply plan limit — subscribers beyond the cap are not returned
@@ -109,7 +117,17 @@ export async function GET(req: NextRequest) {
         : null,
     }))
 
+    // ── TAX POT ──────────────────────────────────────────────────────
+    // 30% of MRR — a simple recommended tax set-aside
+    const taxPot = {
+      mrr:      Math.round(mrr),
+      setAside: Math.round(mrr * 0.3),
+      rate:     30,
+    }
+
     return NextResponse.json({
+      patreonConnected: user?.patreonConnected ?? false,
+      taxPot,
       planInfo: {
         plan,
         limit:   limit === Infinity ? null : limit,

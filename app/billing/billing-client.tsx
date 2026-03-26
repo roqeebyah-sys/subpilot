@@ -182,7 +182,7 @@ export default function BillingClient({
       <div className="flex-1 min-w-0 flex flex-col">
 
         {/* Top bar */}
-        <header className="h-14 border-b border-white/[0.06] px-6 flex items-center justify-between flex-shrink-0 sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
+        <header className="h-14 border-b border-white/[0.06] px-4 md:px-6 flex items-center justify-between flex-shrink-0 sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
           <div className="flex items-center gap-3">
             <span className="lg:hidden text-sm font-semibold">
               Sub<span className="text-emerald-400">Pilot</span>
@@ -194,7 +194,7 @@ export default function BillingClient({
             <button
               onClick={openPortal}
               disabled={portalLoading}
-              className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
+              className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2 rounded-lg transition-colors disabled:opacity-40"
             >
               {portalLoading ? (
                 <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin" />Loading…</>
@@ -203,7 +203,7 @@ export default function BillingClient({
           )}
         </header>
 
-        <main className="flex-1 overflow-auto px-6 py-8">
+        <main className="flex-1 overflow-auto px-4 py-6 md:px-6 md:py-8">
           <div className="max-w-4xl mx-auto space-y-8">
 
             {/* ── SUCCESS / CANCELLED BANNERS ─────────────────────────────── */}
@@ -243,11 +243,11 @@ export default function BillingClient({
                 return (
                   <div
                     key={plan.id}
-                    className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
+                    className={`relative flex flex-col rounded-2xl border p-4 md:p-6 transition-all ${
                       plan.highlight
-                        ? 'border-emerald-500/30 bg-emerald-500/[0.04]'
+                        ? 'border-white/[0.15] bg-white/[0.06]'
                         : isActive
-                        ? 'border-white/20 bg-white/[0.04]'
+                        ? 'border-emerald-500/30 bg-emerald-500/[0.04]'
                         : 'border-white/[0.08] bg-white/[0.02]'
                     }`}
                   >
@@ -334,7 +334,7 @@ export default function BillingClient({
 
             {/* ── MANAGE SUBSCRIPTION ────────────────────────────────────── */}
             {currentPlan !== 'starter' && (
-              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex items-center justify-between gap-4">
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                   <div className="text-sm font-medium mb-0.5">Manage your subscription</div>
                   <div className="text-xs text-white/35">
@@ -344,7 +344,7 @@ export default function BillingClient({
                 <button
                   onClick={openPortal}
                   disabled={portalLoading}
-                  className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-40"
+                  className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-4 py-2.5 rounded-lg transition-colors disabled:opacity-40"
                 >
                   {portalLoading ? 'Opening…' : 'Open billing portal →'}
                 </button>

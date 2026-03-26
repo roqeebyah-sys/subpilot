@@ -128,7 +128,18 @@ export default function SubscriberDetailClient({
   const [alertSending, setAlertSending] = useState(false)
   const [alertError, setAlertError]   = useState('')
   const [copied, setCopied]           = useState(false)
-  const [metaOpen, setMetaOpen]       = useState(false)
+
+  // Win-back email generator
+  const [winbackOpen, setWinbackOpen]   = useState(false)
+  const [winbackLoading, setWinbackLoading] = useState(false)
+  const [winbackEmail, setWinbackEmail] = useState<{
+    subject: string
+    body: string
+    talkingPoints: string[]
+  } | null>(null)
+  const [winbackError, setWinbackError] = useState('')
+  const [winbackCopied, setWinbackCopied] = useState(false)
+  const [winbackTone, setWinbackTone]   = useState<'warm' | 'professional' | 'casual' | 'urgent'>('warm')
 
   const initials = session?.user?.name?.[0]?.toUpperCase() || 'U'
 
@@ -167,6 +178,36 @@ export default function SubscriberDetailClient({
     navigator.clipboard.writeText(sub.email)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  async function generateWinback() {
+    if (!sub) return
+    setWinbackLoading(true)
+    setWinbackError('')
+    setWinbackEmail(null)
+    setWinbackOpen(true)
+    try {
+      const res  = await fetch('/api/ai/winback', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ subscriberId: sub._id, tone: winbackTone }),
+      })
+      const data = await res.json()
+      if (data.error) throw new Error(data.error)
+      setWinbackEmail(data)
+    } catch (err: any) {
+      setWinbackError(err.message || 'Failed to generate email')
+    } finally {
+      setWinbackLoading(false)
+    }
+  }
+
+  function copyWinback() {
+    if (!winbackEmail) return
+    const text = `Subject: ${winbackEmail.subject}\n\n${winbackEmail.body}`
+    navigator.clipboard.writeText(text)
+    setWinbackCopied(true)
+    setTimeout(() => setWinbackCopied(false), 2000)
   }
 
   const days    = daysAgo(sub?.lastActiveAt ?? undefined)
@@ -216,7 +257,7 @@ export default function SubscriberDetailClient({
       <div className="flex-1 min-w-0 flex flex-col">
 
         {/* TOP BAR */}
-        <header className="h-14 border-b border-white/[0.06] px-6 flex items-center gap-3 flex-shrink-0 sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
+        <header className="h-14 border-b border-white/[0.06] px-4 md:px-6 flex items-center gap-3 flex-shrink-0 sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
           <Link
             href="/dashboard"
             className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 transition-colors"
@@ -229,7 +270,7 @@ export default function SubscriberDetailClient({
           </span>
         </header>
 
-        <main className="flex-1 overflow-auto px-6 py-6">
+        <main className="flex-1 overflow-auto px-4 py-4 md:px-6 md:py-6">
 
           {/* LOADING */}
           {loading && (
@@ -260,7 +301,7 @@ export default function SubscriberDetailClient({
 
               {/* ── PROFILE HEADER ─────────────────────────────────────── */}
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                <div className="flex items-start gap-4">
+                <div className="flex flex-wrap items-start gap-4">
 
                   {/* Avatar */}
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold flex-shrink-0 ${
@@ -289,7 +330,7 @@ export default function SubscriberDetailClient({
                         <button
                           onClick={sendAlert}
                           disabled={alertSending}
-                          className="flex items-center gap-1.5 text-xs font-medium bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 text-orange-400 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
+                          className="flex items-center gap-1.5 text-xs font-medium bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/20 text-orange-400 px-3 py-2.5 rounded-lg transition-colors disabled:opacity-40"
                         >
                           {alertSending ? (
                             <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin" />Sending…</>
@@ -298,16 +339,25 @@ export default function SubscriberDetailClient({
                       )}
                       <button
                         onClick={copyEmail}
-                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2.5 rounded-lg transition-colors"
                       >
                         {copied ? '✓ Copied' : '📋 Copy email'}
                       </button>
                       <a
                         href={`mailto:${sub.email}`}
-                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2.5 rounded-lg transition-colors"
                       >
                         ✉ Open in mail
                       </a>
+                      <button
+                        onClick={generateWinback}
+                        disabled={winbackLoading}
+                        className="flex items-center gap-1.5 text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 px-3 py-2.5 rounded-lg transition-colors disabled:opacity-50"
+                      >
+                        {winbackLoading ? (
+                          <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin" />Generating…</>
+                        ) : '✨ Generate win-back email'}
+                      </button>
                     </div>
                     {alertError && (
                       <p className="text-xs text-red-400 mt-2">{alertError}</p>
@@ -396,6 +446,153 @@ export default function SubscriberDetailClient({
                 </div>
               )}
 
+              {/* ── WIN-BACK EMAIL GENERATOR ───────────────────────────── */}
+              {winbackOpen && (
+                <div className="bg-white/[0.02] border border-emerald-500/20 rounded-xl">
+                  {/* Header */}
+                  <div className="flex flex-col gap-3 px-5 py-4 border-b border-white/[0.06]">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-emerald-400">✨</span>
+                        <h2 className="text-sm font-semibold">AI Win-Back Email</h2>
+                        {winbackLoading && (
+                          <span className="text-xs text-white/30 flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 border border-white/30 border-t-transparent rounded-full animate-spin" />
+                            Writing…
+                          </span>
+                        )}
+                      </div>
+                    <div className="flex items-center gap-2">
+                      {winbackEmail && (
+                        <>
+                          <button
+                            onClick={copyWinback}
+                            className="text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            {winbackCopied ? '✓ Copied' : '📋 Copy email'}
+                          </button>
+                          <a
+                            href={`mailto:${sub.email}?subject=${encodeURIComponent(winbackEmail.subject)}&body=${encodeURIComponent(winbackEmail.body)}`}
+                            className="text-xs font-medium bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            ✉ Open in mail
+                          </a>
+                        </>
+                      )}
+                      <button
+                        onClick={() => setWinbackOpen(false)}
+                        className="text-white/30 hover:text-white/60 text-sm px-2 py-1 transition-colors"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    </div>
+
+                    {/* Tone selector */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] text-white/30 uppercase tracking-widest font-medium">Tone</span>
+                      {([
+                        { key: 'warm',         label: '🤝 Warm' },
+                        { key: 'professional', label: '💼 Professional' },
+                        { key: 'casual',       label: '💬 Casual' },
+                        { key: 'urgent',       label: '⚡ Urgent' },
+                      ] as const).map(t => (
+                        <button
+                          key={t.key}
+                          onClick={() => setWinbackTone(t.key)}
+                          className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                            winbackTone === t.key
+                              ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400'
+                              : 'bg-white/[0.03] border-white/[0.08] text-white/40 hover:text-white/70 hover:border-white/20'
+                          }`}
+                        >
+                          {t.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Loading skeleton */}
+                  {winbackLoading && (
+                    <div className="px-5 py-5 space-y-3 animate-pulse">
+                      <div className="h-3 bg-white/[0.06] rounded w-3/4" />
+                      <div className="h-2 bg-white/[0.04] rounded w-full" />
+                      <div className="h-2 bg-white/[0.04] rounded w-5/6" />
+                      <div className="h-2 bg-white/[0.04] rounded w-4/5" />
+                      <div className="h-2 bg-white/[0.04] rounded w-full" />
+                      <div className="h-2 bg-white/[0.04] rounded w-3/5" />
+                    </div>
+                  )}
+
+                  {/* Error */}
+                  {winbackError && (
+                    <div className="px-5 py-4">
+                      <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">{winbackError}</p>
+                      <button onClick={generateWinback} className="mt-3 text-xs text-emerald-400 hover:underline">
+                        Try again
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Email output */}
+                  {winbackEmail && !winbackLoading && (
+                    <div className="divide-y divide-white/[0.05]">
+                      {/* Subject */}
+                      <div className="px-5 py-3 flex items-center gap-3">
+                        <span className="text-[10px] font-semibold uppercase tracking-widest text-white/30 w-14 flex-shrink-0">Subject</span>
+                        <input
+                          type="text"
+                          value={winbackEmail.subject}
+                          onChange={e => setWinbackEmail(prev => prev ? { ...prev, subject: e.target.value } : prev)}
+                          className="flex-1 text-sm font-medium text-white bg-transparent border-b border-white/[0.08] focus:border-emerald-500/40 focus:outline-none py-0.5 transition-colors"
+                        />
+                      </div>
+
+                      {/* Body */}
+                      <div className="px-5 py-4">
+                        <div className="text-[10px] font-semibold uppercase tracking-widest text-white/30 mb-3">Body</div>
+                        <textarea
+                          value={winbackEmail.body}
+                          onChange={e => {
+                            setWinbackEmail(prev => prev ? { ...prev, body: e.target.value } : prev)
+                            e.target.style.height = 'auto'
+                            e.target.style.height = e.target.scrollHeight + 'px'
+                          }}
+                          ref={el => { if (el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px' } }}
+                          className="w-full text-sm text-white/80 leading-relaxed bg-white/[0.02] rounded-lg px-4 py-3 border border-white/[0.05] focus:border-emerald-500/30 focus:outline-none resize-none overflow-hidden transition-colors"
+                        />
+                      </div>
+
+                      {/* Talking points */}
+                      {winbackEmail.talkingPoints.length > 0 && (
+                        <div className="px-5 py-4">
+                          <div className="text-[10px] font-semibold uppercase tracking-widest text-white/30 mb-3">Follow-up talking points</div>
+                          <ul className="space-y-2">
+                            {winbackEmail.talkingPoints.map((point, i) => (
+                              <li key={i} className="flex items-start gap-2 text-xs text-white/50">
+                                <span className="text-emerald-400 flex-shrink-0 mt-0.5">•</span>
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Regenerate */}
+                      <div className="px-5 py-3 flex items-center justify-between">
+                        <span className="text-[10px] text-white/20">Generated by AI · always review before sending</span>
+                        <button
+                          onClick={generateWinback}
+                          className="text-xs text-white/40 hover:text-white/70 transition-colors"
+                        >
+                          ↻ Regenerate
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* ── SUBSCRIPTION TIMELINE ──────────────────────────────── */}
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
                 <h2 className="text-sm font-semibold mb-4">Subscription timeline</h2>
@@ -471,25 +668,6 @@ export default function SubscriberDetailClient({
                 </dl>
               </div>
 
-              {/* ── RAW METADATA (collapsible) ─────────────────────────── */}
-              {sub.metadata && Object.keys(sub.metadata).length > 0 && (
-                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
-                  <button
-                    onClick={() => setMetaOpen(o => !o)}
-                    className="w-full flex items-center justify-between px-5 py-3.5 hover:bg-white/[0.02] transition-colors"
-                  >
-                    <span className="text-sm font-semibold">Raw metadata</span>
-                    <span className="text-white/30 text-xs">{metaOpen ? '▲ Hide' : '▼ Show'}</span>
-                  </button>
-                  {metaOpen && (
-                    <div className="border-t border-white/[0.06] px-5 py-4">
-                      <pre className="text-xs text-white/40 overflow-auto max-h-64 leading-relaxed">
-                        {JSON.stringify(sub.metadata, null, 2)}
-                      </pre>
-                    </div>
-                  )}
-                </div>
-              )}
 
             </div>
           )}
