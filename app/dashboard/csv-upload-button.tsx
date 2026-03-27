@@ -61,7 +61,7 @@ export default function CSVUploadButton() {
               <div className="text-xs text-white/50 space-y-1">
                 <div>{result.imported} customers imported</div>
                 {result.skipped > 0 && <div>{result.skipped} rows skipped (no email)</div>}
-                <div className="text-white/30 mt-2">
+                <div className="text-white/55 mt-2">
                   Detected columns: {JSON.stringify(result.mapping)}
                 </div>
               </div>

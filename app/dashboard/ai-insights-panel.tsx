@@ -157,14 +157,14 @@ export default function AIInsightsPanel() {
                         </div>
                         <div>
                           <div className="text-xs font-medium">{insight.name}</div>
-                          <div className="text-xs text-white/30">{insight.reason}</div>
+                          <div className="text-xs text-white/55">{insight.reason}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${labelColors[insight.label] || 'text-white/40 bg-white/10'}`}>
                           {insight.score}/10
                         </span>
-                        <span className="text-white/20 text-xs">
+                        <span className="text-white/45 text-xs">
                           {activeInsight === insight.subscriberId ? '▲' : '▼'}
                         </span>
                       </div>
@@ -182,9 +182,9 @@ export default function AIInsightsPanel() {
 
                         {/* Email preview */}
                         <div className="bg-[#111] border border-white/10 rounded-lg p-4">
-                          <div className="text-xs text-white/30 mb-1">Subject</div>
+                          <div className="text-xs text-white/55 mb-1">Subject</div>
                           <div className="text-xs font-medium text-white mb-3">{insight.emailSubject}</div>
-                          <div className="text-xs text-white/30 mb-1">Body</div>
+                          <div className="text-xs text-white/55 mb-1">Body</div>
                           <div className="text-xs text-white/60 leading-relaxed whitespace-pre-line">
                             {insight.emailBody}
                           </div>
@@ -192,11 +192,11 @@ export default function AIInsightsPanel() {
 
                         {/* Talking points */}
                         <div>
-                          <div className="text-xs text-white/30 mb-2">If you call them instead:</div>
+                          <div className="text-xs text-white/55 mb-2">If you call them instead:</div>
                           <div className="space-y-1">
                             {insight.talkingPoints.map((point, i) => (
                               <div key={i} className="flex items-start gap-2">
-                                <span className="text-white/20 text-xs mt-0.5">·</span>
+                                <span className="text-white/45 text-xs mt-0.5">·</span>
                                 <span className="text-xs text-white/50">{point}</span>
                               </div>
                             ))}
@@ -235,7 +235,7 @@ export default function AIInsightsPanel() {
             </div>
           )}
 
-          <div className="text-xs text-white/20 text-right">
+          <div className="text-xs text-white/45 text-right">
             Generated {new Date(data.generatedAt).toLocaleTimeString()}
           </div>
         </div>
