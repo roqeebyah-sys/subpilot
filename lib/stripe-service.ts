@@ -2,7 +2,9 @@ import Stripe from 'stripe'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!)
+}
 
 // Takes raw Stripe subscription data and converts it into
 // our unified subscriber format — same shape as CSV imports
@@ -68,7 +70,7 @@ export async function syncStripeSubscribers(userId: string) {
   try {
     // Fetch all subscriptions from Stripe
     // auto_paging_each handles pagination automatically
-    for await (const subscription of stripe.subscriptions.list({
+    for await (const subscription of getStripe().subscriptions.list({
       limit: 100,
       expand: ['data.customer'], // include customer data in the response
     })) {
@@ -108,8 +110,8 @@ export async function syncStripeSubscribers(userId: string) {
 // Pull summary metrics directly from Stripe for the dashboard
 export async function getStripeMetrics() {
   const [subscriptions, charges] = await Promise.all([
-    stripe.subscriptions.list({ limit: 100, status: 'active' }),
-    stripe.charges.list({ limit: 100 }),
+    getStripe().subscriptions.list({ limit: 100, status: 'active' }),
+    getStripe().charges.list({ limit: 100 }),
   ])
 
   // Calculate MRR — sum of all active subscription amounts

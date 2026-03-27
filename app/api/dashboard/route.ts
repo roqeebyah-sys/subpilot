@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
+import { User } from '@/models/User'
+
+// How many subscribers each plan can see on the dashboard
+const PLAN_LIMITS: Record<string, number> = {
+  starter: 100,
+  growth:  500,
+  pro:     Infinity,
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,6 +21,11 @@ export async function GET(req: NextRequest) {
     await connectDB()
 
     const userId = session.user.id
+
+    // Get user plan and patreon status fresh from DB
+    const user  = await User.findById(userId).select('plan patreonConnected').lean() as { plan?: string; patreonConnected?: boolean } | null
+    const plan  = (user?.plan as string) || 'starter'
+    const limit = PLAN_LIMITS[plan] ?? 100
 
     // Get all subscribers for this user
     const subscribers = await Subscriber.find({ userId }).sort({ startedAt: -1 })
@@ -69,13 +82,26 @@ export async function GET(req: NextRequest) {
     const fourteenDaysAgo = new Date()
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14)
 
-    const atRisk = active.filter(s => {
-      if (!s.lastActiveAt) return true
-      return new Date(s.lastActiveAt) < fourteenDaysAgo
-    })
+    const atRisk = active
+      .filter(s => {
+        if (!s.lastActiveAt) return true
+        return new Date(s.lastActiveAt) < fourteenDaysAgo
+      })
+      // Sort by churn score descending, then by days inactive
+      .sort((a, b) => {
+        const scoreA = a.churnScore ?? 0
+        const scoreB = b.churnScore ?? 0
+        if (scoreB !== scoreA) return scoreB - scoreA
+        return (b.daysInactive ?? 0) - (a.daysInactive ?? 0)
+      })
 
     // ── FORMAT SUBSCRIBER LIST ───────────────────────────────────────
-    const subscriberList = subscribers.slice(0, 50).map(s => ({
+    // Apply plan limit — subscribers beyond the cap are not returned
+    const cappedSubscribers = limit === Infinity
+      ? subscribers
+      : subscribers.slice(0, limit)
+
+    const subscriberList = cappedSubscribers.map(s => ({
       id: s._id.toString(),
       name: s.name || 'Unknown',
       email: s.email,
@@ -91,7 +117,24 @@ export async function GET(req: NextRequest) {
         : null,
     }))
 
+    // ── TAX POT ──────────────────────────────────────────────────────
+    // 30% of MRR — a simple recommended tax set-aside
+    const taxPot = {
+      mrr:      Math.round(mrr),
+      setAside: Math.round(mrr * 0.3),
+      rate:     30,
+    }
+
     return NextResponse.json({
+      patreonConnected: user?.patreonConnected ?? false,
+      taxPot,
+      planInfo: {
+        plan,
+        limit:   limit === Infinity ? null : limit,
+        total:   subscribers.length,     // real total before cap
+        shown:   cappedSubscribers.length,
+        atLimit: limit !== Infinity && subscribers.length >= limit,
+      },
       metrics: {
         mrr: Math.round(mrr),
         activeSubscribers: active.length,
@@ -111,6 +154,7 @@ export async function GET(req: NextRequest) {
         email: s.email,
         amount: (s.amount || 0) / 100,
         plan: s.plan,
+        churnScore: s.churnScore ?? undefined,
         daysInactive: s.lastActiveAt
           ? Math.floor((Date.now() - new Date(s.lastActiveAt).getTime()) / (1000 * 60 * 60 * 24))
           : null,
