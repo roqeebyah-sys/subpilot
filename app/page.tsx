@@ -57,7 +57,7 @@ function DashboardMockup() {
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
         </div>
-        <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/20 max-w-[180px] mx-auto text-center">
+        <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/45 max-w-[180px] mx-auto text-center">
           app.subpilot.io/dashboard
         </div>
       </div>
@@ -77,7 +77,7 @@ function DashboardMockup() {
             <div
               key={item.label}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs mb-0.5 ${
-                item.active ? 'bg-white/[0.07] text-white' : 'text-white/25'
+                item.active ? 'bg-white/[0.07] text-white' : 'text-white/50'
               }`}
             >
               <span className="text-[10px]">{item.icon}</span>
@@ -96,7 +96,7 @@ function DashboardMockup() {
               { label: 'Churn rate',  value: '3.2%',   delta: '-0.4', up: true  },
             ].map(m => (
               <div key={m.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
-                <div className="text-[9px] text-white/30 mb-1 uppercase tracking-widest">{m.label}</div>
+                <div className="text-[9px] text-white/55 mb-1 uppercase tracking-widest">{m.label}</div>
                 <div className="text-sm font-bold mb-0.5">{m.value}</div>
                 <div className={`text-[9px] font-semibold ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.delta}</div>
               </div>
@@ -120,7 +120,7 @@ function DashboardMockup() {
                     <div className="w-5 h-5 rounded-full bg-white/[0.06] flex items-center justify-center text-[8px] font-bold text-white/50">{r.name[0]}</div>
                     <div>
                       <div className="text-[10px] font-medium">{r.name}</div>
-                      <div className="text-[8px] text-white/25">{r.days}d inactive</div>
+                      <div className="text-[8px] text-white/50">{r.days}d inactive</div>
                     </div>
                   </div>
                   <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${r.badge}`}>{r.score}/10</span>
@@ -139,7 +139,7 @@ function DashboardMockup() {
               </div>
               <div className="flex justify-between mt-1.5">
                 {['Oct','Nov','Dec','Jan','Feb','Mar','Apr'].map(m => (
-                  <span key={m} className="text-[7px] text-white/20 flex-1 text-center">{m}</span>
+                  <span key={m} className="text-[7px] text-white/45 flex-1 text-center">{m}</span>
                 ))}
               </div>
             </div>
@@ -287,7 +287,7 @@ export default function Home() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="flex-1 min-w-0 bg-white/[0.05] border border-white/[0.10] rounded-lg px-4 py-3 text-sm placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                    className="flex-1 min-w-0 bg-white/[0.05] border border-white/[0.10] rounded-lg px-4 py-3 text-sm placeholder:text-white/50 focus:outline-none focus:border-white/30 transition-colors"
                   />
                   <button type="submit"
                     className="bg-white hover:bg-white/90 text-black font-semibold px-5 py-3 rounded-lg text-sm transition-all shadow-lg shadow-black/20 whitespace-nowrap">
@@ -305,14 +305,14 @@ export default function Home() {
               </a>
             </div>
 
-            <p className="text-xs text-white/25">No credit card required · Free 14-day trial</p>
+            <p className="text-xs text-white/50">No credit card required · Free 14-day trial</p>
 
             {/* Trust logos */}
             <div className="mt-10 flex items-center gap-3 flex-wrap">
-              <span className="text-[10px] text-white/25 uppercase tracking-widest">Works with</span>
+              <span className="text-[10px] text-white/50 uppercase tracking-widest">Works with</span>
               {['Patreon', 'Gumroad', 'Stripe'].map(p => (
                 <span key={p}
-                  className="text-xs text-white/35 border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
+                  className="text-xs text-white/60 border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
                   {p}
                 </span>
               ))}
@@ -324,7 +324,7 @@ export default function Home() {
             {/* Glow */}
             <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-3xl pointer-events-none" />
             <DashboardMockup />
-            <p className="text-center text-[11px] text-white/20 mt-3">
+            <p className="text-center text-[11px] text-white/45 mt-3">
               Your daily command centre — every at-risk subscriber, one click away
             </p>
           </div>
@@ -341,7 +341,7 @@ export default function Home() {
           ].map(s => (
             <div key={s.label}>
               <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1.5">{s.val}</div>
-              <div className="text-xs text-white/35 leading-relaxed">{s.label}</div>
+              <div className="text-xs text-white/60 leading-relaxed">{s.label}</div>
             </div>
           ))}
         </div>
@@ -349,7 +349,7 @@ export default function Home() {
 
       {/* ── PROBLEM ───────────────────────────────────────────────────────── */}
       <section className="max-w-3xl mx-auto px-4 md:px-8 py-16 md:py-24 text-center">
-        <div className="text-xs text-white/35 font-medium uppercase tracking-widest mb-3">The problem</div>
+        <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">The problem</div>
         <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
           Churn is silent — until it's<br className="hidden md:block" /> too late to do anything
         </h2>
@@ -458,7 +458,7 @@ export default function Home() {
         {/* Feature 1 — Churn scores */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3">Churn risk scoring</div>
+            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Churn risk scoring</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">
               Every subscriber scored 1–10, every morning
             </h3>
@@ -501,7 +501,7 @@ export default function Home() {
                   <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${r.av}`}>{r.name[0]}</div>
                   <div>
                     <div className="text-xs font-medium">{r.name}</div>
-                    <div className="text-[10px] text-white/25">{r.days}d inactive</div>
+                    <div className="text-[10px] text-white/50">{r.days}d inactive</div>
                   </div>
                 </div>
                 <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>{r.score}/10</span>
@@ -518,12 +518,12 @@ export default function Home() {
               <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-400">S</div>
               <div>
                 <div className="text-xs font-semibold">SubPilot Daily Briefing</div>
-                <div className="text-[10px] text-white/30">hello@subpilot.io → you@email.com</div>
+                <div className="text-[10px] text-white/55">hello@subpilot.io → you@email.com</div>
               </div>
-              <div className="ml-auto text-[10px] text-white/25">7:02 AM</div>
+              <div className="ml-auto text-[10px] text-white/50">7:02 AM</div>
             </div>
             <div className="p-4 space-y-3">
-              <div className="text-[10px] text-white/30 uppercase tracking-widest">Good morning — here's your briefing</div>
+              <div className="text-[10px] text-white/55 uppercase tracking-widest">Good morning — here's your briefing</div>
               <div className="bg-red-500/5 border border-red-500/15 rounded-xl p-3">
                 <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 subscribers need attention today</div>
                 {[
@@ -533,7 +533,7 @@ export default function Home() {
                 ].map(a => (
                   <div key={a.name} className="mt-2.5 first:mt-0">
                     <div className="text-[11px] font-semibold text-white/75">{a.name}</div>
-                    <div className="text-[10px] text-white/35 leading-relaxed">{a.note}</div>
+                    <div className="text-[10px] text-white/60 leading-relaxed">{a.note}</div>
                   </div>
                 ))}
               </div>
@@ -541,7 +541,7 @@ export default function Home() {
                 {[['$4,820','MRR'],['347','Active'],['3.2%','Churn']].map(([v,l]) => (
                   <div key={l}>
                     <div className="text-xs font-bold">{v}</div>
-                    <div className="text-[9px] text-white/30">{l}</div>
+                    <div className="text-[9px] text-white/55">{l}</div>
                   </div>
                 ))}
               </div>
@@ -549,7 +549,7 @@ export default function Home() {
           </div>
           {/* Text right */}
           <div className="order-1 md:order-2">
-            <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3">Morning briefing</div>
+            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Morning briefing</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               No more checking dashboards. Every morning you get an email with the 3 subscribers to reach out to today — each with a suggested action written by AI based on their specific risk factors.
@@ -572,7 +572,7 @@ export default function Home() {
         {/* Feature 3 — Subscriber profiles */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3">Subscriber profiles</div>
+            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Subscriber profiles</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Full history on every subscriber, one click away</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               Click any subscriber to see their complete profile — churn score, payment history, activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
@@ -599,11 +599,11 @@ export default function Home() {
                   <span className="text-sm font-semibold">James Morrison</span>
                   <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full">Churn risk: 9/10</span>
                 </div>
-                <div className="text-[11px] text-white/30">james@example.com · $49/mo · Active since Jan 2024</div>
+                <div className="text-[11px] text-white/55">james@example.com · $49/mo · Active since Jan 2024</div>
               </div>
             </div>
             <div className="px-4 py-3 border-b border-white/[0.06]">
-              <div className="text-[10px] text-white/30 uppercase tracking-widest mb-2.5">Risk factors</div>
+              <div className="text-[10px] text-white/55 uppercase tracking-widest mb-2.5">Risk factors</div>
               <div className="space-y-2.5">
                 {[
                   { label: 'Activity',      score: 9, note: '34 days since last interaction' },
@@ -618,13 +618,13 @@ export default function Home() {
                         style={{ width: `${f.score * 10}%` }}
                       />
                     </div>
-                    <div className="text-[9px] text-white/25 w-28 flex-shrink-0 text-right">{f.note}</div>
+                    <div className="text-[9px] text-white/50 w-28 flex-shrink-0 text-right">{f.note}</div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="px-4 py-3 flex items-center justify-between gap-3">
-              <div className="text-[10px] text-white/35">Joined Jan · missed 2 posts · 34d inactive</div>
+              <div className="text-[10px] text-white/60">Joined Jan · missed 2 posts · 34d inactive</div>
               <button className="text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg whitespace-nowrap">
                 ✨ Win-back email
               </button>
@@ -640,12 +640,12 @@ export default function Home() {
               <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-xl flex-shrink-0">💰</div>
               <div className="flex-1">
                 <div className="text-sm font-semibold">Set aside <span className="text-white/55">$1,446</span> for taxes</div>
-                <div className="text-[11px] text-white/30 mt-0.5">30% of $4,820 MRR · tap to see breakdown</div>
+                <div className="text-[11px] text-white/55 mt-0.5">30% of $4,820 MRR · tap to see breakdown</div>
               </div>
-              <span className="text-white/25 text-xs">▼</span>
+              <span className="text-white/50 text-xs">▼</span>
             </div>
             <div className="px-5 py-4 bg-white/[0.02] space-y-3">
-              <div className="text-[10px] text-white/30 uppercase tracking-widest">Breakdown</div>
+              <div className="text-[10px] text-white/55 uppercase tracking-widest">Breakdown</div>
               {[
                 { label: 'Total MRR',            value: '$4,820', note: 'All active subscriber revenue', bold: false },
                 { label: '× 30% tax rate',        value: '',       note: 'Standard self-employed set-aside', bold: false },
@@ -654,19 +654,19 @@ export default function Home() {
                 <div key={row.label} className="flex items-center justify-between gap-4">
                   <div>
                     <div className={`text-xs ${row.bold ? 'font-semibold text-white/55' : 'text-white/45'}`}>{row.label}</div>
-                    <div className="text-[10px] text-white/25">{row.note}</div>
+                    <div className="text-[10px] text-white/50">{row.note}</div>
                   </div>
                   {row.value && <div className={`text-sm font-bold flex-shrink-0 ${row.bold ? 'text-white/65' : 'text-white/45'}`}>{row.value}</div>}
                 </div>
               ))}
-              <div className="text-[10px] text-white/20 pt-2 border-t border-white/[0.04]">
+              <div className="text-[10px] text-white/45 pt-2 border-t border-white/[0.04]">
                 Guide only — consult a tax professional.
               </div>
             </div>
           </div>
           {/* Text right */}
           <div className="order-1 md:order-2">
-            <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3">Tax pot calculator</div>
+            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Tax pot calculator</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               Creator income is unpredictable. SubPilot calculates 30% of your monthly revenue and shows exactly how much to transfer to your tax account — no spreadsheets needed.
@@ -735,7 +735,7 @@ export default function Home() {
       {/* ── AUDIENCE ──────────────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
-          <div className="text-xs text-white/35 font-medium uppercase tracking-widest mb-3">Who it's for</div>
+          <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">Who it's for</div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for subscription creators</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
             Whether you have 50 subscribers or 50,000, subscriber churn costs you money every single month.
@@ -820,7 +820,7 @@ export default function Home() {
                   <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold flex-shrink-0">{r.av}</div>
                   <div>
                     <div className="text-xs font-semibold">{r.name}</div>
-                    <div className="text-[10px] text-white/30">{r.role}</div>
+                    <div className="text-[10px] text-white/55">{r.role}</div>
                   </div>
                 </div>
               </div>
@@ -835,7 +835,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
-            <p className="text-white/35 text-sm">Keep 2 extra subscribers and it's already paid for.</p>
+            <p className="text-white/60 text-sm">Keep 2 extra subscribers and it's already paid for.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5 items-start">
             {[
@@ -872,12 +872,12 @@ export default function Home() {
                     Most popular
                   </div>
                 )}
-                <div className="text-xs text-white/35 uppercase tracking-widest mb-1">{p.name}</div>
+                <div className="text-xs text-white/60 uppercase tracking-widest mb-1">{p.name}</div>
                 <div className="text-4xl font-bold mb-0.5">
-                  {p.price}<span className="text-sm text-white/30 font-normal">{p.per}</span>
+                  {p.price}<span className="text-sm text-white/55 font-normal">{p.per}</span>
                 </div>
                 <div className="text-xs text-emerald-400 mb-1">{p.limit}</div>
-                <div className="text-xs text-white/35 mb-5">{p.desc}</div>
+                <div className="text-xs text-white/60 mb-5">{p.desc}</div>
                 <ul className="space-y-2.5 mb-6">
                   {p.features.map(f => (
                     <li key={f} className="flex items-start gap-2 text-xs text-white/55">
@@ -896,14 +896,14 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <p className="text-center mt-6 text-xs text-white/25">Annual billing saves 20% · Cancel anytime · No contracts</p>
+          <p className="text-center mt-6 text-xs text-white/50">Annual billing saves 20% · Cancel anytime · No contracts</p>
         </div>
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
       <section id="faq" className="max-w-2xl mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
-          <div className="text-xs text-white/35 font-medium uppercase tracking-widest mb-3">FAQ</div>
+          <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-3xl md:text-4xl font-bold">Common questions</h2>
         </div>
         <div className="space-y-2">
@@ -931,7 +931,7 @@ export default function Home() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="flex-1 bg-white/[0.05] border border-white/[0.10] rounded-xl px-4 py-3 text-sm placeholder:text-white/25 focus:outline-none focus:border-white/30 transition-colors"
+                className="flex-1 bg-white/[0.05] border border-white/[0.10] rounded-xl px-4 py-3 text-sm placeholder:text-white/50 focus:outline-none focus:border-white/30 transition-colors"
               />
               <button type="submit"
                 className="bg-white hover:bg-white/90 text-black font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-lg shadow-black/30 whitespace-nowrap">
@@ -943,7 +943,7 @@ export default function Home() {
               ✓ You're on the list — talk soon.
             </div>
           )}
-          <p className="text-xs text-white/25">No spam, ever. Unsubscribe anytime.</p>
+          <p className="text-xs text-white/50">No spam, ever. Unsubscribe anytime.</p>
         </div>
       </section>
 
@@ -955,16 +955,16 @@ export default function Home() {
               <a href="/" className="text-base font-bold hover:opacity-80 transition-opacity">
                 Sub<span className="text-emerald-400">Pilot</span>
               </a>
-              <p className="text-xs text-white/25 mt-1">Protect your creator income.</p>
+              <p className="text-xs text-white/50 mt-1">Protect your creator income.</p>
             </div>
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-white/35">
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-white/60">
               <a href="#features"  className="hover:text-white transition-colors">Features</a>
               <a href="#pricing"   className="hover:text-white transition-colors">Pricing</a>
               <a href="#faq"       className="hover:text-white transition-colors">FAQ</a>
               <a href="/auth/login" className="hover:text-white transition-colors">Log in</a>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/25">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
             <span>© 2026 SubPilot. All rights reserved.</span>
             <div className="flex gap-5">
               <a href="#" className="hover:text-white transition-colors">Privacy</a>

@@ -157,7 +157,7 @@ export default function BillingClient({
               className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                 item.active
                   ? 'bg-white/[0.07] text-white'
-                  : 'text-white/35 hover:text-white/60 hover:bg-white/[0.04]'
+                  : 'text-white/60 hover:text-white/60 hover:bg-white/[0.04]'
               }`}
             >
               <span className="opacity-70">{item.icon}</span>
@@ -172,7 +172,7 @@ export default function BillingClient({
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-[10px] text-white/30 truncate">{session?.user?.email}</div>
+              <div className="text-[10px] text-white/55 truncate">{session?.user?.email}</div>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function BillingClient({
             <span className="lg:hidden text-sm font-semibold">
               Sub<span className="text-emerald-400">Pilot</span>
             </span>
-            <span className="text-xs text-white/30">Billing &amp; Plans</span>
+            <span className="text-xs text-white/55">Billing &amp; Plans</span>
           </div>
           {/* Manage subscription button — only show if not on starter */}
           {currentPlan !== 'starter' && (
@@ -220,7 +220,7 @@ export default function BillingClient({
             )}
             {cancelled && (
               <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-4 flex items-center gap-3">
-                <span className="text-white/30 text-lg">↩</span>
+                <span className="text-white/55 text-lg">↩</span>
                 <div className="text-sm text-white/50">Checkout cancelled. You haven't been charged.</div>
               </div>
             )}
@@ -274,7 +274,7 @@ export default function BillingClient({
                       <h2 className="text-base font-bold mb-1">{plan.name}</h2>
                       <div className="flex items-baseline gap-1 mb-2">
                         <span className="text-3xl font-bold">${plan.price}</span>
-                        <span className="text-sm text-white/30">/month</span>
+                        <span className="text-sm text-white/55">/month</span>
                       </div>
                       <p className="text-xs text-white/40 leading-relaxed">{plan.description}</p>
                     </div>
@@ -315,7 +315,7 @@ export default function BillingClient({
                       <button
                         onClick={openPortal}
                         disabled={portalLoading}
-                        className="w-full py-2.5 rounded-lg text-sm font-medium border border-white/[0.06] text-white/30 hover:text-white/50 hover:border-white/[0.10] transition-colors disabled:opacity-40"
+                        className="w-full py-2.5 rounded-lg text-sm font-medium border border-white/[0.06] text-white/55 hover:text-white/50 hover:border-white/[0.10] transition-colors disabled:opacity-40"
                       >
                         {portalLoading ? 'Loading…' : `Downgrade to ${plan.name}`}
                       </button>
@@ -337,7 +337,7 @@ export default function BillingClient({
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                   <div className="text-sm font-medium mb-0.5">Manage your subscription</div>
-                  <div className="text-xs text-white/35">
+                  <div className="text-xs text-white/60">
                     Update payment method, view invoices, or cancel your plan.
                   </div>
                 </div>

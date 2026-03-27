@@ -72,7 +72,7 @@ export default function UpgradePrompt({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-white/25">
+          <span className="text-[10px] text-white/50">
             {total.toLocaleString()} / {limit.toLocaleString()} subscribers shown
           </span>
           <Link
