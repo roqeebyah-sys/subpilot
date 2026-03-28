@@ -44,7 +44,7 @@ function FactorBar({ label, value, max = 10 }: { label: string; value: number; m
   const color = value >= 7 ? 'bg-red-400' : value >= 4 ? 'bg-amber-400' : 'bg-emerald-400'
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-white/55 w-16 flex-shrink-0">{label}</span>
+      <span className="text-xs text-[#e8eaed] w-16 flex-shrink-0">{label}</span>
       <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
         <div className={`h-full rounded-full ${color} transition-all`} style={{ width: `${pct}%` }} />
       </div>
@@ -134,7 +134,7 @@ export default function ChurnScoreButton() {
                           </div>
                           <div>
                             <div className="text-sm font-medium">{r.name}</div>
-                            <div className="text-xs text-white/55">{r.reason}</div>
+                            <div className="text-xs text-[#e8eaed]">{r.reason}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0 ml-2">
@@ -154,7 +154,7 @@ export default function ChurnScoreButton() {
 
                           {/* Factor breakdown */}
                           <div className="space-y-2">
-                            <div className="text-xs text-white/55 mb-2">Risk breakdown</div>
+                            <div className="text-xs text-[#e8eaed] mb-2">Risk breakdown</div>
                             <FactorBar label="Activity" value={r.factors.activity} />
                             <FactorBar label="Payment" value={r.factors.payment} />
                             <FactorBar label="Tenure" value={r.factors.tenure} />
@@ -170,12 +170,12 @@ export default function ChurnScoreButton() {
                           {/* Revenue + action */}
                           <div className={`rounded-lg px-3 py-2.5 border ${c.bg} ${c.border}`}>
                             <div className="flex items-center justify-between mb-1.5">
-                              <span className="text-xs text-white/55">{r.plan || 'Unknown plan'}</span>
+                              <span className="text-xs text-[#e8eaed]">{r.plan || 'Unknown plan'}</span>
                               <span className={`text-xs font-semibold ${c.text}`}>${r.amount}/mo at risk</span>
                             </div>
                             <div className="flex items-start gap-1.5">
                               <span className={`text-xs flex-shrink-0 mt-0.5 ${c.text}`}>→</span>
-                              <span className="text-xs text-white/60 leading-relaxed">
+                              <span className="text-xs text-[#e8eaed] leading-relaxed">
                                 <span className="font-medium text-white">What to do: </span>
                                 {r.label === 'Critical'
                                   ? 'Contact them personally today. Every day you wait reduces recovery odds by ~15%.'

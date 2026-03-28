@@ -96,7 +96,7 @@ function DashboardMockup() {
               { label: 'Churn rate',  value: '3.2%',   delta: '-0.4', up: true  },
             ].map(m => (
               <div key={m.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
-                <div className="text-[9px] text-white/55 mb-1 uppercase tracking-widest">{m.label}</div>
+                <div className="text-[9px] text-[#e8eaed] mb-1 uppercase tracking-widest">{m.label}</div>
                 <div className="text-sm font-bold mb-0.5">{m.value}</div>
                 <div className={`text-[9px] font-semibold ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.delta}</div>
               </div>
@@ -312,7 +312,7 @@ export default function Home() {
               <span className="text-[10px] text-white/50 uppercase tracking-widest">Works with</span>
               {['Patreon', 'Gumroad', 'Stripe'].map(p => (
                 <span key={p}
-                  className="text-xs text-white/60 border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
+                  className="text-xs text-[#e8eaed] border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
                   {p}
                 </span>
               ))}
@@ -341,7 +341,7 @@ export default function Home() {
           ].map(s => (
             <div key={s.label}>
               <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1.5">{s.val}</div>
-              <div className="text-xs text-white/60 leading-relaxed">{s.label}</div>
+              <div className="text-xs text-[#e8eaed] leading-relaxed">{s.label}</div>
             </div>
           ))}
         </div>
@@ -349,7 +349,7 @@ export default function Home() {
 
       {/* ── PROBLEM ───────────────────────────────────────────────────────── */}
       <section className="max-w-3xl mx-auto px-4 md:px-8 py-16 md:py-24 text-center">
-        <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">The problem</div>
+        <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">The problem</div>
         <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
           Churn is silent — until it's<br className="hidden md:block" /> too late to do anything
         </h2>
@@ -458,7 +458,7 @@ export default function Home() {
         {/* Feature 1 — Churn scores */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Churn risk scoring</div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Churn risk scoring</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">
               Every subscriber scored 1–10, every morning
             </h3>
@@ -472,7 +472,7 @@ export default function Home() {
                 { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate — keep an eye on them' },
                 { badge: '1–3',  color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20', label: 'Healthy — no action needed' },
               ].map(t => (
-                <li key={t.badge} className="flex items-center gap-3 text-sm text-white/55">
+                <li key={t.badge} className="flex items-center gap-3 text-sm text-[#e8eaed]">
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full border flex-shrink-0 ${t.color}`}>{t.badge}</span>
                   {t.label}
                 </li>
@@ -518,12 +518,12 @@ export default function Home() {
               <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-400">S</div>
               <div>
                 <div className="text-xs font-semibold">SubPilot Daily Briefing</div>
-                <div className="text-[10px] text-white/55">hello@subpilot.io → you@email.com</div>
+                <div className="text-[10px] text-[#e8eaed]">hello@subpilot.io → you@email.com</div>
               </div>
               <div className="ml-auto text-[10px] text-white/50">7:02 AM</div>
             </div>
             <div className="p-4 space-y-3">
-              <div className="text-[10px] text-white/55 uppercase tracking-widest">Good morning — here's your briefing</div>
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Good morning — here's your briefing</div>
               <div className="bg-red-500/5 border border-red-500/15 rounded-xl p-3">
                 <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 subscribers need attention today</div>
                 {[
@@ -533,7 +533,7 @@ export default function Home() {
                 ].map(a => (
                   <div key={a.name} className="mt-2.5 first:mt-0">
                     <div className="text-[11px] font-semibold text-white/75">{a.name}</div>
-                    <div className="text-[10px] text-white/60 leading-relaxed">{a.note}</div>
+                    <div className="text-[10px] text-[#e8eaed] leading-relaxed">{a.note}</div>
                   </div>
                 ))}
               </div>
@@ -541,7 +541,7 @@ export default function Home() {
                 {[['$4,820','MRR'],['347','Active'],['3.2%','Churn']].map(([v,l]) => (
                   <div key={l}>
                     <div className="text-xs font-bold">{v}</div>
-                    <div className="text-[9px] text-white/55">{l}</div>
+                    <div className="text-[9px] text-[#e8eaed]">{l}</div>
                   </div>
                 ))}
               </div>
@@ -549,7 +549,7 @@ export default function Home() {
           </div>
           {/* Text right */}
           <div className="order-1 md:order-2">
-            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Morning briefing</div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Morning briefing</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               No more checking dashboards. Every morning you get an email with the 3 subscribers to reach out to today — each with a suggested action written by AI based on their specific risk factors.
@@ -561,7 +561,7 @@ export default function Home() {
                 'Yesterday\'s revenue snapshot included',
                 'Send it anytime from your dashboard too',
               ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-white/55">
+                <li key={f} className="flex items-start gap-2 text-sm text-[#e8eaed]">
                   <Check /> {f}
                 </li>
               ))}
@@ -572,7 +572,7 @@ export default function Home() {
         {/* Feature 3 — Subscriber profiles */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Subscriber profiles</div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Subscriber profiles</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Full history on every subscriber, one click away</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               Click any subscriber to see their complete profile — churn score, payment history, activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
@@ -584,7 +584,7 @@ export default function Home() {
                 'One-click AI win-back email, editable before sending',
                 'Revenue contribution and plan history',
               ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-white/55">
+                <li key={f} className="flex items-start gap-2 text-sm text-[#e8eaed]">
                   <Check /> {f}
                 </li>
               ))}
@@ -599,11 +599,11 @@ export default function Home() {
                   <span className="text-sm font-semibold">James Morrison</span>
                   <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full">Churn risk: 9/10</span>
                 </div>
-                <div className="text-[11px] text-white/55">james@example.com · $49/mo · Active since Jan 2024</div>
+                <div className="text-[11px] text-[#e8eaed]">james@example.com · $49/mo · Active since Jan 2024</div>
               </div>
             </div>
             <div className="px-4 py-3 border-b border-white/[0.06]">
-              <div className="text-[10px] text-white/55 uppercase tracking-widest mb-2.5">Risk factors</div>
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-2.5">Risk factors</div>
               <div className="space-y-2.5">
                 {[
                   { label: 'Activity',      score: 9, note: '34 days since last interaction' },
@@ -624,7 +624,7 @@ export default function Home() {
               </div>
             </div>
             <div className="px-4 py-3 flex items-center justify-between gap-3">
-              <div className="text-[10px] text-white/60">Joined Jan · missed 2 posts · 34d inactive</div>
+              <div className="text-[10px] text-[#e8eaed]">Joined Jan · missed 2 posts · 34d inactive</div>
               <button className="text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg whitespace-nowrap">
                 ✨ Win-back email
               </button>
@@ -639,13 +639,13 @@ export default function Home() {
             <div className="px-5 py-4 flex items-center gap-3 border-b border-white/[0.06]">
               <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-xl flex-shrink-0">💰</div>
               <div className="flex-1">
-                <div className="text-sm font-semibold">Set aside <span className="text-white/55">$1,446</span> for taxes</div>
-                <div className="text-[11px] text-white/55 mt-0.5">30% of $4,820 MRR · tap to see breakdown</div>
+                <div className="text-sm font-semibold">Set aside <span className="text-[#e8eaed]">$1,446</span> for taxes</div>
+                <div className="text-[11px] text-[#e8eaed] mt-0.5">30% of $4,820 MRR · tap to see breakdown</div>
               </div>
               <span className="text-white/50 text-xs">▼</span>
             </div>
             <div className="px-5 py-4 bg-white/[0.02] space-y-3">
-              <div className="text-[10px] text-white/55 uppercase tracking-widest">Breakdown</div>
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Breakdown</div>
               {[
                 { label: 'Total MRR',            value: '$4,820', note: 'All active subscriber revenue', bold: false },
                 { label: '× 30% tax rate',        value: '',       note: 'Standard self-employed set-aside', bold: false },
@@ -653,7 +653,7 @@ export default function Home() {
               ].map(row => (
                 <div key={row.label} className="flex items-center justify-between gap-4">
                   <div>
-                    <div className={`text-xs ${row.bold ? 'font-semibold text-white/55' : 'text-white/45'}`}>{row.label}</div>
+                    <div className={`text-xs ${row.bold ? 'font-semibold text-[#e8eaed]' : 'text-white/45'}`}>{row.label}</div>
                     <div className="text-[10px] text-white/50">{row.note}</div>
                   </div>
                   {row.value && <div className={`text-sm font-bold flex-shrink-0 ${row.bold ? 'text-white/65' : 'text-white/45'}`}>{row.value}</div>}
@@ -666,7 +666,7 @@ export default function Home() {
           </div>
           {/* Text right */}
           <div className="order-1 md:order-2">
-            <div className="text-[10px] text-white/55 uppercase tracking-widest mb-3">Tax pot calculator</div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               Creator income is unpredictable. SubPilot calculates 30% of your monthly revenue and shows exactly how much to transfer to your tax account — no spreadsheets needed.
@@ -677,7 +677,7 @@ export default function Home() {
                 'Clear breakdown of the calculation',
                 'One less thing to stress about at tax time',
               ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-white/55">
+                <li key={f} className="flex items-start gap-2 text-sm text-[#e8eaed]">
                   <Check /> {f}
                 </li>
               ))}
@@ -735,7 +735,7 @@ export default function Home() {
       {/* ── AUDIENCE ──────────────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
-          <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">Who it's for</div>
+          <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">Who it's for</div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for subscription creators</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
             Whether you have 50 subscribers or 50,000, subscriber churn costs you money every single month.
@@ -815,12 +815,12 @@ export default function Home() {
                 <div className="flex gap-0.5">
                   {[1,2,3,4,5].map(i => <span key={i} className="text-emerald-400 text-sm">★</span>)}
                 </div>
-                <p className="text-sm text-white/60 leading-relaxed flex-1">"{r.quote}"</p>
+                <p className="text-sm text-[#e8eaed] leading-relaxed flex-1">"{r.quote}"</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
                   <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold flex-shrink-0">{r.av}</div>
                   <div>
                     <div className="text-xs font-semibold">{r.name}</div>
-                    <div className="text-[10px] text-white/55">{r.role}</div>
+                    <div className="text-[10px] text-[#e8eaed]">{r.role}</div>
                   </div>
                 </div>
               </div>
@@ -835,7 +835,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
-            <p className="text-white/60 text-sm">Keep 2 extra subscribers and it's already paid for.</p>
+            <p className="text-[#e8eaed] text-sm">Keep 2 extra subscribers and it's already paid for.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5 items-start">
             {[
@@ -872,15 +872,15 @@ export default function Home() {
                     Most popular
                   </div>
                 )}
-                <div className="text-xs text-white/60 uppercase tracking-widest mb-1">{p.name}</div>
+                <div className="text-xs text-[#e8eaed] uppercase tracking-widest mb-1">{p.name}</div>
                 <div className="text-4xl font-bold mb-0.5">
-                  {p.price}<span className="text-sm text-white/55 font-normal">{p.per}</span>
+                  {p.price}<span className="text-sm text-[#e8eaed] font-normal">{p.per}</span>
                 </div>
                 <div className="text-xs text-emerald-400 mb-1">{p.limit}</div>
-                <div className="text-xs text-white/60 mb-5">{p.desc}</div>
+                <div className="text-xs text-[#e8eaed] mb-5">{p.desc}</div>
                 <ul className="space-y-2.5 mb-6">
                   {p.features.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-white/55">
+                    <li key={f} className="flex items-start gap-2 text-xs text-[#e8eaed]">
                       <Check /> {f}
                     </li>
                   ))}
@@ -903,7 +903,7 @@ export default function Home() {
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
       <section id="faq" className="max-w-2xl mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
-          <div className="text-xs text-white/60 font-medium uppercase tracking-widest mb-3">FAQ</div>
+          <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-3xl md:text-4xl font-bold">Common questions</h2>
         </div>
         <div className="space-y-2">
@@ -957,7 +957,7 @@ export default function Home() {
               </a>
               <p className="text-xs text-white/50 mt-1">Protect your creator income.</p>
             </div>
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-white/60">
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-[#e8eaed]">
               <a href="#features"  className="hover:text-white transition-colors">Features</a>
               <a href="#pricing"   className="hover:text-white transition-colors">Pricing</a>
               <a href="#faq"       className="hover:text-white transition-colors">FAQ</a>
