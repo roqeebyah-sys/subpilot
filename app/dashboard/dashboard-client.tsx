@@ -216,7 +216,7 @@ export default function DashboardClient({ session }: { session: any }) {
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all ${
                 activeSection === item.section
                   ? 'bg-white/[0.08] text-white shadow-sm'
-                  : 'text-white/60 hover:text-white/65 hover:bg-white/[0.04]'
+                  : 'text-[#e8eaed] hover:text-white/65 hover:bg-white/[0.04]'
               }`}
             >
               <span className="opacity-60 text-xs">{item.icon}</span>
@@ -225,7 +225,7 @@ export default function DashboardClient({ session }: { session: any }) {
           ))}
           <Link
             href="/billing"
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/60 hover:text-white/65 hover:bg-white/[0.04] transition-all"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e8eaed] hover:text-white/65 hover:bg-white/[0.04] transition-all"
           >
             <span className="opacity-60 text-xs">◈</span>
             Billing
@@ -259,7 +259,7 @@ export default function DashboardClient({ session }: { session: any }) {
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-[10px] text-white/55 truncate">{session?.user?.email}</div>
+              <div className="text-[10px] text-[#e8eaed] truncate">{session?.user?.email}</div>
             </div>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function DashboardClient({ session }: { session: any }) {
               <button
                 onClick={sendBriefing}
                 disabled={briefingSending}
-                className="lg:hidden flex items-center gap-1.5 text-xs font-medium bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
+                className="lg:hidden flex items-center gap-1.5 text-xs font-medium bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] px-3 py-1.5 rounded-lg transition-colors disabled:opacity-40"
               >
                 {briefingSending ? '…' : '📋'}
               </button>
@@ -310,7 +310,7 @@ export default function DashboardClient({ session }: { session: any }) {
               className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors ${
                 activeSection === item.section
                   ? 'text-white border-b-2 border-white'
-                  : 'text-white/55 hover:text-white/60'
+                  : 'text-[#e8eaed] hover:text-white/60'
               }`}
             >
               <span className="text-sm">{item.icon}</span>
@@ -319,7 +319,7 @@ export default function DashboardClient({ session }: { session: any }) {
           ))}
           <Link
             href="/billing"
-            className="flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium text-white/55 hover:text-white/60 transition-colors"
+            className="flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium text-[#e8eaed] hover:text-white/60 transition-colors"
           >
             <span className="text-sm">◈</span>
             Billing
@@ -426,7 +426,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   num: 'text-red-400', border: 'border-red-500/20', glow: 'bg-red-500/[0.03]',
                   dot: 'bg-red-400',
                 } : {
-                  num: 'text-white/60', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
                 },
               },
               {
@@ -438,7 +438,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   num: 'text-emerald-400', border: 'border-emerald-500/20', glow: 'bg-emerald-500/[0.03]',
                   dot: 'bg-emerald-400',
                 } : {
-                  num: 'text-white/60', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
                 },
               },
               {
@@ -449,7 +449,7 @@ export default function DashboardClient({ session }: { session: any }) {
                 accent: churnPct > 5 ? {
                   num: 'text-red-400', border: 'border-red-500/20', glow: 'bg-red-500/[0.03]', dot: 'bg-red-400',
                 } : {
-                  num: 'text-white/60', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
                 },
               },
               {
@@ -461,7 +461,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   num: 'text-emerald-400', border: 'border-emerald-500/20', glow: 'bg-emerald-500/[0.03]',
                   dot: 'bg-emerald-400',
                 } : {
-                  num: 'text-white/60', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
                 },
               },
             ]
@@ -473,7 +473,7 @@ export default function DashboardClient({ session }: { session: any }) {
                 <div className="flex items-center justify-between gap-4">
                   <div>
                     <h1 className="text-xl font-bold tracking-tight">Good morning, {firstName} 👋</h1>
-                    <p className="text-sm text-white/60 mt-0.5">
+                    <p className="text-sm text-[#e8eaed] mt-0.5">
                       {data.metrics.atRiskCount > 0
                         ? `${data.metrics.atRiskCount} subscriber${data.metrics.atRiskCount > 1 ? 's' : ''} at risk · $${data.metrics.revenueAtRisk.toLocaleString()}/mo in danger`
                         : `Watching ${data.metrics.activeSubscribers.toLocaleString()} active subscribers · No critical alerts`}
@@ -495,7 +495,7 @@ export default function DashboardClient({ session }: { session: any }) {
                       className={`${k.accent.glow} border ${k.accent.border} rounded-xl p-4 group hover:border-white/20 transition-all duration-200`}
                     >
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs text-white/60 font-medium">{k.label}</span>
+                        <span className="text-xs text-[#e8eaed] font-medium">{k.label}</span>
                         {k.delta && (
                           <span className={`text-xs font-bold ${k.delta.dir === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
                             {k.delta.dir === 'up' ? '↑' : '↓'}
@@ -521,9 +521,9 @@ export default function DashboardClient({ session }: { session: any }) {
                         <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-base flex-shrink-0">💰</div>
                         <div>
                           <div className="text-sm font-medium">
-                            Set aside <span className="text-white/60">${data.taxPot.setAside.toLocaleString()}</span> this month for taxes
+                            Set aside <span className="text-[#e8eaed]">${data.taxPot.setAside.toLocaleString()}</span> this month for taxes
                           </div>
-                          <div className="text-xs text-white/55 mt-0.5">
+                          <div className="text-xs text-[#e8eaed] mt-0.5">
                             {data.taxPot.rate}% of ${data.taxPot.mrr.toLocaleString()} MRR · tap to expand
                           </div>
                         </div>
@@ -539,10 +539,10 @@ export default function DashboardClient({ session }: { session: any }) {
                         ].map(row => (
                           <div key={row.label} className="flex items-center justify-between gap-4">
                             <div>
-                              <div className={`text-xs ${row.bold ? 'font-semibold text-white/60' : 'text-white/50'}`}>{row.label}</div>
+                              <div className={`text-xs ${row.bold ? 'font-semibold text-[#e8eaed]' : 'text-white/50'}`}>{row.label}</div>
                               <div className="text-[10px] text-white/50">{row.note}</div>
                             </div>
-                            {row.value && <div className="text-sm font-bold text-white/60 flex-shrink-0">{row.value}</div>}
+                            {row.value && <div className="text-sm font-bold text-[#e8eaed] flex-shrink-0">{row.value}</div>}
                           </div>
                         ))}
                         <div className="text-[10px] text-white/45 pt-1 border-t border-white/[0.04]">
@@ -577,7 +577,7 @@ export default function DashboardClient({ session }: { session: any }) {
                       <div className="flex flex-col items-center justify-center py-16 text-center px-6">
                         <div className="text-4xl mb-4">🎯</div>
                         <div className="text-sm font-medium text-emerald-400 mb-1.5">No at-risk subscribers</div>
-                        <div className="text-xs text-white/55 max-w-xs">
+                        <div className="text-xs text-[#e8eaed] max-w-xs">
                           Go to Tools → Run churn analysis to score your subscribers
                         </div>
                       </div>
@@ -619,7 +619,7 @@ export default function DashboardClient({ session }: { session: any }) {
 
                                   {/* Value + reasons */}
                                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span className="text-xs font-semibold text-white/70">${s.amount}<span className="text-white/55 font-normal">/mo</span></span>
+                                    <span className="text-xs font-semibold text-white/70">${s.amount}<span className="text-[#e8eaed] font-normal">/mo</span></span>
                                     <span className="text-white/15">·</span>
                                     <span className="text-xs text-white/40">{s.plan}</span>
                                   </div>
@@ -660,7 +660,7 @@ export default function DashboardClient({ session }: { session: any }) {
                                         </button>
                                         {/* Tooltip */}
                                         <div className="absolute bottom-full left-0 mb-2 hidden group-hover/btn:block z-20 pointer-events-none">
-                                          <div className="bg-[#1a1a1a] border border-white/[0.12] rounded-lg px-3 py-2 text-[10px] text-white/60 w-52 leading-relaxed shadow-xl">
+                                          <div className="bg-[#1a1a1a] border border-white/[0.12] rounded-lg px-3 py-2 text-[10px] text-[#e8eaed] w-52 leading-relaxed shadow-xl">
                                             Claude writes a personalised win-back email and sends the draft <span className="text-white/90 font-medium">to your inbox</span> — you review before sending.
                                           </div>
                                         </div>
@@ -706,7 +706,7 @@ export default function DashboardClient({ session }: { session: any }) {
                           )}
                           <button
                             onClick={() => setSection('subscribers')}
-                            className="text-[11px] text-white/55 hover:text-white/55 transition-colors"
+                            className="text-[11px] text-[#e8eaed] hover:text-white/55 transition-colors"
                           >
                             All subscribers →
                           </button>
@@ -762,7 +762,7 @@ export default function DashboardClient({ session }: { session: any }) {
                             <div className="w-5 h-5 bg-amber-500/20 rounded-md flex items-center justify-center text-[10px] text-amber-400">!</div>
                             <h3 className="text-xs font-semibold text-amber-400 uppercase tracking-wide">Recommended Action</h3>
                           </div>
-                          <p className="text-xs text-white/60 leading-relaxed mb-3">
+                          <p className="text-xs text-[#e8eaed] leading-relaxed mb-3">
                             Send a personalised win-back message to{' '}
                             <span className="text-white font-medium">{top.name}</span>
                             {' '}— your highest-risk subscriber at ${top.amount}/mo.
@@ -789,7 +789,7 @@ export default function DashboardClient({ session }: { session: any }) {
                         { label: 'Total MRR',           value: `$${data.metrics.mrr.toLocaleString()}`,         color: 'text-white/70' },
                       ].map(stat => (
                         <div key={stat.label} className="flex items-center justify-between">
-                          <span className="text-xs text-white/60">{stat.label}</span>
+                          <span className="text-xs text-[#e8eaed]">{stat.label}</span>
                           <span className={`text-xs font-semibold ${stat.color}`}>{stat.value}</span>
                         </div>
                       ))}
@@ -805,7 +805,7 @@ export default function DashboardClient({ session }: { session: any }) {
                     <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
                       <div>
                         <h2 className="text-sm font-semibold">Revenue growth</h2>
-                        <p className="text-xs text-white/55 mt-0.5">MRR — last 6 months</p>
+                        <p className="text-xs text-[#e8eaed] mt-0.5">MRR — last 6 months</p>
                       </div>
                       {(() => {
                         if (prevMrr === 0 || currMrr === 0) return null
@@ -874,7 +874,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
                     <div className="px-5 py-4 border-b border-white/[0.06]">
                       <h2 className="text-sm font-semibold">Activity feed</h2>
-                      <p className="text-xs text-white/55 mt-0.5">Latest events</p>
+                      <p className="text-xs text-[#e8eaed] mt-0.5">Latest events</p>
                     </div>
                     <div className="divide-y divide-white/[0.04]">
                       {feed.map((item, i) => (
@@ -954,7 +954,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   >
                     {f.label}
                     <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                      subFilter === f.key ? 'bg-white/[0.12] text-white/80' : 'bg-white/[0.05] text-white/55'
+                      subFilter === f.key ? 'bg-white/[0.12] text-white/80' : 'bg-white/[0.05] text-[#e8eaed]'
                     }`}>{f.count}</span>
                   </button>
                 ))}
@@ -977,7 +977,7 @@ export default function DashboardClient({ session }: { session: any }) {
                       ))}
                     </div>
                     {filtered.length === 0 ? (
-                      <div className="text-center py-12 text-sm text-white/55">
+                      <div className="text-center py-12 text-sm text-[#e8eaed]">
                         {subSearch ? `No subscribers matching "${subSearch}"` : 'No subscribers in this category'}
                       </div>
                     ) : (
@@ -994,7 +994,7 @@ export default function DashboardClient({ session }: { session: any }) {
                               </div>
                               <div className="min-w-0">
                                 <div className="text-xs font-medium truncate">{s.name}</div>
-                                <div className="text-xs text-white/55 truncate">{s.email}</div>
+                                <div className="text-xs text-[#e8eaed] truncate">{s.email}</div>
                               </div>
                             </div>
                             <div className="hidden md:block text-xs text-white/40 truncate">{s.plan || '—'}</div>
@@ -1049,7 +1049,7 @@ export default function DashboardClient({ session }: { session: any }) {
                     : 'bg-white/[0.04] border-white/[0.10] text-white/50'
                 }`}>
                   {patreonMsg}
-                  <button onClick={() => setPatreonMsg(null)} className="text-white/55 hover:text-white/60 text-xs">✕</button>
+                  <button onClick={() => setPatreonMsg(null)} className="text-[#e8eaed] hover:text-white/60 text-xs">✕</button>
                 </div>
               )}
 

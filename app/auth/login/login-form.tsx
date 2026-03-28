@@ -65,7 +65,7 @@ export default function LoginPage() {
                 }`} />
                 <div>
                   <div className="text-xs font-medium">{a.text}</div>
-                  <div className="text-xs text-white/55 mt-0.5">{a.sub}</div>
+                  <div className="text-xs text-[#e8eaed] mt-0.5">{a.sub}</div>
                 </div>
               </div>
             ))}
@@ -105,7 +105,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-white/60 mb-2">Email</label>
+              <label className="block text-sm text-[#e8eaed] mb-2">Email</label>
               <input
                 type="email"
                 value={form.email}
@@ -118,7 +118,7 @@ export default function LoginPage() {
 
             <div>
               <div className="flex justify-between mb-2">
-                <label className="text-sm text-white/60">Password</label>
+                <label className="text-sm text-[#e8eaed]">Password</label>
                 <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300">
                   Forgot password?
                 </button>

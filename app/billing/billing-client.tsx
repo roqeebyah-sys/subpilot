@@ -157,7 +157,7 @@ export default function BillingClient({
               className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                 item.active
                   ? 'bg-white/[0.07] text-white'
-                  : 'text-white/60 hover:text-white/60 hover:bg-white/[0.04]'
+                  : 'text-[#e8eaed] hover:text-white/60 hover:bg-white/[0.04]'
               }`}
             >
               <span className="opacity-70">{item.icon}</span>
@@ -172,7 +172,7 @@ export default function BillingClient({
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-[10px] text-white/55 truncate">{session?.user?.email}</div>
+              <div className="text-[10px] text-[#8e918f] truncate">{session?.user?.email}</div>
             </div>
           </div>
         </div>
@@ -187,14 +187,14 @@ export default function BillingClient({
             <span className="lg:hidden text-sm font-semibold">
               Sub<span className="text-emerald-400">Pilot</span>
             </span>
-            <span className="text-xs text-white/55">Billing &amp; Plans</span>
+            <span className="text-xs text-[#8e918f]">Billing &amp; Plans</span>
           </div>
           {/* Manage subscription button — only show if not on starter */}
           {currentPlan !== 'starter' && (
             <button
               onClick={openPortal}
               disabled={portalLoading}
-              className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2 rounded-lg transition-colors disabled:opacity-40"
+              className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] hover:text-white px-3 py-2 rounded-lg transition-colors disabled:opacity-40"
             >
               {portalLoading ? (
                 <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin" />Loading…</>
@@ -212,7 +212,7 @@ export default function BillingClient({
                 <span className="text-emerald-400 text-lg">✓</span>
                 <div>
                   <div className="text-sm font-semibold text-emerald-400">Subscription activated!</div>
-                  <div className="text-xs text-white/50 mt-0.5">
+                  <div className="text-xs text-[#8e918f] mt-0.5">
                     Your plan is now active. It may take a moment for your limits to update.
                   </div>
                 </div>
@@ -220,8 +220,8 @@ export default function BillingClient({
             )}
             {cancelled && (
               <div className="bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-4 flex items-center gap-3">
-                <span className="text-white/55 text-lg">↩</span>
-                <div className="text-sm text-white/50">Checkout cancelled. You haven't been charged.</div>
+                <span className="text-[#8e918f] text-lg">↩</span>
+                <div className="text-sm text-[#8e918f]">Checkout cancelled. You haven't been charged.</div>
               </div>
             )}
 
@@ -263,7 +263,7 @@ export default function BillingClient({
                     {/* Current plan badge */}
                     {isActive && (
                       <div className="absolute top-4 right-4">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-white/60 bg-white/[0.06] border border-white/[0.10] px-2.5 py-1 rounded-full">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#e8eaed] bg-white/[0.06] border border-white/[0.10] px-2.5 py-1 rounded-full">
                           Current plan
                         </span>
                       </div>
@@ -274,7 +274,7 @@ export default function BillingClient({
                       <h2 className="text-base font-bold mb-1">{plan.name}</h2>
                       <div className="flex items-baseline gap-1 mb-2">
                         <span className="text-3xl font-bold">${plan.price}</span>
-                        <span className="text-sm text-white/55">/month</span>
+                        <span className="text-sm text-[#8e918f]">/month</span>
                       </div>
                       <p className="text-xs text-white/40 leading-relaxed">{plan.description}</p>
                     </div>
@@ -282,7 +282,7 @@ export default function BillingClient({
                     {/* Features */}
                     <ul className="space-y-2.5 mb-6 flex-1">
                       {plan.features.map(f => (
-                        <li key={f} className="flex items-start gap-2 text-xs text-white/60">
+                        <li key={f} className="flex items-start gap-2 text-xs text-[#e8eaed]">
                           <span className="text-emerald-400 mt-0.5 flex-shrink-0">✓</span>
                           {f}
                         </li>
@@ -315,7 +315,7 @@ export default function BillingClient({
                       <button
                         onClick={openPortal}
                         disabled={portalLoading}
-                        className="w-full py-2.5 rounded-lg text-sm font-medium border border-white/[0.06] text-white/55 hover:text-white/50 hover:border-white/[0.10] transition-colors disabled:opacity-40"
+                        className="w-full py-2.5 rounded-lg text-sm font-medium border border-white/[0.06] text-[#8e918f] hover:text-[#8e918f] hover:border-white/[0.10] transition-colors disabled:opacity-40"
                       >
                         {portalLoading ? 'Loading…' : `Downgrade to ${plan.name}`}
                       </button>
@@ -337,14 +337,14 @@ export default function BillingClient({
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                   <div className="text-sm font-medium mb-0.5">Manage your subscription</div>
-                  <div className="text-xs text-white/60">
+                  <div className="text-xs text-[#e8eaed]">
                     Update payment method, view invoices, or cancel your plan.
                   </div>
                 </div>
                 <button
                   onClick={openPortal}
                   disabled={portalLoading}
-                  className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-4 py-2.5 rounded-lg transition-colors disabled:opacity-40"
+                  className="flex-shrink-0 flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] hover:text-white px-4 py-2.5 rounded-lg transition-colors disabled:opacity-40"
                 >
                   {portalLoading ? 'Opening…' : 'Open billing portal →'}
                 </button>
@@ -353,7 +353,7 @@ export default function BillingClient({
 
             {/* ── FAQ ────────────────────────────────────────────────────── */}
             <div className="border-t border-white/[0.06] pt-8">
-              <h2 className="text-sm font-semibold mb-4 text-white/60">Frequently asked questions</h2>
+              <h2 className="text-sm font-semibold mb-4 text-[#e8eaed]">Frequently asked questions</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 {[
                   {

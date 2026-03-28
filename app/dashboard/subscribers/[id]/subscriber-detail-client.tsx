@@ -70,7 +70,7 @@ function StatusPill({ status }: { status: string }) {
     cancelled: { dot: 'bg-red-400',     text: 'text-red-400',     bg: 'bg-red-500/10',     label: 'Cancelled' },
     past_due:  { dot: 'bg-amber-400',   text: 'text-amber-400',   bg: 'bg-amber-500/10',   label: 'Past due' },
     trialing:  { dot: 'bg-blue-400',    text: 'text-blue-400',    bg: 'bg-blue-500/10',    label: 'Trialing' },
-    paused:    { dot: 'bg-white/40',    text: 'text-white/50',    bg: 'bg-white/5',        label: 'Paused' },
+    paused:    { dot: 'bg-white/40',    text: 'text-[#8e918f]',    bg: 'bg-white/5',        label: 'Paused' },
   }
   const c = map[status] ?? { dot: 'bg-white/20', text: 'text-white/40', bg: 'bg-white/5', label: status }
   return (
@@ -107,7 +107,7 @@ function FactorBar({ label, value, max = 10 }: { label: string; value: number; m
       <div className="flex-1 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${pct}%` }} />
       </div>
-      <span className="text-xs text-white/50 w-6 text-right font-medium">{value}</span>
+      <span className="text-xs text-[#8e918f] w-6 text-right font-medium">{value}</span>
     </div>
   )
 }
@@ -233,7 +233,7 @@ export default function SubscriberDetailClient({
             <Link
               key={item.label}
               href={item.href}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-white/60 hover:text-white/60 hover:bg-white/[0.04] transition-colors"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#e8eaed] hover:text-white/60 hover:bg-white/[0.04] transition-colors"
             >
               <span className="opacity-70">{item.icon}</span>
               {item.label}
@@ -247,7 +247,7 @@ export default function SubscriberDetailClient({
             </div>
             <div className="min-w-0">
               <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-[10px] text-white/55 truncate">{session?.user?.email}</div>
+              <div className="text-[10px] text-[#8e918f] truncate">{session?.user?.email}</div>
             </div>
           </div>
         </div>
@@ -265,7 +265,7 @@ export default function SubscriberDetailClient({
             ← Dashboard
           </Link>
           <span className="text-white/[0.12]">/</span>
-          <span className="text-xs text-white/60 truncate">
+          <span className="text-xs text-[#e8eaed] truncate">
             {loading ? '…' : (sub?.name || sub?.email || 'Subscriber')}
           </span>
         </header>
@@ -339,13 +339,13 @@ export default function SubscriberDetailClient({
                       )}
                       <button
                         onClick={copyEmail}
-                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2.5 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] hover:text-white px-3 py-2.5 rounded-lg transition-colors"
                       >
                         {copied ? '✓ Copied' : '📋 Copy email'}
                       </button>
                       <a
                         href={`mailto:${sub.email}`}
-                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-2.5 rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] hover:text-white px-3 py-2.5 rounded-lg transition-colors"
                       >
                         ✉ Open in mail
                       </a>
@@ -407,9 +407,9 @@ export default function SubscriberDetailClient({
                   },
                 ].map(m => (
                   <div key={m.label} className={`bg-white/[0.02] border rounded-xl p-4 ${m.border}`}>
-                    <div className="text-xs text-white/60 mb-2">{m.label}</div>
+                    <div className="text-xs text-[#e8eaed] mb-2">{m.label}</div>
                     <div className={`text-2xl font-bold mb-0.5 ${m.color}`}>{m.value}</div>
-                    <div className="text-xs text-white/50">{m.sub}</div>
+                    <div className="text-xs text-[#8e918f]">{m.sub}</div>
                   </div>
                 ))}
               </div>
@@ -420,7 +420,7 @@ export default function SubscriberDetailClient({
                   <div className="flex items-start justify-between gap-4 mb-5">
                     <div>
                       <h2 className="text-sm font-semibold mb-1">Churn risk breakdown</h2>
-                      <p className="text-xs text-white/60">
+                      <p className="text-xs text-[#e8eaed]">
                         Scored {sub.churnScoreUpdatedAt ? fmt(sub.churnScoreUpdatedAt) : 'recently'}.
                         Higher = more at risk.
                       </p>
@@ -433,7 +433,7 @@ export default function SubscriberDetailClient({
                     <FactorBar label="Tenure"     value={tenure !== null ? Math.max(1, 10 - Math.floor(tenure / 3)) : 5} />
                     <FactorBar label="Plan value" value={sub.amount > 100 ? 7 : sub.amount > 50 ? 5 : 3} />
                   </div>
-                  <div className="mt-4 bg-white/[0.02] border border-white/[0.06] rounded-lg px-4 py-3 text-xs text-white/50 leading-relaxed">
+                  <div className="mt-4 bg-white/[0.02] border border-white/[0.06] rounded-lg px-4 py-3 text-xs text-[#8e918f] leading-relaxed">
                     <span className="text-white/70 font-medium">What to do: </span>
                     {score >= 9
                       ? 'Contact them personally today. Every day you wait reduces recovery odds by ~15%.'
@@ -456,7 +456,7 @@ export default function SubscriberDetailClient({
                         <span className="text-emerald-400">✨</span>
                         <h2 className="text-sm font-semibold">AI Win-Back Email</h2>
                         {winbackLoading && (
-                          <span className="text-xs text-white/55 flex items-center gap-1.5">
+                          <span className="text-xs text-[#8e918f] flex items-center gap-1.5">
                             <span className="w-2.5 h-2.5 border border-white/30 border-t-transparent rounded-full animate-spin" />
                             Writing…
                           </span>
@@ -467,7 +467,7 @@ export default function SubscriberDetailClient({
                         <>
                           <button
                             onClick={copyWinback}
-                            className="text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/60 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+                            className="text-xs font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#e8eaed] hover:text-white px-3 py-1.5 rounded-lg transition-colors"
                           >
                             {winbackCopied ? '✓ Copied' : '📋 Copy email'}
                           </button>
@@ -481,7 +481,7 @@ export default function SubscriberDetailClient({
                       )}
                       <button
                         onClick={() => setWinbackOpen(false)}
-                        className="text-white/55 hover:text-white/60 text-sm px-2 py-1 transition-colors"
+                        className="text-[#8e918f] hover:text-white/60 text-sm px-2 py-1 transition-colors"
                       >
                         ✕
                       </button>
@@ -490,7 +490,7 @@ export default function SubscriberDetailClient({
 
                     {/* Tone selector */}
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[10px] text-white/55 uppercase tracking-widest font-medium">Tone</span>
+                      <span className="text-[10px] text-[#e8eaed] uppercase tracking-widest font-medium">Tone</span>
                       {([
                         { key: 'warm',         label: '🤝 Warm' },
                         { key: 'professional', label: '💼 Professional' },
@@ -539,7 +539,7 @@ export default function SubscriberDetailClient({
                     <div className="divide-y divide-white/[0.05]">
                       {/* Subject */}
                       <div className="px-5 py-3 flex items-center gap-3">
-                        <span className="text-[10px] font-semibold uppercase tracking-widest text-white/55 w-14 flex-shrink-0">Subject</span>
+                        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8e918f] w-14 flex-shrink-0">Subject</span>
                         <input
                           type="text"
                           value={winbackEmail.subject}
@@ -550,7 +550,7 @@ export default function SubscriberDetailClient({
 
                       {/* Body */}
                       <div className="px-5 py-4">
-                        <div className="text-[10px] font-semibold uppercase tracking-widest text-white/55 mb-3">Body</div>
+                        <div className="text-[10px] font-semibold uppercase tracking-widest text-[#8e918f] mb-3">Body</div>
                         <textarea
                           value={winbackEmail.body}
                           onChange={e => {
@@ -566,10 +566,10 @@ export default function SubscriberDetailClient({
                       {/* Talking points */}
                       {winbackEmail.talkingPoints.length > 0 && (
                         <div className="px-5 py-4">
-                          <div className="text-[10px] font-semibold uppercase tracking-widest text-white/55 mb-3">Follow-up talking points</div>
+                          <div className="text-[10px] font-semibold uppercase tracking-widest text-[#8e918f] mb-3">Follow-up talking points</div>
                           <ul className="space-y-2">
                             {winbackEmail.talkingPoints.map((point, i) => (
-                              <li key={i} className="flex items-start gap-2 text-xs text-white/50">
+                              <li key={i} className="flex items-start gap-2 text-xs text-[#8e918f]">
                                 <span className="text-emerald-400 flex-shrink-0 mt-0.5">•</span>
                                 {point}
                               </li>
@@ -580,7 +580,7 @@ export default function SubscriberDetailClient({
 
                       {/* Regenerate */}
                       <div className="px-5 py-3 flex items-center justify-between">
-                        <span className="text-[10px] text-white/45">Generated by AI · always review before sending</span>
+                        <span className="text-[10px] text-[#8e918f]">Generated by AI · always review before sending</span>
                         <button
                           onClick={generateWinback}
                           className="text-xs text-white/40 hover:text-white/70 transition-colors"
@@ -603,7 +603,7 @@ export default function SubscriberDetailClient({
                       <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-4 ring-[#080808] flex-shrink-0" />
                       <div>
                         <div className="text-xs font-medium text-white/80">Subscribed</div>
-                        <div className="text-xs text-white/55 mt-0.5">{fmt(sub.startedAt)}</div>
+                        <div className="text-xs text-[#8e918f] mt-0.5">{fmt(sub.startedAt)}</div>
                       </div>
                     </div>
                   )}
@@ -616,7 +616,7 @@ export default function SubscriberDetailClient({
                       }`} />
                       <div>
                         <div className="text-xs font-medium text-white/80">Last active</div>
-                        <div className="text-xs text-white/55 mt-0.5">
+                        <div className="text-xs text-[#8e918f] mt-0.5">
                           {fmt(sub.lastActiveAt)}
                           {days !== null && (
                             <span className={`ml-2 ${days > 30 ? 'text-red-400' : days > 14 ? 'text-amber-400' : 'text-white/40'}`}>
@@ -633,7 +633,7 @@ export default function SubscriberDetailClient({
                       <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-red-400 ring-4 ring-[#080808] flex-shrink-0" />
                       <div>
                         <div className="text-xs font-medium text-red-400">Cancelled</div>
-                        <div className="text-xs text-white/55 mt-0.5">{fmt(sub.cancelledAt)}</div>
+                        <div className="text-xs text-[#8e918f] mt-0.5">{fmt(sub.cancelledAt)}</div>
                       </div>
                     </div>
                   )}
@@ -661,7 +661,7 @@ export default function SubscriberDetailClient({
                     { label: 'Source ID', value: sub.sourceId || '—' },
                   ].map(({ label, value }) => (
                     <div key={label}>
-                      <dt className="text-xs text-white/55 mb-1">{label}</dt>
+                      <dt className="text-xs text-[#e8eaed] mb-1">{label}</dt>
                       <dd className="text-xs font-medium text-white/80 truncate">{value}</dd>
                     </div>
                   ))}
