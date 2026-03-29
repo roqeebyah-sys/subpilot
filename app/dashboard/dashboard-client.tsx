@@ -15,7 +15,6 @@ import UpgradePrompt from './upgrade-prompt'
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type DashboardData = {
-  patreonConnected: boolean
   taxPot: {
     mrr:      number
     setAside: number
@@ -130,19 +129,10 @@ export default function DashboardClient({ session }: { session: any }) {
   const [activeSection, setSection]       = useState<'overview' | 'subscribers' | 'tools'>('overview')
   const [subSearch, setSubSearch]         = useState('')
   const [subFilter, setSubFilter]         = useState<'all' | 'active' | 'cancelled' | 'past_due'>('all')
-  const [patreonSyncing, setPatreonSync]  = useState(false)
-  const [patreonMsg, setPatreonMsg]       = useState<string | null>(null)
   const [taxOpen, setTaxOpen]             = useState(false)
   const [sendingId, setSendingId]         = useState<string | null>(null)
   const [sentIds, setSentIds]             = useState<Set<string>>(new Set())
   const [showAllRisk, setShowAllRisk]     = useState(false)
-
-  useEffect(() => {
-    const p = new URLSearchParams(window.location.search).get('patreon')
-    if (p === 'connected') setPatreonMsg('✓ Patreon connected and synced!')
-    if (p === 'error')     setPatreonMsg('⚠ Patreon connection failed — try again')
-    if (p) window.history.replaceState({}, '', '/dashboard')
-  }, [])
 
   async function sendBriefing() {
     setBriefing(true)
@@ -1042,17 +1032,6 @@ export default function DashboardClient({ session }: { session: any }) {
                 <p className="text-sm text-white/40">Import data, analyse churn, and generate AI insights.</p>
               </div>
 
-              {patreonMsg && (
-                <div className={`rounded-xl px-4 py-3 text-sm border flex items-center justify-between gap-3 ${
-                  patreonMsg.startsWith('✓')
-                    ? 'bg-white/[0.06] border-white/[0.12] text-white'
-                    : 'bg-white/[0.04] border-white/[0.10] text-white/50'
-                }`}>
-                  {patreonMsg}
-                  <button onClick={() => setPatreonMsg(null)} className="text-[#e8eaed] hover:text-white/60 text-xs">✕</button>
-                </div>
-              )}
-
               <CSVUploadButton />
               <AIInsightsPanel />
 
@@ -1074,55 +1053,6 @@ export default function DashboardClient({ session }: { session: any }) {
                 <SyncButton />
               </div>
 
-              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h2 className="text-sm font-semibold">Patreon</h2>
-                      {data.patreonConnected && (
-                        <span className="text-[10px] font-medium text-white bg-white/[0.06] border border-white/[0.12] px-2 py-0.5 rounded-full">Connected</span>
-                      )}
-                    </div>
-                    <p className="text-xs text-white/40">
-                      {data.patreonConnected
-                        ? 'Re-sync your patron list and pledge data from Patreon.'
-                        : 'Connect your Patreon account to pull patron data and churn scores.'}
-                    </p>
-                  </div>
-                  <div className="text-2xl flex-shrink-0">🎨</div>
-                </div>
-                {data.patreonConnected ? (
-                  <button
-                    onClick={async () => {
-                      setPatreonSync(true)
-                      setPatreonMsg(null)
-                      try {
-                        const res  = await fetch('/api/patreon/sync', { method: 'POST' })
-                        const json = await res.json()
-                        if (json.error) throw new Error(json.error)
-                        setPatreonMsg(`✓ Synced ${json.synced} patrons from Patreon`)
-                      } catch (err: any) {
-                        setPatreonMsg(`⚠ ${err.message || 'Sync failed'}`)
-                      } finally {
-                        setPatreonSync(false)
-                      }
-                    }}
-                    disabled={patreonSyncing}
-                    className="flex items-center gap-2 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.08] border border-white/[0.10] text-white/70 px-4 py-2 rounded-lg transition-colors disabled:opacity-40"
-                  >
-                    {patreonSyncing ? (
-                      <><span className="w-3 h-3 border border-current border-t-transparent rounded-full animate-spin" />Syncing…</>
-                    ) : '↻ Sync Patreon'}
-                  </button>
-                ) : (
-                  <a
-                    href="/api/patreon/connect"
-                    className="inline-flex items-center gap-2 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.08] border border-white/[0.10] text-white/70 px-4 py-2 rounded-lg transition-colors"
-                  >
-                    🎨 Connect Patreon
-                  </a>
-                )}
-              </div>
             </div>
           )}
 
