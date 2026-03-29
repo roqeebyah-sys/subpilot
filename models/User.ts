@@ -32,6 +32,12 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    resetToken: {
+      type: String,
+    },
+    resetTokenExpiry: {
+      type: Date,
+    },
   },
   {
     timestamps: true, // automatically adds createdAt and updatedAt fields

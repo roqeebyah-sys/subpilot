@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
 export default function SignupPage() {
@@ -30,8 +31,20 @@ export default function SignupPage() {
         return
       }
 
-      // Account created — redirect to login
-      router.push('/auth/login?signup=success')
+      // Account created — auto sign in, no need to log in again
+      const result = await signIn('credentials', {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        // Fallback to login page if auto-signin fails for any reason
+        router.push('/auth/login?signup=success')
+        return
+      }
+
+      router.push('/dashboard')
     } catch (err) {
       setError('Something went wrong. Please try again.')
     } finally {

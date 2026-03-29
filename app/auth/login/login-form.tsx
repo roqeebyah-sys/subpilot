@@ -12,8 +12,8 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // Check if they just signed up successfully
   const justSignedUp = searchParams.get('signup') === 'success'
+  const justReset = searchParams.get('reset') === 'success'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -97,6 +97,12 @@ export default function LoginPage() {
             </div>
           )}
 
+          {justReset && (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm px-4 py-3 rounded-lg mb-6">
+              ✓ Password updated! Log in with your new password.
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg mb-6">
               {error}
@@ -119,9 +125,9 @@ export default function LoginPage() {
             <div>
               <div className="flex justify-between mb-2">
                 <label className="text-sm text-white/60">Password</label>
-                <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300">
+                <Link href="/auth/forgot-password" className="text-xs text-emerald-400 hover:text-emerald-300">
                   Forgot password?
-                </button>
+                </Link>
               </div>
               <input
                 type="password"
