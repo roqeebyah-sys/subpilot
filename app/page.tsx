@@ -165,28 +165,28 @@ export default function Home() {
 
   const faqs = [
     {
-      q: 'Which platforms does SubPilot support?',
-      a: 'SubPilot currently connects to Patreon, Gumroad, and Stripe. More platforms (OnlyFans, Ko-fi, Memberful) are on the roadmap. All connections are read-only — we never touch your money or post on your behalf.',
+      q: 'How does SubPilot connect to my data?',
+      a: 'SubPilot connects directly to Stripe via read-only API access, or you can import users via CSV. We never write to your Stripe account, charge your users, or store raw payment data beyond what is needed to compute risk scores.',
     },
     {
       q: 'How does the churn risk score work?',
-      a: "Our AI analyses each subscriber's activity patterns, engagement history, payment reliability, and account age daily. Every subscriber receives a score from 1 (healthy) to 10 (immediate risk). The model improves over time as it learns the patterns unique to your audience.",
+      a: "Our AI analyses each user's activity patterns, product engagement, payment reliability, and account age daily. Every user receives a score from 1 (healthy) to 10 (immediate risk). The model improves over time as it learns the behavioural patterns unique to your product.",
     },
     {
       q: 'What is the morning briefing email?',
-      a: 'Every morning at 7 AM you receive a plain-text email with the top 3 subscribers to reach out to that day, each with an AI-written suggested message tailored to their specific risk factors. No dashboard required.',
+      a: 'Every morning at 7 AM you receive a plain-text email with the top 3 users to reach out to that day, each with an AI-written suggested message tailored to their specific risk factors. No dashboard required.',
     },
     {
       q: 'Can I try it before paying?',
-      a: 'Yes — every plan starts with a free 14-day trial, no credit card required. You will see real data from your subscribers within minutes of connecting your platform.',
+      a: 'Yes — every plan starts with a free 14-day trial, no credit card required. You will see real data from your users within minutes of connecting Stripe or uploading a CSV.',
     },
     {
       q: 'What is the AI win-back email feature?',
-      a: 'On the Pro and Studio plans, clicking any at-risk subscriber opens an AI-drafted win-back email personalised with their history, plan, and inactivity period. You can edit the subject and body, choose a tone (warm, professional, casual, urgent), and send directly from SubPilot or copy it to your own email client.',
+      a: 'On the Pro and Scale plans, clicking any at-risk user opens an AI-drafted win-back email personalised with their history, plan, and inactivity period. You can edit the subject and body, choose a tone (warm, professional, casual, urgent), and send directly from SubPilot or copy it to your own email client.',
     },
     {
       q: 'Is my data safe?',
-      a: 'SubPilot uses read-only API access and never stores raw subscriber financial data beyond what is needed to compute risk scores. All connections are encrypted in transit and at rest. We do not sell or share your data with third parties.',
+      a: 'SubPilot uses read-only API access and never stores raw user financial data beyond what is needed to compute risk scores. All connections are encrypted in transit and at rest. We do not sell or share your data with third parties.',
     },
     {
       q: 'Can I cancel anytime?',
@@ -266,16 +266,16 @@ export default function Home() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-              For Patreon creators, Gumroad sellers &amp; newsletter writers
+              For SaaS founders losing MRR to silent churn
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.1] tracking-tight mb-6">
-              Stop losing paying subscribers<br />
-              <span className="text-emerald-400">without knowing why</span>
+              Catch churn before it<br />
+              <span className="text-emerald-400">shows up in your MRR</span>
             </h1>
 
             <p className="text-lg text-white/50 leading-relaxed mb-8 max-w-lg">
-              SubPilot detects at-risk subscribers and helps you win them back — across platforms like Patreon, Gumroad, and Stripe.
+              SubPilot monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
             </p>
 
             {/* CTAs */}
@@ -310,7 +310,7 @@ export default function Home() {
             {/* Trust logos */}
             <div className="mt-10 flex items-center gap-3 flex-wrap">
               <span className="text-[10px] text-white/50 uppercase tracking-widest">Works with</span>
-              {['Patreon', 'Gumroad', 'Stripe'].map(p => (
+              {['Stripe', 'CSV import'].map(p => (
                 <span key={p}
                   className="text-xs text-[#e8eaed] border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
                   {p}
@@ -325,7 +325,7 @@ export default function Home() {
             <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-3xl pointer-events-none" />
             <DashboardMockup />
             <p className="text-center text-[11px] text-white/45 mt-3">
-              Your daily command centre — every at-risk subscriber, one click away
+              Your revenue recovery control centre — every at-risk user, one click away
             </p>
           </div>
         </div>
@@ -335,8 +335,8 @@ export default function Home() {
       <section className="border-y border-white/[0.06] bg-white/[0.015] py-10">
         <div className="max-w-4xl mx-auto px-4 md:px-8 grid grid-cols-3 gap-6 text-center">
           {[
-            { val: '23%',     label: 'Average annual income lost to silent churn' },
-            { val: '18 days', label: 'Average warning before a subscriber cancels' },
+            { val: '23%',     label: 'Average MRR lost annually to silent churn' },
+            { val: '18 days', label: 'Average warning window before a user cancels' },
             { val: '34%',     label: 'Churn reduction in the first 30 days' },
           ].map(s => (
             <div key={s.label}>
@@ -354,24 +354,24 @@ export default function Home() {
           Churn is silent — until it's<br className="hidden md:block" /> too late to do anything
         </h2>
         <p className="text-white/45 text-base leading-relaxed mb-12 max-w-xl mx-auto">
-          Most creator platforms give you a subscriber count. They don't tell you which of those subscribers are drifting away, or why, or what you could do to keep them.
+          Most SaaS analytics tools show you aggregate metrics. They don't tell you which specific users are drifting away, why they stopped engaging, or what you could do right now to keep them.
         </p>
         <div className="grid sm:grid-cols-3 gap-4 text-left">
           {[
             {
               icon: '👻',
               title: 'Silent cancellations',
-              desc: 'Subscribers disengage weeks before they cancel. You only find out when the payment stops.',
+              desc: 'Users disengage weeks before they cancel. You only find out when the payment stops — by then it\'s too late.',
             },
             {
               icon: '📉',
               title: 'No early warning',
-              desc: 'Platforms show you historical data — not predictive signals. By the time you see churn, it\'s gone.',
+              desc: 'Your analytics show historical data — not predictive signals. By the time churn shows in your MRR, it\'s already gone.',
             },
             {
               icon: '✉️',
               title: 'Generic outreach',
-              desc: 'Sending the same email to everyone is ineffective. The right message for each subscriber is different.',
+              desc: 'Sending the same email blast to everyone doesn\'t work. Each at-risk user needs a different message at the right moment.',
             },
           ].map(p => (
             <div key={p.title}
@@ -391,7 +391,7 @@ export default function Home() {
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
             <p className="text-white/40 text-sm max-w-md mx-auto">
-              Three stages, one system. SubPilot works in the background so you can focus on creating.
+              Three stages, one system. SubPilot works in the background so you can focus on building.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
@@ -402,8 +402,8 @@ export default function Home() {
                 title: 'Detect',
                 color: 'border-blue-500/20 bg-blue-500/[0.03]',
                 accent: 'text-blue-400',
-                desc: 'SubPilot monitors every subscriber daily — activity, engagement, payment patterns, and account age. No manual work required.',
-                points: ['Automatic sync every 24 hours', 'Multi-platform in one view', 'Zero setup after connection'],
+                desc: 'SubPilot monitors every user daily — login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
+                points: ['Automatic Stripe sync every 24 hours', 'Behavioural signals tracked per user', 'Flags users who never hit activation'],
               },
               {
                 step: '02',
@@ -411,8 +411,8 @@ export default function Home() {
                 title: 'Predict',
                 color: 'border-orange-500/20 bg-orange-500/[0.03]',
                 accent: 'text-orange-400',
-                desc: 'Our AI scores every subscriber 1–10 for churn risk each morning, with plain-English reasons you can act on immediately.',
-                points: ['Scores update every morning', 'Reason breakdown per subscriber', 'Grouped by High / Medium / Low'],
+                desc: 'Our AI scores every user 1–10 for churn risk each morning, with plain-English reasons tied to their specific product behaviour.',
+                points: ['Scores update every morning', 'Reason breakdown per user', 'Grouped by High / Medium / Low'],
               },
               {
                 step: '03',
@@ -420,8 +420,8 @@ export default function Home() {
                 title: 'Recover',
                 color: 'border-emerald-500/20 bg-emerald-500/[0.03]',
                 accent: 'text-emerald-400',
-                desc: 'Get the right message for the right subscriber — personalised win-back emails drafted by AI, ready to send in one click.',
-                points: ['AI win-back emails per subscriber', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from SubPilot'],
+                desc: 'Get the right message for the right user — personalised win-back emails drafted by AI, ready to send in one click.',
+                points: ['AI win-back emails per user', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from SubPilot'],
               },
             ].map(s => (
               <div key={s.step}
@@ -460,16 +460,16 @@ export default function Home() {
           <div>
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Churn risk scoring</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">
-              Every subscriber scored 1–10, every morning
+              Every user scored 1–10, every morning
             </h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
-              Our AI checks activity, payment history, and engagement drops. Each subscriber gets a score so you know exactly who to call — not who might cancel.
+              Our AI checks login activity, feature adoption, onboarding completion, and payment history. Each user gets a risk score so you know exactly who to reach out to — before they decide to cancel.
             </p>
             <ul className="space-y-3">
               {[
                 { badge: '9–10', color: 'bg-red-500/20 text-red-400 border-red-500/20',       label: 'Immediate risk — reach out today' },
                 { badge: '7–8',  color: 'bg-orange-500/20 text-orange-400 border-orange-500/20', label: 'High risk — worth a personal message' },
-                { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate — keep an eye on them' },
+                { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate — monitor closely' },
                 { badge: '1–3',  color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20', label: 'Healthy — no action needed' },
               ].map(t => (
                 <li key={t.badge} className="flex items-center gap-3 text-sm text-[#e8eaed]">
@@ -525,11 +525,11 @@ export default function Home() {
             <div className="p-4 space-y-3">
               <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Good morning — here's your briefing</div>
               <div className="bg-red-500/5 border border-red-500/15 rounded-xl p-3">
-                <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 subscribers need attention today</div>
+                <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 users need attention today</div>
                 {[
-                  { name: 'James M.',  note: '34 days inactive, $49/mo — score 9/10. Personal check-in recommended.' },
-                  { name: 'Sarah K.',  note: 'Zero posts opened this month, $29/mo — score 8/10. Offer a pause.' },
-                  { name: 'David L.',  note: 'Payment failed once, 18d inactive — score 7/10. Share what\'s new.' },
+                  { name: 'James M.',  note: '34 days inactive, $49/mo — score 9/10. Never completed onboarding.' },
+                  { name: 'Sarah K.',  note: 'Hasn\'t used core feature in 3 weeks, $29/mo — score 8/10. Offer a check-in call.' },
+                  { name: 'David L.',  note: 'Payment failed once, 18d inactive — score 7/10. Re-engage with a product update.' },
                 ].map(a => (
                   <div key={a.name} className="mt-2.5 first:mt-0">
                     <div className="text-[11px] font-semibold text-white/75">{a.name}</div>
@@ -552,14 +552,14 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Morning briefing</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
-              No more checking dashboards. Every morning you get an email with the 3 subscribers to reach out to today — each with a suggested action written by AI based on their specific risk factors.
+              No more digging through dashboards. Every morning you get an email with the 3 users to reach out to today — each with a suggested action written by AI based on their specific product behaviour and risk signals.
             </p>
             <ul className="space-y-3">
               {[
-                'Prioritised by risk score, not just inactivity',
-                'AI-suggested message for each subscriber',
-                'Yesterday\'s revenue snapshot included',
-                'Send it anytime from your dashboard too',
+                'Prioritised by churn risk score, not just inactivity',
+                'AI-suggested message tailored to each user',
+                'Yesterday\'s MRR snapshot included',
+                'Trigger anytime from your dashboard too',
               ].map(f => (
                 <li key={f} className="flex items-start gap-2 text-sm text-[#e8eaed]">
                   <Check /> {f}
@@ -572,17 +572,17 @@ export default function Home() {
         {/* Feature 3 — Subscriber profiles */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Subscriber profiles</div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Full history on every subscriber, one click away</h3>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">User profiles</div>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Full product history on every user, one click away</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
-              Click any subscriber to see their complete profile — churn score, payment history, activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
+              Click any user to see their complete profile — churn score, payment history, product activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
             </p>
             <ul className="space-y-3">
               {[
-                'Activity timeline with exact dates',
+                'Activity timeline with exact dates and feature usage',
                 'Churn score breakdown — see exactly why they\'re at risk',
+                'Onboarding completion status and activation milestone tracking',
                 'One-click AI win-back email, editable before sending',
-                'Revenue contribution and plan history',
               ].map(f => (
                 <li key={f} className="flex items-start gap-2 text-sm text-[#e8eaed]">
                   <Check /> {f}
@@ -607,7 +607,7 @@ export default function Home() {
               <div className="space-y-2.5">
                 {[
                   { label: 'Activity',      score: 9, note: '34 days since last interaction' },
-                  { label: 'Engagement',    score: 8, note: 'No posts opened in 6 weeks' },
+                  { label: 'Engagement',    score: 8, note: 'Never used core feature' },
                   { label: 'Payment',       score: 3, note: 'All payments successful' },
                 ].map(f => (
                   <div key={f.label} className="flex items-center gap-3">
@@ -624,7 +624,7 @@ export default function Home() {
               </div>
             </div>
             <div className="px-4 py-3 flex items-center justify-between gap-3">
-              <div className="text-[10px] text-[#e8eaed]">Joined Jan · missed 2 posts · 34d inactive</div>
+              <div className="text-[10px] text-[#e8eaed]">Joined Jan · never completed onboarding · 34d inactive</div>
               <button className="text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg whitespace-nowrap">
                 ✨ Win-back email
               </button>
@@ -669,7 +669,7 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
             <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
-              Creator income is unpredictable. SubPilot calculates 30% of your monthly revenue and shows exactly how much to transfer to your tax account — no spreadsheets needed.
+              SaaS revenue fluctuates. SubPilot calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
             </p>
             <ul className="space-y-3">
               {[
@@ -691,14 +691,14 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
-            <h2 className="text-3xl md:text-4xl font-bold">What creators recover with SubPilot</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">What SaaS founders recover with SubPilot</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {[
               {
                 stat: '$2,400',
-                label: 'Average monthly revenue at risk',
-                desc: 'Across creators with 300+ subscribers, that\'s how much is silently at risk each month.',
+                label: 'Average MRR silently at risk per month',
+                desc: 'Across SaaS teams with 300+ users, that\'s how much is quietly at risk each month from disengaged accounts.',
                 icon: '⚠️',
                 color: 'border-red-500/20 bg-red-500/[0.025]',
                 statColor: 'text-red-400',
@@ -706,7 +706,7 @@ export default function Home() {
               {
                 stat: '34%',
                 label: 'Churn reduction in 30 days',
-                desc: 'Creators using SubPilot\'s daily briefing see measurable churn reduction within the first month.',
+                desc: 'SaaS teams using SubPilot\'s daily briefing see measurable churn reduction within the first month of use.',
                 icon: '📉',
                 color: 'border-emerald-500/20 bg-emerald-500/[0.025]',
                 statColor: 'text-emerald-400',
@@ -714,7 +714,7 @@ export default function Home() {
               {
                 stat: '2.4×',
                 label: 'Average ROI vs. subscription cost',
-                desc: 'Keeping just 2 subscribers per month pays for the entire SubPilot plan.',
+                desc: 'Retaining just 2 users per month pays for the entire SubPilot plan. Most teams save far more.',
                 icon: '💸',
                 color: 'border-blue-500/20 bg-blue-500/[0.025]',
                 statColor: 'text-blue-400',
@@ -736,17 +736,17 @@ export default function Home() {
       <section className="max-w-5xl mx-auto px-4 md:px-8 py-16 md:py-24">
         <div className="text-center mb-12">
           <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">Who it's for</div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for subscription creators</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for SaaS teams</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Whether you have 50 subscribers or 50,000, subscriber churn costs you money every single month.
+            Whether you have 50 users or 5,000, silent churn is quietly compounding against your MRR every month.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: '🎨', title: 'Patreon Creators', desc: 'Artists, podcasters, writers, and video creators monetising their audience.' },
-            { icon: '📧', title: 'Newsletter Writers', desc: 'Paid newsletter operators on Substack, Beehiiv, or Ghost.' },
-            { icon: '🛒', title: 'Digital Sellers', desc: 'Gumroad and Lemon Squeezy creators with recurring memberships.' },
-            { icon: '💻', title: 'SaaS Founders', desc: 'Early-stage founders who want to track subscriber health alongside product metrics.' },
+            { icon: '🚀', title: 'Early-stage founders', desc: 'Pre-Series A teams who need to protect every paying user and can\'t afford a dedicated CS team.' },
+            { icon: '📦', title: 'B2B SaaS', desc: 'Monthly subscription products where one churned account can represent thousands in lost ARR.' },
+            { icon: '🛠️', title: 'Product-led growth', desc: 'Teams where users self-serve but need a signal when someone is drifting before they cancel.' },
+            { icon: '💳', title: 'Stripe-billed products', desc: 'Any team billing through Stripe who wants to act on churn signals before they hit the numbers.' },
           ].map(a => (
             <div key={a.title}
               className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-5 hover:border-white/[0.12] hover:bg-white/[0.035] transition-all">
@@ -767,9 +767,9 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { n: '01', title: 'Connect your platform',      desc: 'Link Patreon, Gumroad, or Stripe. Read-only access — we never touch your money or post on your behalf.' },
-              { n: '02', title: 'AI scores every subscriber', desc: 'Every subscriber gets a daily churn risk score 1–10, with a plain-English reason you can act on.' },
-              { n: '03', title: 'Act before they cancel',     desc: 'Get a morning email with the top 3 subscribers to contact — and an AI-drafted message for each one.' },
+              { n: '01', title: 'Connect Stripe or import CSV', desc: 'Link Stripe for automatic sync or upload a CSV. Read-only access — we never write to your account or charge your users.' },
+              { n: '02', title: 'AI scores every user',        desc: 'Every user gets a daily churn risk score 1–10, with a plain-English reason based on their product behaviour.' },
+              { n: '03', title: 'Act before they cancel',      desc: 'Get a morning email with the top 3 users to contact — and an AI-drafted message personalised to each one.' },
             ].map((s, i) => (
               <div key={s.n} className="relative">
                 {i < 2 && (
@@ -792,22 +792,23 @@ export default function Home() {
       <section className="py-16 md:py-24">
         <div className="max-w-5xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What creators say</div>
-            <h2 className="text-3xl md:text-4xl font-bold">Real results from real creators</h2>
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What founders say</div>
+            <h2 className="text-3xl md:text-4xl font-bold">Real results from real founders</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
+            {/* ⚠️ PLACEHOLDER TESTIMONIALS — review before launch */}
             {[
               {
-                quote: "I had 11 subscribers about to cancel and had no idea. Reached out to 3 of them and kept all 3. That's $440/mo I would have just lost.",
-                name: 'Alex Rivera',  role: 'Patreon creator · 1,200 subscribers', av: 'A',
+                quote: "I had 11 users about to cancel and had no idea. Reached out to 3 of them and kept all 3. That's $440/mo I would have just lost.",
+                name: 'Alex Rivera',  role: 'SaaS founder · 1,200 users', av: 'A',
               },
               {
-                quote: "The daily briefing is the first thing I read every morning. It tells me exactly what to do — not just data, but actions. Saved 18% of at-risk subscribers last month.",
-                name: 'Sarah Kim',    role: 'Newsletter writer · $12k MRR', av: 'S',
+                quote: "The daily briefing is the first thing I read every morning. It tells me exactly who to call — not just data, but actions. Saved 18% of at-risk users last month.",
+                name: 'Sarah Kim',    role: 'B2B SaaS · $12k MRR', av: 'S',
               },
               {
-                quote: "Set up in 4 minutes with Stripe. Three subscribers were already at 9/10 risk. Kept two of them. Paid for a year of SubPilot in one week.",
-                name: 'Marcus Webb',  role: 'Gumroad seller · 840 paid subscribers', av: 'M',
+                quote: "Set up in 4 minutes with Stripe. Three users were already at 9/10 risk. Kept two of them. Paid for a year of SubPilot in one week.",
+                name: 'Marcus Webb',  role: 'PLG startup · 840 paying users', av: 'M',
               },
             ].map(r => (
               <div key={r.name}
@@ -835,29 +836,29 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
-            <p className="text-[#e8eaed] text-sm">Keep 2 extra subscribers and it's already paid for.</p>
+            <p className="text-[#e8eaed] text-sm">Retain 2 extra users a month and it's already paid for.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5 items-start">
             {[
               {
-                name: 'Creator', price: '$29', per: '/mo',
-                desc: 'For creators just getting started.',
-                limit: 'Up to 500 subscribers',
-                features: ['Patreon + Gumroad + Stripe', 'Daily churn risk scores', 'Morning email briefing', 'At-risk subscriber list', 'Tax pot calculator'],
+                name: 'Starter', price: '$29', per: '/mo',
+                desc: 'For early-stage SaaS teams getting started.',
+                limit: 'Up to 500 users',
+                features: ['Stripe + CSV import', 'Daily churn risk scores', 'Morning email briefing', 'At-risk user list', 'Tax pot calculator'],
                 featured: false,
               },
               {
                 name: 'Pro', price: '$79', per: '/mo',
-                desc: 'For creators who need to act fast.',
-                limit: 'Up to 2,000 subscribers',
-                features: ['Everything in Creator', 'AI win-back email drafts', 'Revenue opportunity alerts', 'Failed payment recovery', 'Priority support'],
+                desc: 'For growing SaaS teams protecting MRR.',
+                limit: 'Up to 2,000 users',
+                features: ['Everything in Starter', 'AI win-back email drafts', 'Onboarding completion tracking', 'Failed payment recovery', 'Priority support'],
                 featured: true,
               },
               {
-                name: 'Studio', price: '$149', per: '/mo',
-                desc: 'For serious creator businesses.',
-                limit: 'Unlimited subscribers',
-                features: ['Everything in Pro', 'Automated email sending', 'Team access', 'Slack + webhook alerts', 'Dedicated onboarding'],
+                name: 'Scale', price: '$149', per: '/mo',
+                desc: 'For scaling SaaS businesses.',
+                limit: 'Unlimited users',
+                features: ['Everything in Pro', 'Automated email sending', 'Team seats', 'Slack + webhook alerts', 'Dedicated onboarding'],
                 featured: false,
               },
             ].map(p => (
@@ -919,10 +920,10 @@ export default function Home() {
             Free 14-day trial · No credit card required
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-            Stop losing subscribers<br />without knowing why
+            Stop losing MRR<br />before it hits your dashboard
           </h2>
           <p className="text-white/40 text-sm mb-8 leading-relaxed">
-            Join creators who protect their income with SubPilot. Set up in 4 minutes, see your first at-risk subscribers immediately.
+            Join SaaS founders who protect their MRR with SubPilot. Set up in 4 minutes, see your first at-risk users immediately.
           </p>
           {!submitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto mb-4">
@@ -955,7 +956,7 @@ export default function Home() {
               <a href="/" className="text-base font-bold hover:opacity-80 transition-opacity">
                 Sub<span className="text-emerald-400">Pilot</span>
               </a>
-              <p className="text-xs text-white/50 mt-1">Protect your creator income.</p>
+              <p className="text-xs text-white/50 mt-1">Protect your MRR.</p>
             </div>
             <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-[#e8eaed]">
               <a href="#features"  className="hover:text-white transition-colors">Features</a>
