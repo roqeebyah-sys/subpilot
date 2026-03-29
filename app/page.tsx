@@ -258,30 +258,30 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 md:px-8 pt-16 pb-12 md:pt-24 md:pb-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 pt-12 pb-10 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
           {/* Left: copy */}
           <div>
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-              For SaaS founders losing MRR to silent churn
+            <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-6">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse flex-shrink-0" />
+              <span>For SaaS founders losing MRR to silent churn</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.1] tracking-tight mb-6">
-              Catch churn before it<br />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.1] tracking-tight mb-5">
+              Catch churn before it{' '}
               <span className="text-emerald-400">shows up in your MRR</span>
             </h1>
 
-            <p className="text-lg text-white/50 leading-relaxed mb-8 max-w-lg">
+            <p className="text-base md:text-lg text-white/50 leading-relaxed mb-7 max-w-lg">
               SubPilot monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-5">
+            <div className="flex flex-col gap-3 mb-5">
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="flex gap-2 flex-1 max-w-sm">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 w-full max-w-sm">
                   <input
                     type="email"
                     value={email}
@@ -300,7 +300,7 @@ export default function Home() {
                 </div>
               )}
               <a href="/dashboard"
-                className="inline-flex items-center justify-center gap-2 text-sm text-white/50 hover:text-white border border-white/[0.10] hover:border-white/20 px-5 py-3 rounded-lg transition-all">
+                className="inline-flex items-center justify-center gap-2 text-sm text-white/50 hover:text-white border border-white/[0.10] hover:border-white/20 px-5 py-3 rounded-lg transition-all w-full sm:w-auto max-w-sm">
                 View demo →
               </a>
             </div>
@@ -308,7 +308,7 @@ export default function Home() {
             <p className="text-xs text-white/50">No credit card required · Free 14-day trial</p>
 
             {/* Trust logos */}
-            <div className="mt-10 flex items-center gap-3 flex-wrap">
+            <div className="mt-8 flex items-center gap-3 flex-wrap">
               <span className="text-[10px] text-white/50 uppercase tracking-widest">Works with</span>
               {['Stripe', 'CSV import'].map(p => (
                 <span key={p}
@@ -319,9 +319,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right: dashboard */}
-          <div className="relative">
-            {/* Glow */}
+          {/* Right: dashboard — hidden on small, shown md+ */}
+          <div className="relative hidden md:block">
             <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-3xl pointer-events-none" />
             <DashboardMockup />
             <p className="text-center text-[11px] text-white/45 mt-3">
@@ -332,28 +331,28 @@ export default function Home() {
       </section>
 
       {/* ── SOCIAL PROOF NUMBERS ──────────────────────────────────────────── */}
-      <section className="border-y border-white/[0.06] bg-white/[0.015] py-10">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 grid grid-cols-3 gap-6 text-center">
+      <section className="border-y border-white/[0.06] bg-white/[0.015] py-8 md:py-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center">
           {[
             { val: '23%',     label: 'Average MRR lost annually to silent churn' },
             { val: '18 days', label: 'Average warning window before a user cancels' },
             { val: '34%',     label: 'Churn reduction in the first 30 days' },
-          ].map(s => (
-            <div key={s.label}>
+          ].map((s, i) => (
+            <div key={s.label} className={i > 0 ? 'sm:border-l sm:border-white/[0.06] sm:pl-4 md:pl-0' : ''}>
               <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1.5">{s.val}</div>
-              <div className="text-xs text-[#e8eaed] leading-relaxed">{s.label}</div>
+              <div className="text-xs text-[#e8eaed] leading-relaxed max-w-[180px] mx-auto sm:max-w-none">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── PROBLEM ───────────────────────────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-4 md:px-8 py-16 md:py-24 text-center">
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 text-center">
         <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">The problem</div>
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-          Churn is silent — until it's<br className="hidden md:block" /> too late to do anything
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-5 leading-tight">
+          Churn is silent — until it's too late to do anything
         </h2>
-        <p className="text-white/45 text-base leading-relaxed mb-12 max-w-xl mx-auto">
+        <p className="text-white/45 text-sm md:text-base leading-relaxed mb-10 max-w-xl mx-auto">
           Most SaaS analytics tools show you aggregate metrics. They don't tell you which specific users are drifting away, why they stopped engaging, or what you could do right now to keep them.
         </p>
         <div className="grid sm:grid-cols-3 gap-4 text-left">
@@ -385,11 +384,11 @@ export default function Home() {
       </section>
 
       {/* ── SOLUTION ──────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-14">
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
             <p className="text-white/40 text-sm max-w-md mx-auto">
               Three stages, one system. SubPilot works in the background so you can focus on building.
             </p>
@@ -449,17 +448,17 @@ export default function Home() {
       </section>
 
       {/* ── PRODUCT (alternating) ─────────────────────────────────────────── */}
-      <section id="features" className="max-w-5xl mx-auto px-4 md:px-8 py-16 md:py-24 space-y-20 md:space-y-32">
+      <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 space-y-16 md:space-y-24 lg:space-y-32">
         <div className="text-center">
           <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Inside SubPilot</div>
-          <h2 className="text-3xl md:text-4xl font-bold">Every feature you actually need</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Every feature you actually need</h2>
         </div>
 
         {/* Feature 1 — Churn scores */}
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div>
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Churn risk scoring</div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">
               Every user scored 1–10, every morning
             </h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
@@ -511,7 +510,7 @@ export default function Home() {
         </div>
 
         {/* Feature 2 — Morning briefing (reversed) */}
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Mockup left */}
           <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
             <div className="bg-[#101010] px-4 py-3 border-b border-white/[0.06] flex items-center gap-3">
@@ -550,7 +549,7 @@ export default function Home() {
           {/* Text right */}
           <div className="order-1 md:order-2">
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Morning briefing</div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               No more digging through dashboards. Every morning you get an email with the 3 users to reach out to today — each with a suggested action written by AI based on their specific product behaviour and risk signals.
             </p>
@@ -570,10 +569,10 @@ export default function Home() {
         </div>
 
         {/* Feature 3 — Subscriber profiles */}
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div>
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">User profiles</div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Full product history on every user, one click away</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Full product history on every user, one click away</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               Click any user to see their complete profile — churn score, payment history, product activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
             </p>
@@ -633,7 +632,7 @@ export default function Home() {
         </div>
 
         {/* Feature 4 — Tax pot (reversed) */}
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Mockup left */}
           <div className="rounded-2xl border border-white/[0.10] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
             <div className="px-5 py-4 flex items-center gap-3 border-b border-white/[0.06]">
@@ -667,7 +666,7 @@ export default function Home() {
           {/* Text right */}
           <div className="order-1 md:order-2">
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-sm leading-relaxed mb-6">
               SaaS revenue fluctuates. SubPilot calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
             </p>
@@ -687,13 +686,13 @@ export default function Home() {
       </section>
 
       {/* ── RESULTS ───────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
-            <h2 className="text-3xl md:text-4xl font-bold">What SaaS founders recover with SubPilot</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">What SaaS founders recover with SubPilot</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
             {[
               {
                 stat: '$2,400',
@@ -733,10 +732,10 @@ export default function Home() {
       </section>
 
       {/* ── AUDIENCE ──────────────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 md:px-8 py-16 md:py-24">
-        <div className="text-center mb-12">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+        <div className="text-center mb-10 md:mb-12">
           <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">Who it's for</div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for SaaS teams</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Built for SaaS teams</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
             Whether you have 50 users or 5,000, silent churn is quietly compounding against your MRR every month.
           </p>
@@ -759,13 +758,13 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-      <section id="how" className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-14">
+      <section id="how" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">How it works</div>
-            <h2 className="text-3xl md:text-4xl font-bold">Up and running in 4 minutes</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Up and running in 4 minutes</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-3 gap-8 sm:gap-6 md:gap-8">
             {[
               { n: '01', title: 'Connect Stripe or import CSV', desc: 'Link Stripe for automatic sync or upload a CSV. Read-only access — we never write to your account or charge your users.' },
               { n: '02', title: 'AI scores every user',        desc: 'Every user gets a daily churn risk score 1–10, with a plain-English reason based on their product behaviour.' },
@@ -789,13 +788,13 @@ export default function Home() {
       </section>
 
       {/* ── REVIEWS ──────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
+      <section className="py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What founders say</div>
-            <h2 className="text-3xl md:text-4xl font-bold">Real results from real founders</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Real results from real founders</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
             {/* ⚠️ PLACEHOLDER TESTIMONIALS — review before launch */}
             {[
               {
@@ -831,14 +830,14 @@ export default function Home() {
       </section>
 
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
-      <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
+      <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
             <p className="text-[#e8eaed] text-sm">Retain 2 extra users a month and it's already paid for.</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-5 items-start">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 items-start">
             {[
               {
                 name: 'Starter', price: '$29', per: '/mo',
@@ -902,10 +901,10 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
-      <section id="faq" className="max-w-2xl mx-auto px-4 md:px-8 py-16 md:py-24">
-        <div className="text-center mb-12">
+      <section id="faq" className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+        <div className="text-center mb-10 md:mb-12">
           <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">FAQ</div>
-          <h2 className="text-3xl md:text-4xl font-bold">Common questions</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Common questions</h2>
         </div>
         <div className="space-y-2">
           {faqs.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
@@ -913,8 +912,8 @@ export default function Home() {
       </section>
 
       {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-16 md:py-24">
-        <div className="max-w-2xl mx-auto px-4 md:px-8 text-center">
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 text-center">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
             Free 14-day trial · No credit card required
