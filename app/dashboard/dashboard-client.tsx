@@ -574,10 +574,16 @@ export default function DashboardClient({ session }: { session: any }) {
                     {/* Header */}
                     <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse flex-shrink-0" />
-                        <h2 className="text-sm font-semibold">High Risk Subscribers</h2>
+                        {isEmpty ? (
+                          <span className="w-2 h-2 bg-emerald-400/60 rounded-full flex-shrink-0" />
+                        ) : (
+                          <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse flex-shrink-0" />
+                        )}
+                        <h2 className="text-sm font-semibold">
+                          {isEmpty ? 'Quick start' : 'High Risk Subscribers'}
+                        </h2>
                       </div>
-                      {data.atRisk.length > 0 && (
+                      {!isEmpty && data.atRisk.length > 0 && (
                         <span className="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2.5 py-1 rounded-full font-medium">
                           {data.atRisk.length} at risk
                         </span>
