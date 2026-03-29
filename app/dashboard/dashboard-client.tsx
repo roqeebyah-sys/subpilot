@@ -362,6 +362,16 @@ export default function DashboardClient({ session }: { session: any }) {
             const currMrr  = hist[hist.length - 1]?.mrr ?? 0
             const mrrDelta = Math.max(0, currMrr - prevMrr)
             const churnPct = parseFloat(data.metrics.churnRate)
+            const isEmpty  = data.metrics.totalSubscribers === 0
+
+            const DEMO_MRR = [
+              { month: 'Oct', mrr: 1200 },
+              { month: 'Nov', mrr: 1850 },
+              { month: 'Dec', mrr: 1600 },
+              { month: 'Jan', mrr: 2400 },
+              { month: 'Feb', mrr: 2150 },
+              { month: 'Mar', mrr: 3200 },
+            ]
 
             // Activity feed — synthesised from real data
             const feed: { icon: string; color: string; text: string; time: string }[] = []
@@ -478,27 +488,39 @@ export default function DashboardClient({ session }: { session: any }) {
                 </div>
 
                 {/* ── KPI Strip ───────────────────────────────────────────── */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  {kpis.map(k => (
-                    <div
-                      key={k.label}
-                      className={`${k.accent.glow} border ${k.accent.border} rounded-xl p-4 group hover:border-white/20 transition-all duration-200`}
-                    >
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs text-[#e8eaed] font-medium">{k.label}</span>
-                        {k.delta && (
-                          <span className={`text-xs font-bold ${k.delta.dir === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
-                            {k.delta.dir === 'up' ? '↑' : '↓'}
-                          </span>
-                        )}
+                {isEmpty ? (
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {['Revenue at risk', 'Recovered revenue', 'Churn rate', 'Subscribers saved'].map(label => (
+                      <div key={label} className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                        <div className="text-xs text-[#e8eaed] font-medium mb-3">{label}</div>
+                        <div className="text-2xl font-bold tracking-tight mb-1.5 text-white/15">—</div>
+                        <div className="text-xs text-white/25">Connect data to see metrics</div>
                       </div>
-                      <div className={`text-2xl font-bold tracking-tight mb-1 ${k.accent.num}`}>
-                        {k.value}
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {kpis.map(k => (
+                      <div
+                        key={k.label}
+                        className={`${k.accent.glow} border ${k.accent.border} rounded-xl p-4 group hover:border-white/20 transition-all duration-200`}
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs text-[#e8eaed] font-medium">{k.label}</span>
+                          {k.delta && (
+                            <span className={`text-xs font-bold ${k.delta.dir === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {k.delta.dir === 'up' ? '↑' : '↓'}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`text-2xl font-bold tracking-tight mb-1 ${k.accent.num}`}>
+                          {k.value}
+                        </div>
+                        <div className="text-xs text-white/50">{k.sub}</div>
                       </div>
-                      <div className="text-xs text-white/50">{k.sub}</div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* ── Tax Pot ─────────────────────────────────────────────── */}
                 {data.taxPot.mrr > 0 && (
@@ -563,13 +585,76 @@ export default function DashboardClient({ session }: { session: any }) {
                     </div>
 
                     {/* Empty state */}
-                    {data.atRisk.length === 0 && (
+                    {data.atRisk.length === 0 && !isEmpty && (
                       <div className="flex flex-col items-center justify-center py-16 text-center px-6">
                         <div className="text-4xl mb-4">🎯</div>
                         <div className="text-sm font-medium text-emerald-400 mb-1.5">No at-risk subscribers</div>
                         <div className="text-xs text-[#e8eaed] max-w-xs">
                           Go to Tools → Run churn analysis to score your subscribers
                         </div>
+                      </div>
+                    )}
+
+                    {/* Onboarding checklist — shown only when no data imported yet */}
+                    {isEmpty && (
+                      <div className="p-6 space-y-3">
+                        <div className="flex items-center gap-3 mb-5">
+                          <div className="w-9 h-9 bg-emerald-500/15 border border-emerald-500/25 rounded-lg flex items-center justify-center text-lg flex-shrink-0">🚀</div>
+                          <div>
+                            <div className="text-sm font-semibold">Get started in 3 steps</div>
+                            <div className="text-xs text-white/40 mt-0.5">Takes about 60 seconds</div>
+                          </div>
+                        </div>
+                        {([
+                          {
+                            num: 1,
+                            title: 'Import your subscribers',
+                            desc: 'Connect Stripe for live sync, or upload a CSV file to get started instantly.',
+                            active: true,
+                            action: (
+                              <div className="flex flex-wrap gap-2 mt-3">
+                                <SyncButton />
+                                <CSVUploadButton />
+                              </div>
+                            ),
+                          },
+                          {
+                            num: 2,
+                            title: 'Run churn analysis',
+                            desc: 'SubPilot scores every subscriber for churn risk based on activity and payment signals.',
+                            active: false,
+                            action: null,
+                          },
+                          {
+                            num: 3,
+                            title: 'See who is at risk and act',
+                            desc: 'Get a prioritised list of subscribers about to leave — then send AI win-back messages in one click.',
+                            active: false,
+                            action: null,
+                          },
+                        ] as const).map((step) => (
+                          <div
+                            key={step.num}
+                            className={`flex gap-4 p-4 rounded-xl border transition-all ${
+                              step.active
+                                ? 'bg-emerald-500/5 border-emerald-500/20'
+                                : 'bg-white/[0.02] border-white/[0.05] opacity-45'
+                            }`}
+                          >
+                            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${
+                              step.active
+                                ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                                : 'bg-white/10 border border-white/10 text-white/30'
+                            }`}>
+                              {step.num}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className={`text-sm font-medium ${step.active ? 'text-white' : 'text-white/50'}`}>{step.title}</div>
+                              <div className="text-xs text-white/35 mt-0.5 leading-relaxed">{step.desc}</div>
+                              {step.action}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     )}
 
@@ -715,31 +800,41 @@ export default function DashboardClient({ session }: { session: any }) {
                         <h3 className="text-sm font-semibold">AI Insights</h3>
                       </div>
 
-                      <div className="space-y-3">
-                        {/* Likely to churn this week */}
-                        <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-3">
-                          <div className="text-2xl font-bold text-red-400 mb-0.5">
-                            {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length}
+                      {isEmpty ? (
+                        <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
+                          <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center text-base">✦</div>
+                          <div>
+                            <div className="text-sm font-medium text-white/60 mb-1.5">AI insights will appear here</div>
+                            <div className="text-xs text-white/30 leading-relaxed max-w-[200px]">Import your first subscribers to unlock AI-powered churn predictions and win-back recommendations.</div>
                           </div>
-                          <div className="text-xs text-white/40">subscribers likely to churn this week</div>
                         </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {/* Likely to churn this week */}
+                          <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-3">
+                            <div className="text-2xl font-bold text-red-400 mb-0.5">
+                              {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length}
+                            </div>
+                            <div className="text-xs text-white/40">subscribers likely to churn this week</div>
+                          </div>
 
-                        {/* Revenue at risk */}
-                        <div className="bg-orange-500/5 border border-orange-500/15 rounded-lg px-4 py-3">
-                          <div className="text-2xl font-bold text-orange-400 mb-0.5">
-                            ${data.metrics.revenueAtRisk.toLocaleString()}
+                          {/* Revenue at risk */}
+                          <div className="bg-orange-500/5 border border-orange-500/15 rounded-lg px-4 py-3">
+                            <div className="text-2xl font-bold text-orange-400 mb-0.5">
+                              ${data.metrics.revenueAtRisk.toLocaleString()}
+                            </div>
+                            <div className="text-xs text-white/40">total revenue at risk per month</div>
                           </div>
-                          <div className="text-xs text-white/40">total revenue at risk per month</div>
-                        </div>
 
-                        {/* Engagement trend */}
-                        <div className={`${mrrDelta > 0 ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.02] border-white/[0.06]'} border rounded-lg px-4 py-3`}>
-                          <div className={`text-2xl font-bold mb-0.5 ${mrrDelta > 0 ? 'text-emerald-400' : 'text-white/40'}`}>
-                            {mrrDelta > 0 ? `+$${mrrDelta.toLocaleString()}` : '—'}
+                          {/* Engagement trend */}
+                          <div className={`${mrrDelta > 0 ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.02] border-white/[0.06]'} border rounded-lg px-4 py-3`}>
+                            <div className={`text-2xl font-bold mb-0.5 ${mrrDelta > 0 ? 'text-emerald-400' : 'text-white/40'}`}>
+                              {mrrDelta > 0 ? `+$${mrrDelta.toLocaleString()}` : '—'}
+                            </div>
+                            <div className="text-xs text-white/40">MRR growth vs last month</div>
                           </div>
-                          <div className="text-xs text-white/40">MRR growth vs last month</div>
                         </div>
-                      </div>
+                      )}
                     </div>
 
                     {/* Recommended Action */}
@@ -797,7 +892,7 @@ export default function DashboardClient({ session }: { session: any }) {
                         <h2 className="text-sm font-semibold">Revenue growth</h2>
                         <p className="text-xs text-[#e8eaed] mt-0.5">MRR — last 6 months</p>
                       </div>
-                      {(() => {
+                      {!isEmpty && (() => {
                         if (prevMrr === 0 || currMrr === 0) return null
                         const pct = ((currMrr - prevMrr) / prevMrr) * 100
                         const pos = pct >= 0
@@ -813,50 +908,54 @@ export default function DashboardClient({ session }: { session: any }) {
                       })()}
                     </div>
                     <div className="p-5">
-                      <ResponsiveContainer width="100%" height={220}>
-                        <AreaChart data={data.mrrHistory} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%"  stopColor="#10b981" stopOpacity={0.2} />
-                              <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                            </linearGradient>
-                          </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.055)" vertical={false} />
-                          <XAxis
-                            dataKey="month"
-                            tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }}
-                            axisLine={false} tickLine={false} dy={6}
-                          />
-                          <YAxis
-                            tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }}
-                            axisLine={false} tickLine={false}
-                            tickFormatter={v => `$${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`}
-                            width={46}
-                          />
-                          <Tooltip
-                            contentStyle={{
-                              background: '#111',
-                              border: '1px solid rgba(255,255,255,0.10)',
-                              borderRadius: 10,
-                              fontSize: 12,
-                              padding: '8px 14px',
-                            }}
-                            labelStyle={{ color: 'rgba(255,255,255,0.45)', marginBottom: 3 }}
-                            itemStyle={{ color: '#fff', fontWeight: 600 }}
-                            formatter={(val: any) => [`$${Number(val).toLocaleString()}`, 'MRR']}
-                            cursor={{ stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1 }}
-                          />
-                          <Area
-                            type="monotone"
-                            dataKey="mrr"
-                            stroke="#10b981"
-                            strokeWidth={2.5}
-                            fill="url(#mrrGrad)"
-                            dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }}
-                            activeDot={{ r: 5, fill: '#10b981', stroke: 'rgba(16,185,129,0.25)', strokeWidth: 4 }}
-                          />
-                        </AreaChart>
-                      </ResponsiveContainer>
+                      {isEmpty ? (
+                        <div className="relative">
+                          <div className="blur-sm pointer-events-none select-none">
+                            <ResponsiveContainer width="100%" height={220}>
+                              <AreaChart data={DEMO_MRR} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                                <defs>
+                                  <linearGradient id="demoGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%"  stopColor="#10b981" stopOpacity={0.2} />
+                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                  </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.055)" vertical={false} />
+                                <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} dy={6} />
+                                <YAxis tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} width={46} />
+                                <Area type="monotone" dataKey="mrr" stroke="#10b981" strokeWidth={2.5} fill="url(#demoGrad)" dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }} />
+                              </AreaChart>
+                            </ResponsiveContainer>
+                          </div>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="bg-[#080808]/80 border border-white/[0.10] rounded-xl px-6 py-4 text-center backdrop-blur-sm shadow-xl">
+                              <div className="text-sm font-semibold mb-1">Your MRR chart will appear here</div>
+                              <div className="text-xs text-white/40">Connect Stripe or import a CSV to unlock</div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <ResponsiveContainer width="100%" height={220}>
+                          <AreaChart data={data.mrrHistory} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                            <defs>
+                              <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%"  stopColor="#10b981" stopOpacity={0.2} />
+                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                              </linearGradient>
+                            </defs>
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.055)" vertical={false} />
+                            <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} dy={6} />
+                            <YAxis tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} width={46} />
+                            <Tooltip
+                              contentStyle={{ background: '#111', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 10, fontSize: 12, padding: '8px 14px' }}
+                              labelStyle={{ color: 'rgba(255,255,255,0.45)', marginBottom: 3 }}
+                              itemStyle={{ color: '#fff', fontWeight: 600 }}
+                              formatter={(val: any) => [`$${Number(val).toLocaleString()}`, 'MRR']}
+                              cursor={{ stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1 }}
+                            />
+                            <Area type="monotone" dataKey="mrr" stroke="#10b981" strokeWidth={2.5} fill="url(#mrrGrad)" dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }} activeDot={{ r: 5, fill: '#10b981', stroke: 'rgba(16,185,129,0.25)', strokeWidth: 4 }} />
+                          </AreaChart>
+                        </ResponsiveContainer>
+                      )}
                     </div>
                   </div>
 
