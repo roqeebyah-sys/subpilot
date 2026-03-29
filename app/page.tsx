@@ -1146,9 +1146,10 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
             <span>© 2026 SubPilot. All rights reserved.</span>
             <div className="flex gap-5">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Contact</a>
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+              <a href="/terms"   className="hover:text-white transition-colors">Terms</a>
+              <a href="/cookies" className="hover:text-white transition-colors">Cookies</a>
+              <a href="mailto:support@subpilot.io" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
         </div>

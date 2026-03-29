@@ -1134,11 +1134,18 @@ export default function DashboardClient({ session }: { session: any }) {
 
               <div>
                 <h1 className="text-xl font-bold mb-1">Tools</h1>
-                <p className="text-sm text-white/40">Import data, analyse churn, and generate AI insights.</p>
+                <p className="text-sm text-white/40">Connect your data, score your subscribers, and act before they leave.</p>
+              </div>
+
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
+                <div className="mb-4">
+                  <h2 className="text-sm font-semibold mb-1">Stripe sync</h2>
+                  <p className="text-xs text-white/40">Refresh subscriber data directly from your Stripe account.</p>
+                </div>
+                <SyncButton />
               </div>
 
               <CSVUploadButton />
-              <AIInsightsPanel />
 
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
                 <div className="mb-4">
@@ -1150,13 +1157,7 @@ export default function DashboardClient({ session }: { session: any }) {
                 <ChurnScoreButton />
               </div>
 
-              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                <div className="mb-4">
-                  <h2 className="text-sm font-semibold mb-1">Stripe sync</h2>
-                  <p className="text-xs text-white/40">Refresh subscriber data directly from your Stripe account.</p>
-                </div>
-                <SyncButton />
-              </div>
+              <AIInsightsPanel />
 
             </div>
           )}
