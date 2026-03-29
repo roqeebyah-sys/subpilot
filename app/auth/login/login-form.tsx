@@ -65,13 +65,13 @@ export default function LoginPage() {
                 }`} />
                 <div>
                   <div className="text-xs font-medium">{a.text}</div>
-                  <div className="text-xs text-white/30 mt-0.5">{a.sub}</div>
+                  <div className="text-xs text-[#e8eaed] mt-0.5">{a.sub}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <p className="text-white/20 text-xs">© 2026 SubPilot</p>
+        <p className="text-white/45 text-xs">© 2026 SubPilot</p>
       </div>
 
       {/* RIGHT PANEL - FORM */}
@@ -105,20 +105,20 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-white/60 mb-2">Email</label>
+              <label className="block text-sm text-[#e8eaed] mb-2">Email</label>
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="jane@company.com"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
             <div>
               <div className="flex justify-between mb-2">
-                <label className="text-sm text-white/60">Password</label>
+                <label className="text-sm text-[#e8eaed]">Password</label>
                 <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300">
                   Forgot password?
                 </button>
@@ -129,7 +129,7 @@ export default function LoginPage() {
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="Your password"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 

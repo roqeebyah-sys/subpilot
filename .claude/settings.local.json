@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /c/Users/roqee/subpilot/.claude/worktrees/unruffled-cannon/.env*)",
+      "Bash(npm install:*)",
+      "Bash(node -e \"require\\(''''resend''''\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\roqee\\\\subpilot\\\\.claude\\\\worktrees\\\\unruffled-cannon\\\\app\\\\api\\\\subscribers\\\\[id]\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\roqee\\\\subpilot\\\\.claude\\\\worktrees\\\\unruffled-cannon\\\\app\\\\dashboard\\\\subscribers\\\\[id]\")",
+      "WebFetch(domain:docs.patreon.com)",
+      "Bash(python3 -c \":*)",
+      "Bash(node -e \":*)",
+      "Bash(grep -n \"emerald\\\\|red-4\\\\|amber-4\" app/dashboard/upgrade-prompt.tsx app/dashboard/subscribers/[id]/subscriber-detail-client.tsx)",
+      "Bash(grep -n \"winbackEmail\\\\|Subject\\\\|Body\\\\|whitespace-pre-wrap\" app/dashboard/subscribers/[id]/subscriber-detail-client.tsx)",
+      "Bash(npx next:*)"
+    ]
+  }
+}

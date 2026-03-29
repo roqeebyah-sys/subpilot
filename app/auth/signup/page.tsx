@@ -68,7 +68,7 @@ export default function SignupPage() {
             ))}
           </div>
         </div>
-        <p className="text-white/20 text-xs">© 2026 SubPilot</p>
+        <p className="text-white/45 text-xs">© 2026 SubPilot</p>
       </div>
 
       {/* RIGHT PANEL - FORM */}
@@ -96,31 +96,31 @@ export default function SignupPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-white/60 mb-2">Full name</label>
+              <label className="block text-sm text-[#e8eaed] mb-2">Full name</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Jane Smith"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/60 mb-2">Work email</label>
+              <label className="block text-sm text-[#e8eaed] mb-2">Work email</label>
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="jane@company.com"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-sm text-white/60 mb-2">Password</label>
+              <label className="block text-sm text-[#e8eaed] mb-2">Password</label>
               <input
                 type="password"
                 value={form.password}
@@ -128,7 +128,7 @@ export default function SignupPage() {
                 placeholder="Min. 8 characters"
                 required
                 minLength={8}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
@@ -141,7 +141,7 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <p className="text-white/20 text-xs text-center mt-6">
+          <p className="text-white/45 text-xs text-center mt-6">
             Free 14-day trial · No credit card required · Cancel anytime
           </p>
         </div>

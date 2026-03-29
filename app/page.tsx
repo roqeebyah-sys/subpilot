@@ -1,237 +1,964 @@
 'use client'
-
 import { useState } from 'react'
 
-export default function Home() {
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+/* ─────────────────────────── tiny helpers ─────────────────────────────── */
 
-  const handleWaitlist = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-    setSubmitted(true)
-  }
-
+function Check() {
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white">
+    <svg className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
+      <circle cx="8" cy="8" r="7.5" stroke="currentColor" strokeOpacity=".25" />
+      <path d="M5 8.5l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
 
-      {/* NAV */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-white/10">
-        <span className="text-xl font-semibold">
-          Sub<span className="text-emerald-400">Pilot</span>
-        </span>
-        <div className="flex items-center gap-6 text-sm text-white/60">
-          <a href="#how" className="hover:text-white transition-colors">How it works</a>
-          <a href="#examples" className="hover:text-white transition-colors">Examples</a>
-          <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-          <a href="#waitlist" className="bg-emerald-500 hover:bg-emerald-400 text-black font-medium px-4 py-2 rounded-lg transition-colors">
-            Get early access
-          </a>
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`w-4 h-4 text-white/40 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+      viewBox="0 0 16 16" fill="none"
+    >
+      <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+/* ─────────────────────────── sub-components ───────────────────────────── */
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div
+      className="border border-white/[0.07] rounded-xl overflow-hidden transition-colors hover:border-white/[0.12]"
+      onClick={() => setOpen(o => !o)}
+    >
+      <button className="w-full flex items-center justify-between px-5 py-4 text-left gap-4">
+        <span className="text-sm font-medium text-white/85">{q}</span>
+        <Chevron open={open} />
+      </button>
+      <div
+        className="overflow-hidden transition-all duration-300"
+        style={{ maxHeight: open ? 300 : 0 }}
+      >
+        <p className="px-5 pb-5 text-base text-white/45 leading-relaxed">{a}</p>
+      </div>
+    </div>
+  )
+}
+
+/* full dashboard preview */
+function DashboardPreview() {
+  return (
+    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.7)] bg-[#080808]">
+      {/* Browser chrome */}
+      <div className="bg-[#0f0f0f] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
         </div>
-      </nav>
-
-      {/* HERO */}
-      <section className="max-w-5xl mx-auto px-8 pt-24 pb-20 text-center">
-        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-4 py-2 rounded-full mb-8">
-          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-          Built for course creators, SaaS founders, and agencies
+        <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/45 max-w-[200px] mx-auto text-center">
+          app.subpilot.io/dashboard
         </div>
-
-        <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 tracking-tight">
-          Stop losing subscribers
-          <br />
-          <span className="text-emerald-400">without knowing why</span>
-        </h1>
-
-        <p className="text-xl text-white/60 max-w-2xl mx-auto mb-6 leading-relaxed">
-          See which customers are about to cancel — and exactly what to do to keep them.
-          SubPilot watches your subscribers 24/7 so you don't have to.
-        </p>
-
-        <div className="inline-block bg-white/5 border border-white/10 rounded-lg px-5 py-3 mb-10 text-sm text-white/70">
-          💡 If SubPilot helps you retain just <span className="text-white font-semibold">2 customers</span>, it pays for itself.
-        </div>
-
-        {!submitted ? (
-          <div id="waitlist" className="flex flex-col items-center gap-3">
-            <form onSubmit={handleWaitlist} className="flex gap-3 max-w-md w-full mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-emerald-500 transition-colors"
-              />
-              <button
-                type="submit"
-                className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-6 py-3 rounded-lg text-sm transition-colors whitespace-nowrap"
-              >
-                See my churn risk →
-              </button>
-            </form>
-            <p className="text-white/30 text-xs">Free 14-day trial · No credit card · Read-only access to your data</p>
+      </div>
+      {/* App shell */}
+      <div className="flex" style={{ minHeight: 520 }}>
+        {/* Sidebar */}
+        <div className="w-44 border-r border-white/[0.05] p-3 flex-shrink-0 hidden lg:flex flex-col">
+          <div className="px-2 py-3 text-sm font-bold mb-5">
+            Sub<span className="text-emerald-400">Pilot</span>
           </div>
-        ) : (
-          <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-6 py-4 rounded-lg max-w-md mx-auto text-sm">
-            ✓ You're on the list — we'll reach out within 24 hours.
-          </div>
-        )}
-      </section>
-
-      {/* STATS */}
-      <section className="border-y border-white/10 py-10 bg-white/[0.02]">
-        <div className="max-w-4xl mx-auto px-8 grid grid-cols-3 gap-8 text-center">
           {[
-            { val: '34%', label: 'Average churn reduction in first 30 days' },
-            { val: '18 days', label: 'Average warning before a subscriber cancels' },
-            { val: '$2,400', label: 'Average monthly revenue recovered per user' },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="text-3xl font-bold text-emerald-400 mb-2">{s.val}</div>
-              <div className="text-sm text-white/50">{s.label}</div>
+            { icon: '▦', label: 'Overview',    active: true  },
+            { icon: '◧', label: 'Subscribers', active: false },
+            { icon: '✦', label: 'AI Tools',    active: false },
+            { icon: '◈', label: 'Billing',     active: false },
+          ].map(item => (
+            <div key={item.label}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs mb-0.5 ${
+                item.active ? 'bg-white/[0.07] text-white' : 'text-white/40'}`}>
+              <span className="text-[10px]">{item.icon}</span>
+              {item.label}
             </div>
           ))}
         </div>
-      </section>
 
-      {/* WHY THIS EXISTS */}
-      <section className="max-w-3xl mx-auto px-8 py-24 text-center">
-        <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-4">Why SubPilot exists</div>
-        <h2 className="text-3xl font-bold mb-6">
-          Most tools show you dashboards.<br />
-          <span className="text-white/50">They don't tell you who's about to leave.</span>
-        </h2>
-        <p className="text-white/50 leading-relaxed text-lg">
-          You open your analytics, see a churn rate, and think "that seems okay."
-          Then three high-value customers cancel the same week and your MRR drops
-          by $4,000. SubPilot tells you <span className="text-white">before it happens</span> —
-          with a clear action to take.
-        </p>
-      </section>
+        {/* Main content */}
+        <div className="flex-1 p-4 overflow-hidden min-w-0">
 
-      {/* MOCK DASHBOARD */}
-      <section id="examples" className="max-w-5xl mx-auto px-8 pb-24">
-        <div className="text-center mb-12">
-          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real insights. Real actions.</div>
-          <h2 className="text-3xl font-bold">This is what SubPilot shows you every morning</h2>
-          <p className="text-white/50 mt-3 text-sm">Not a dashboard to stare at. A briefing that tells you what to do.</p>
-        </div>
-
-        <div className="bg-[#111] border border-white/10 rounded-2xl overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold">Sub<span className="text-emerald-400">Pilot</span></span>
-              <span className="text-xs text-white/30">Dashboard</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-              <span className="text-xs text-white/40">Live · Updated 2 mins ago</span>
-            </div>
+          {/* KPI strip */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+            {[
+              { label: 'MRR',             value: '$4,820', sub: '+$340 this month', color: 'text-emerald-400', bg: 'bg-emerald-500/5 border-emerald-500/15' },
+              { label: 'Revenue at risk', value: '$1,260', sub: '4 subscribers',    color: 'text-red-400',     bg: 'bg-red-500/5 border-red-500/15' },
+              { label: 'Churn rate',      value: '3.2%',   sub: '-0.4% vs last mo', color: 'text-amber-400',   bg: 'bg-amber-500/5 border-amber-500/15' },
+              { label: 'Active',          value: '347',    sub: '12 new this month', color: 'text-blue-400',    bg: 'bg-blue-500/5 border-blue-500/15' },
+            ].map(k => (
+              <div key={k.label} className={`border rounded-xl p-3 ${k.bg}`}>
+                <div className="text-[10px] text-white/40 mb-1">{k.label}</div>
+                <div className={`text-lg font-bold ${k.color}`}>{k.value}</div>
+                <div className="text-[10px] text-white/40 mt-0.5">{k.sub}</div>
+              </div>
+            ))}
           </div>
 
-          <div className="p-6">
-            <div className="grid grid-cols-4 gap-4 mb-6">
+          {/* 70/30 main grid */}
+          <div className="grid lg:grid-cols-[1fr_260px] gap-3 mb-3">
+
+            {/* High risk panel */}
+            <div className="border border-white/[0.07] rounded-xl overflow-hidden">
+              <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
+                  <span className="text-xs font-semibold">High Risk Subscribers</span>
+                </div>
+                <span className="text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded-full">4 at risk</span>
+              </div>
               {[
-                { label: 'MRR', val: '$12,840', delta: '+8%', up: true },
-                { label: 'Active subscribers', val: '284', delta: '+12', up: true },
-                { label: 'Churn rate', val: '3.2%', delta: '-0.4%', up: true },
-                { label: 'Revenue at risk', val: '$2,400', delta: '8 subscribers', up: false },
-              ].map((m) => (
-                <div key={m.label} className="bg-white/[0.04] rounded-xl p-4 border border-white/5">
-                  <div className="text-xs text-white/40 mb-2">{m.label}</div>
-                  <div className="text-xl font-bold mb-1">{m.val}</div>
-                  <div className={`text-xs ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.delta}</div>
+                { name: 'James M.',  plan: 'Pro $49/mo',    score: 9, days: 34, risk: 'Critical', rc: 'text-red-400 bg-red-500/10 border-red-500/20' },
+                { name: 'Sarah K.',  plan: 'Growth $29/mo', score: 8, days: 21, risk: 'High',     rc: 'text-orange-400 bg-orange-500/10 border-orange-500/20' },
+                { name: 'David L.',  plan: 'Pro $49/mo',    score: 7, days: 18, risk: 'High',     rc: 'text-orange-400 bg-orange-500/10 border-orange-500/20' },
+                { name: 'Priya N.',  plan: 'Starter $9/mo', score: 6, days: 15, risk: 'Medium',   rc: 'text-amber-400 bg-amber-500/10 border-amber-500/20' },
+              ].map(r => (
+                <div key={r.name} className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02]">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${r.rc}`}>{r.name[0]}</div>
+                    <div className="min-w-0">
+                      <div className="text-xs font-medium truncate">{r.name}</div>
+                      <div className="text-[10px] text-white/40">{r.plan} · {r.days}d inactive</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${r.rc}`}>{r.score}/10</span>
+                    <button className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-lg font-medium">
+                      ✦ Send
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
 
-            <div className="mb-6">
-              <div className="text-xs text-white/40 uppercase tracking-widest mb-3">✦ Today's AI alerts</div>
-              <div className="space-y-3">
-                {[
-                  { level: 'high', title: '3 high-value customers likely to cancel this week', desc: '$2,400/mo at risk · Last login 21+ days ago · Plan: Pro', action: 'Send win-back email' },
-                  { level: 'medium', title: '6 failed payments need recovery', desc: '$588/mo at risk · Cards on file · Retry window closing', action: 'Retry payments now' },
-                  { level: 'opportunity', title: '11 users ready to upgrade from Starter', desc: 'Hit subscriber limit 3 months in a row · High engagement', action: 'Send upgrade offer' },
-                ].map((a) => (
-                  <div key={a.title} className={`flex items-center justify-between p-4 rounded-xl border ${
-                    a.level === 'high' ? 'bg-red-500/5 border-red-500/20' :
-                    a.level === 'medium' ? 'bg-amber-500/5 border-amber-500/20' :
-                    'bg-emerald-500/5 border-emerald-500/20'
-                  }`}>
-                    <div className="flex items-start gap-3">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
-                        a.level === 'high' ? 'bg-red-400' :
-                        a.level === 'medium' ? 'bg-amber-400' : 'bg-emerald-400'
-                      }`} />
-                      <div>
-                        <div className="text-sm font-medium mb-1">{a.title}</div>
-                        <div className="text-xs text-white/40">{a.desc}</div>
-                      </div>
-                    </div>
-                    <button className={`text-xs font-medium px-3 py-1.5 rounded-lg whitespace-nowrap ml-4 ${
-                      a.level === 'high' ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30' :
-                      a.level === 'medium' ? 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30' :
-                      'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
-                    } transition-colors`}>
-                      {a.action} →
-                    </button>
+            {/* AI insights panel */}
+            <div className="border border-white/[0.07] rounded-xl overflow-hidden hidden lg:block">
+              <div className="px-4 py-3 border-b border-white/[0.06] flex items-center gap-2">
+                <div className="w-4 h-4 bg-emerald-500/20 rounded flex items-center justify-center text-[9px]">✦</div>
+                <span className="text-xs font-semibold">AI Insights</span>
+              </div>
+              <div className="p-3 space-y-3">
+                <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-lg p-3">
+                  <div className="text-[9px] text-emerald-400 uppercase tracking-widest mb-1.5">Today's briefing</div>
+                  <p className="text-[10px] text-white/60 leading-relaxed">4 subscribers show elevated churn risk. Immediate action on James M. could protect $49/mo — he never completed onboarding.</p>
+                </div>
+                <div className="bg-white/[0.03] border border-white/[0.07] rounded-lg p-3 flex gap-2">
+                  <span className="text-[9px] mt-0.5 flex-shrink-0 text-amber-400">!</span>
+                  <div>
+                    <div className="text-[9px] text-amber-400 mb-0.5 font-medium">Top priority</div>
+                    <div className="text-[10px] text-white/55 leading-relaxed">Reach out to James M. today. 34 days inactive, never used core feature.</div>
                   </div>
-                ))}
+                </div>
+                <div className="space-y-1.5">
+                  <div className="text-[9px] text-white/35 uppercase tracking-widest">Revenue opportunities</div>
+                  {['Offer onboarding call to 2 users stuck at setup', 'Pro upgrade candidate: Sarah K. hitting plan limits'].map(o => (
+                    <div key={o} className="flex gap-1.5 items-start">
+                      <span className="text-emerald-400 text-[9px] mt-0.5">↑</span>
+                      <span className="text-[10px] text-white/50 leading-relaxed">{o}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
 
-            <div>
-              <div className="text-xs text-white/40 uppercase tracking-widest mb-3">At-risk subscribers</div>
-              <div className="space-y-2">
-                {[
-                  { name: 'Sarah K.', plan: 'Pro · $99/mo', risk: 9, days: '24 days ago' },
-                  { name: 'James T.', plan: 'Growth · $79/mo', risk: 7, days: '18 days ago' },
-                  { name: 'Mia L.', plan: 'Pro · $99/mo', risk: 6, days: '14 days ago' },
-                ].map((s) => (
-                  <div key={s.name} className="flex items-center justify-between bg-white/[0.02] rounded-lg px-4 py-3 border border-white/5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-medium">{s.name[0]}</div>
-                      <div>
-                        <div className="text-sm font-medium">{s.name}</div>
-                        <div className="text-xs text-white/30">{s.plan}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-xs text-white/30">Last seen {s.days}</div>
-                      <div className={`text-xs font-medium px-2 py-1 rounded-full ${
-                        s.risk >= 8 ? 'bg-red-500/20 text-red-400' :
-                        s.risk >= 6 ? 'bg-amber-500/20 text-amber-400' :
-                        'bg-emerald-500/20 text-emerald-400'
-                      }`}>Risk {s.risk}/10</div>
+          {/* MRR chart (simplified bar chart) */}
+          <div className="border border-white/[0.07] rounded-xl p-3">
+            <div className="text-[10px] text-white/40 mb-3 uppercase tracking-widest">MRR — last 6 months</div>
+            <div className="flex items-end gap-2 h-16">
+              {[
+                { month: 'Oct', h: 52 }, { month: 'Nov', h: 58 }, { month: 'Dec', h: 61 },
+                { month: 'Jan', h: 70 }, { month: 'Feb', h: 80 }, { month: 'Mar', h: 100 },
+              ].map(b => (
+                <div key={b.month} className="flex-1 flex flex-col items-center gap-1">
+                  <div
+                    className="w-full bg-emerald-500/20 rounded-t hover:bg-emerald-500/30 transition-colors"
+                    style={{ height: `${b.h}%` }}
+                  />
+                  <div className="text-[9px] text-white/30">{b.month}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* dashboard mockup used in hero */
+function DashboardMockup() {
+  return (
+    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.8)] bg-[#080808]">
+      {/* Browser chrome */}
+      <div className="bg-[#101010] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
+        </div>
+        <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/45 max-w-[180px] mx-auto text-center">
+          app.subpilot.io/dashboard
+        </div>
+      </div>
+      {/* App shell */}
+      <div className="flex" style={{ minHeight: 380 }}>
+        {/* Sidebar */}
+        <div className="w-40 border-r border-white/[0.05] p-3 flex-shrink-0 hidden sm:flex flex-col">
+          <div className="px-2 py-3 text-sm font-bold mb-4">
+            Sub<span className="text-emerald-400">Pilot</span>
+          </div>
+          {[
+            { icon: '▦', label: 'Overview',    active: true  },
+            { icon: '◧', label: 'Subscribers', active: false },
+            { icon: '✦', label: 'Tools',       active: false },
+            { icon: '◈', label: 'Billing',     active: false },
+          ].map(item => (
+            <div
+              key={item.label}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs mb-0.5 ${
+                item.active ? 'bg-white/[0.07] text-white' : 'text-white/50'
+              }`}
+            >
+              <span className="text-[10px]">{item.icon}</span>
+              {item.label}
+            </div>
+          ))}
+        </div>
+        {/* Main content */}
+        <div className="flex-1 p-4 overflow-hidden">
+          {/* Metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+            {[
+              { label: 'MRR',         value: '$4,820', delta: '+12%', up: true  },
+              { label: 'Subscribers', value: '347',    delta: '+8',   up: true  },
+              { label: 'At risk',     value: '23',     delta: '+5',   up: false },
+              { label: 'Churn rate',  value: '3.2%',   delta: '-0.4', up: true  },
+            ].map(m => (
+              <div key={m.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
+                <div className="text-[9px] text-[#e8eaed] mb-1 uppercase tracking-widest">{m.label}</div>
+                <div className="text-sm font-bold mb-0.5">{m.value}</div>
+                <div className={`text-[9px] font-semibold ${m.up ? 'text-emerald-400' : 'text-red-400'}`}>{m.delta}</div>
+              </div>
+            ))}
+          </div>
+          {/* Action centre + chart */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
+              <div className="px-3 py-2 border-b border-white/[0.05] flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                <span className="text-[10px] font-semibold">Action centre</span>
+                <span className="ml-auto text-[9px] bg-red-500/10 text-red-400 px-1.5 py-0.5 rounded-full">23 at risk</span>
+              </div>
+              {[
+                { name: 'James M.',  score: 9, days: 34, badge: 'bg-red-500/20 text-red-400'    },
+                { name: 'Sarah K.',  score: 8, days: 21, badge: 'bg-orange-500/20 text-orange-400' },
+                { name: 'David L.',  score: 6, days: 18, badge: 'bg-amber-500/20 text-amber-400'  },
+              ].map(r => (
+                <div key={r.name} className="flex items-center justify-between px-3 py-2 border-b border-white/[0.03] last:border-0">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-5 h-5 rounded-full bg-white/[0.06] flex items-center justify-center text-[8px] font-bold text-white/50">{r.name[0]}</div>
+                    <div>
+                      <div className="text-[10px] font-medium">{r.name}</div>
+                      <div className="text-[8px] text-white/50">{r.days}d inactive</div>
                     </div>
                   </div>
+                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${r.badge}`}>{r.score}/10</span>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+              <div className="text-[10px] font-semibold mb-2">MRR growth ↑ 12%</div>
+              <div className="flex items-end gap-0.5 h-16">
+                {[38,44,51,48,60,57,72].map((h, i) => (
+                  <div key={i} className="flex-1 rounded-sm transition-all" style={{
+                    height: `${h}%`,
+                    background: i === 6 ? '#10b981' : 'rgba(16,185,129,0.18)',
+                  }} />
+                ))}
+              </div>
+              <div className="flex justify-between mt-1.5">
+                {['Oct','Nov','Dec','Jan','Feb','Mar','Apr'].map(m => (
+                  <span key={m} className="text-[7px] text-white/45 flex-1 text-center">{m}</span>
                 ))}
               </div>
             </div>
           </div>
         </div>
-        <p className="text-center text-white/30 text-xs mt-4">Preview — your real data will look like this after connecting Stripe</p>
+      </div>
+    </div>
+  )
+}
+
+/* ═══════════════════════════ PAGE ═══════════════════════════════════════ */
+
+export default function Home() {
+  const [email, setEmail]   = useState('')
+  const [submitted, submit] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+    submit(true)
+  }
+
+  const faqs = [
+    {
+      q: 'How does SubPilot connect to my data?',
+      a: 'SubPilot connects directly to Stripe via read-only API access, or you can import users via CSV. We never write to your Stripe account, charge your users, or store raw payment data beyond what is needed to compute risk scores.',
+    },
+    {
+      q: 'How does the churn risk score work?',
+      a: "Our AI analyses each user's activity patterns, product engagement, payment reliability, and account age daily. Every user receives a score from 1 (healthy) to 10 (immediate risk). The model improves over time as it learns the behavioural patterns unique to your product.",
+    },
+    {
+      q: 'What is the morning briefing email?',
+      a: 'Every morning at 7 AM you receive a plain-text email with the top 3 users to reach out to that day, each with an AI-written suggested message tailored to their specific risk factors. No dashboard required.',
+    },
+    {
+      q: 'Can I try it before paying?',
+      a: 'Yes — every plan starts with a free 14-day trial, no credit card required. You will see real data from your users within minutes of connecting Stripe or uploading a CSV.',
+    },
+    {
+      q: 'What is the AI win-back email feature?',
+      a: 'On the Pro and Scale plans, clicking any at-risk user opens an AI-drafted win-back email personalised with their history, plan, and inactivity period. You can edit the subject and body, choose a tone (warm, professional, casual, urgent), and send directly from SubPilot or copy it to your own email client.',
+    },
+    {
+      q: 'Is my data safe?',
+      a: 'SubPilot uses read-only API access and never stores raw user financial data beyond what is needed to compute risk scores. All connections are encrypted in transit and at rest. We do not sell or share your data with third parties.',
+    },
+    {
+      q: 'Can I cancel anytime?',
+      a: 'Yes — no contracts, no lock-in. Cancel from your billing page at any time. If you cancel mid-month you retain access until the end of the billing period.',
+    },
+  ]
+
+  return (
+    <main className="min-h-screen bg-[#0a0a0a] text-white antialiased">
+
+      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
+      <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 flex items-center justify-between h-14">
+          {/* Logo */}
+          <a href="/" className="text-base font-bold tracking-tight hover:opacity-80 transition-opacity">
+            Sub<span className="text-emerald-400">Pilot</span>
+          </a>
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-7 text-sm text-white/45">
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#how"      className="hover:text-white transition-colors">How it works</a>
+            <a href="#pricing"  className="hover:text-white transition-colors">Pricing</a>
+            <a href="#faq"      className="hover:text-white transition-colors">FAQ</a>
+          </div>
+
+          {/* Desktop CTAs */}
+          <div className="hidden md:flex items-center gap-3">
+            <a href="/auth/login"
+              className="text-sm text-white/45 hover:text-white transition-colors px-3 py-1.5">
+              Log in
+            </a>
+            <a href="/auth/signup"
+              className="bg-white hover:bg-white/90 text-black text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-lg shadow-black/20">
+              Get started free →
+            </a>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden text-white/50 hover:text-white transition-colors p-1"
+            onClick={() => setMobileOpen(o => !o)}
+            aria-label="Menu"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              {mobileOpen
+                ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                : <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 16h16" />}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="md:hidden border-t border-white/[0.06] bg-[#0a0a0a] px-4 py-4 space-y-3">
+            {['Features','How it works','Pricing','FAQ'].map(l => (
+              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '')}`}
+                className="block text-sm text-white/50 hover:text-white transition-colors py-1"
+                onClick={() => setMobileOpen(false)}>
+                {l}
+              </a>
+            ))}
+            <div className="pt-2 flex flex-col gap-2 border-t border-white/[0.06]">
+              <a href="/auth/login" className="text-sm text-center text-white/50 hover:text-white transition-colors py-2">Log in</a>
+              <a href="/auth/signup" className="bg-white text-black text-sm font-semibold text-center py-2.5 rounded-lg">Get started free →</a>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* ── HERO ────────────────────────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 pt-12 pb-10 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+          {/* Left: copy */}
+          <div>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-6">
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse flex-shrink-0" />
+              <span>For SaaS founders losing MRR to silent churn</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold leading-[1.1] tracking-tight mb-5">
+              Catch churn before it{' '}
+              <span className="text-emerald-400">shows up in your MRR</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-white/50 leading-relaxed mb-7 max-w-lg">
+              SubPilot monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col gap-3 mb-5">
+              {!submitted ? (
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 w-full max-w-sm">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    className="flex-1 min-w-0 bg-white/[0.05] border border-white/[0.10] rounded-lg px-4 py-3 text-sm placeholder:text-white/50 focus:outline-none focus:border-white/30 transition-colors"
+                  />
+                  <button type="submit"
+                    className="bg-white hover:bg-white/90 text-black font-semibold px-5 py-3 rounded-lg text-sm transition-all shadow-lg shadow-black/20 whitespace-nowrap">
+                    Get started free
+                  </button>
+                </form>
+              ) : (
+                <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-5 py-3 rounded-lg text-sm font-medium max-w-sm">
+                  ✓ You're in — we'll be in touch within 24 hours.
+                </div>
+              )}
+              <a href="/dashboard"
+                className="inline-flex items-center justify-center gap-2 text-sm text-white/50 hover:text-white border border-white/[0.10] hover:border-white/20 px-5 py-3 rounded-lg transition-all w-full sm:w-auto max-w-sm">
+                View demo →
+              </a>
+            </div>
+
+            <p className="text-xs text-white/50">No credit card required · Free 14-day trial</p>
+
+            {/* Trust logos */}
+            <div className="mt-8 flex items-center gap-3 flex-wrap">
+              <span className="text-[10px] text-white/50 uppercase tracking-widest">Works with</span>
+              {['Stripe', 'CSV import'].map(p => (
+                <span key={p}
+                  className="text-xs text-[#e8eaed] border border-white/[0.08] rounded-md px-2.5 py-1 bg-white/[0.03]">
+                  {p}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: dashboard — hidden on small, shown md+ */}
+          <div className="relative hidden md:block">
+            <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-3xl pointer-events-none" />
+            <DashboardMockup />
+            <p className="text-center text-[11px] text-white/45 mt-3">
+              Your revenue recovery control centre — every at-risk user, one click away
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section id="how" className="bg-white/[0.02] border-y border-white/10 py-24">
-        <div className="max-w-4xl mx-auto px-8">
-          <div className="text-center mb-16">
-            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">How it works</div>
-            <h2 className="text-3xl font-bold">Up and running in 60 seconds</h2>
-            <p className="text-white/50 mt-3 text-sm">No CSV uploads. No manual entry. No engineers needed.</p>
+      {/* ── SOCIAL PROOF NUMBERS ──────────────────────────────────────────── */}
+      <section className="border-y border-white/[0.06] bg-white/[0.015] py-8 md:py-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center">
+          {[
+            { val: '23%',     label: 'Average MRR lost annually to silent churn' },
+            { val: '18 days', label: 'Average warning window before a user cancels' },
+            { val: '34%',     label: 'Churn reduction in the first 30 days' },
+          ].map((s, i) => (
+            <div key={s.label} className={i > 0 ? 'sm:border-l sm:border-white/[0.06] sm:pl-4 md:pl-0' : ''}>
+              <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1.5">{s.val}</div>
+              <div className="text-xs text-[#e8eaed] leading-relaxed max-w-[180px] mx-auto sm:max-w-none">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── DASHBOARD PREVIEW ────────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The product</div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Your revenue recovery control centre</h2>
+          <p className="text-white/50 text-base md:text-lg max-w-xl mx-auto">
+            Every at-risk user, their churn score, and a personalised AI message — all in one place.
+          </p>
+        </div>
+        <div className="relative">
+          <div className="absolute -inset-6 bg-emerald-500/[0.03] rounded-3xl blur-3xl pointer-events-none" />
+          <DashboardPreview />
+        </div>
+        {/* Feature callouts below the preview */}
+        <div className="grid sm:grid-cols-3 gap-5 mt-8">
+          {[
+            { icon: '⚡', label: 'Live churn scores', desc: 'Every subscriber scored 1–10 each morning based on real behavioural signals.' },
+            { icon: '✦', label: 'One-click AI emails', desc: 'Hit "Send" and Claude writes a personalised win-back email for that exact user.' },
+            { icon: '📈', label: 'MRR trend tracker', desc: 'Watch your MRR recover month by month as you act on the at-risk list.' },
+          ].map(c => (
+            <div key={c.label} className="flex gap-3 items-start">
+              <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-base flex-shrink-0">{c.icon}</div>
+              <div>
+                <div className="text-sm font-semibold mb-1">{c.label}</div>
+                <p className="text-sm text-white/45 leading-relaxed">{c.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── PROBLEM ───────────────────────────────────────────────────────── */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 text-center">
+        <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">The problem</div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-5 leading-tight">
+          Churn is silent — until it's too late to do anything
+        </h2>
+        <p className="text-white/45 text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
+          Most SaaS analytics tools show you aggregate metrics. They don't tell you which specific users are drifting away, why they stopped engaging, or what you could do right now to keep them.
+        </p>
+        <div className="grid sm:grid-cols-3 gap-4 text-left">
+          {[
+            {
+              icon: '👻',
+              title: 'Silent cancellations',
+              desc: 'Users disengage weeks before they cancel. You only find out when the payment stops — by then it\'s too late.',
+            },
+            {
+              icon: '📉',
+              title: 'No early warning',
+              desc: 'Your analytics show historical data — not predictive signals. By the time churn shows in your MRR, it\'s already gone.',
+            },
+            {
+              icon: '✉️',
+              title: 'Generic outreach',
+              desc: 'Sending the same email blast to everyone doesn\'t work. Each at-risk user needs a different message at the right moment.',
+            },
+          ].map(p => (
+            <div key={p.title}
+              className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-5 hover:border-white/[0.12] transition-colors">
+              <div className="text-2xl mb-3">{p.icon}</div>
+              <div className="text-sm font-semibold mb-2">{p.title}</div>
+              <p className="text-sm text-white/40 leading-relaxed">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── SOLUTION ──────────────────────────────────────────────────────── */}
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-14">
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
+            <p className="text-white/40 text-base max-w-md mx-auto">
+              Three stages, one system. SubPilot works in the background so you can focus on building.
+            </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-3 gap-5">
             {[
-              { n: '01', title: 'Connect Stripe', desc: 'One-click OAuth. SubPilot gets read-only access to your subscriber data. We never touch your money or your customers.' },
-              { n: '02', title: "AI identifies who's at risk", desc: 'SubPilot scores every subscriber for churn risk daily — flagging login drops, payment failures, and engagement dips before they cancel.' },
-              { n: '03', title: 'You act, we track results', desc: 'Get a clear action list every morning. Send a win-back email, retry a payment, offer an upgrade. SubPilot tracks what works.' },
-            ].map((s) => (
-              <div key={s.n} className="flex gap-5">
-                <div className="text-4xl font-bold text-emerald-500/20 leading-none pt-1 flex-shrink-0">{s.n}</div>
-                <div>
-                  <div className="font-semibold text-sm mb-2">{s.title}</div>
-                  <p className="text-white/50 text-sm leading-relaxed">{s.desc}</p>
+              {
+                step: '01',
+                icon: '🔍',
+                title: 'Detect',
+                color: 'border-blue-500/20 bg-blue-500/[0.03]',
+                accent: 'text-blue-400',
+                desc: 'SubPilot monitors every user daily — login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
+                points: ['Automatic Stripe sync every 24 hours', 'Behavioural signals tracked per user', 'Flags users who never hit activation'],
+              },
+              {
+                step: '02',
+                icon: '🧠',
+                title: 'Predict',
+                color: 'border-orange-500/20 bg-orange-500/[0.03]',
+                accent: 'text-orange-400',
+                desc: 'Our AI scores every user 1–10 for churn risk each morning, with plain-English reasons tied to their specific product behaviour.',
+                points: ['Scores update every morning', 'Reason breakdown per user', 'Grouped by High / Medium / Low'],
+              },
+              {
+                step: '03',
+                icon: '✉️',
+                title: 'Recover',
+                color: 'border-emerald-500/20 bg-emerald-500/[0.03]',
+                accent: 'text-emerald-400',
+                desc: 'Get the right message for the right user — personalised win-back emails drafted by AI, ready to send in one click.',
+                points: ['AI win-back emails per user', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from SubPilot'],
+              },
+            ].map(s => (
+              <div key={s.step}
+                className={`border rounded-2xl p-6 ${s.color} hover:brightness-110 transition-all`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-2xl">{s.icon}</span>
+                  <div>
+                    <div className={`text-[10px] font-bold uppercase tracking-widest ${s.accent}`}>{s.step}</div>
+                    <div className="text-base font-bold">{s.title}</div>
+                  </div>
+                </div>
+                <p className="text-base text-white/45 leading-relaxed mb-4">{s.desc}</p>
+                <ul className="space-y-1.5">
+                  {s.points.map(pt => (
+                    <li key={pt} className="flex items-start gap-2 text-sm text-white/50">
+                      <Check />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRODUCT (alternating) ─────────────────────────────────────────── */}
+      <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 space-y-16 md:space-y-24 lg:space-y-32">
+        <div className="text-center">
+          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Inside SubPilot</div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Every feature you actually need</h2>
+        </div>
+
+        {/* Feature 1 — Churn scores */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Churn risk scoring</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">
+              Every user scored 1–10, every morning
+            </h3>
+            <p className="text-white/45 text-base leading-relaxed mb-6">
+              Our AI checks login activity, feature adoption, onboarding completion, and payment history. Each user gets a risk score so you know exactly who to reach out to — before they decide to cancel.
+            </p>
+            <ul className="space-y-3">
+              {[
+                { badge: '9–10', color: 'bg-red-500/20 text-red-400 border-red-500/20',       label: 'Immediate risk — reach out today' },
+                { badge: '7–8',  color: 'bg-orange-500/20 text-orange-400 border-orange-500/20', label: 'High risk — worth a personal message' },
+                { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate — monitor closely' },
+                { badge: '1–3',  color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20', label: 'Healthy — no action needed' },
+              ].map(t => (
+                <li key={t.badge} className="flex items-center gap-3 text-base text-[#e8eaed]">
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full border flex-shrink-0 ${t.color}`}>{t.badge}</span>
+                  {t.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Mockup */}
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50">
+            <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
+                <span className="text-xs font-semibold">At-risk subscribers</span>
+              </div>
+              <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full border border-red-500/20">8 at risk</span>
+            </div>
+            {[
+              { name: 'James M.',  score: 9, days: 34, badge: 'bg-red-500/15 text-red-400',    av: 'bg-red-500/10 text-red-400'    },
+              { name: 'Sarah K.',  score: 8, days: 21, badge: 'bg-orange-500/15 text-orange-400', av: 'bg-orange-500/10 text-orange-400' },
+              { name: 'David L.',  score: 7, days: 18, badge: 'bg-orange-500/15 text-orange-400', av: 'bg-orange-500/10 text-orange-400' },
+              { name: 'Priya N.',  score: 6, days: 15, badge: 'bg-amber-500/15 text-amber-400',  av: 'bg-amber-500/10 text-amber-400'  },
+              { name: 'Tom B.',    score: 5, days: 12, badge: 'bg-amber-500/15 text-amber-400',  av: 'bg-amber-500/10 text-amber-400'  },
+            ].map(r => (
+              <div key={r.name}
+                className="flex items-center justify-between px-4 py-3 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors">
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${r.av}`}>{r.name[0]}</div>
+                  <div>
+                    <div className="text-xs font-medium">{r.name}</div>
+                    <div className="text-[10px] text-white/50">{r.days}d inactive</div>
+                  </div>
+                </div>
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${r.badge}`}>{r.score}/10</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature 2 — Morning briefing (reversed) */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Mockup left */}
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
+            <div className="bg-[#101010] px-4 py-3 border-b border-white/[0.06] flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-400">S</div>
+              <div>
+                <div className="text-xs font-semibold">SubPilot Daily Briefing</div>
+                <div className="text-[10px] text-[#e8eaed]">hello@subpilot.io → you@email.com</div>
+              </div>
+              <div className="ml-auto text-[10px] text-white/50">7:02 AM</div>
+            </div>
+            <div className="p-4 space-y-3">
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Good morning — here's your briefing</div>
+              <div className="bg-red-500/5 border border-red-500/15 rounded-xl p-3">
+                <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 users need attention today</div>
+                {[
+                  { name: 'James M.',  note: '34 days inactive, $49/mo — score 9/10. Never completed onboarding.' },
+                  { name: 'Sarah K.',  note: 'Hasn\'t used core feature in 3 weeks, $29/mo — score 8/10. Offer a check-in call.' },
+                  { name: 'David L.',  note: 'Payment failed once, 18d inactive — score 7/10. Re-engage with a product update.' },
+                ].map(a => (
+                  <div key={a.name} className="mt-2.5 first:mt-0">
+                    <div className="text-[11px] font-semibold text-white/75">{a.name}</div>
+                    <div className="text-[10px] text-[#e8eaed] leading-relaxed">{a.note}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3 grid grid-cols-3 gap-2 text-center">
+                {[['$4,820','MRR'],['347','Active'],['3.2%','Churn']].map(([v,l]) => (
+                  <div key={l}>
+                    <div className="text-xs font-bold">{v}</div>
+                    <div className="text-[9px] text-[#e8eaed]">{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          {/* Text right */}
+          <div className="order-1 md:order-2">
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Morning briefing</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
+            <p className="text-white/45 text-base leading-relaxed mb-6">
+              No more digging through dashboards. Every morning you get an email with the 3 users to reach out to today — each with a suggested action written by AI based on their specific product behaviour and risk signals.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Prioritised by churn risk score, not just inactivity',
+                'AI-suggested message tailored to each user',
+                'Yesterday\'s MRR snapshot included',
+                'Trigger anytime from your dashboard too',
+              ].map(f => (
+                <li key={f} className="flex items-start gap-2 text-base text-[#e8eaed]">
+                  <Check /> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Feature 3 — Subscriber profiles */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div>
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">User profiles</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Full product history on every user, one click away</h3>
+            <p className="text-white/45 text-base leading-relaxed mb-6">
+              Click any user to see their complete profile — churn score, payment history, product activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Activity timeline with exact dates and feature usage',
+                'Churn score breakdown — see exactly why they\'re at risk',
+                'Onboarding completion status and activation milestone tracking',
+                'One-click AI win-back email, editable before sending',
+              ].map(f => (
+                <li key={f} className="flex items-start gap-2 text-base text-[#e8eaed]">
+                  <Check /> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Mockup */}
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50">
+            <div className="px-4 py-4 border-b border-white/[0.06] flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-sm font-bold text-red-400 flex-shrink-0">J</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                  <span className="text-sm font-semibold">James Morrison</span>
+                  <span className="text-[10px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full">Churn risk: 9/10</span>
+                </div>
+                <div className="text-[11px] text-[#e8eaed]">james@example.com · $49/mo · Active since Jan 2024</div>
+              </div>
+            </div>
+            <div className="px-4 py-3 border-b border-white/[0.06]">
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-2.5">Risk factors</div>
+              <div className="space-y-2.5">
+                {[
+                  { label: 'Activity',      score: 9, note: '34 days since last interaction' },
+                  { label: 'Engagement',    score: 8, note: 'Never used core feature' },
+                  { label: 'Payment',       score: 3, note: 'All payments successful' },
+                ].map(f => (
+                  <div key={f.label} className="flex items-center gap-3">
+                    <div className="text-[10px] text-white/40 w-20 flex-shrink-0">{f.label}</div>
+                    <div className="flex-1 bg-white/[0.05] rounded-full h-1.5 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${f.score >= 7 ? 'bg-red-400' : f.score >= 4 ? 'bg-amber-400' : 'bg-emerald-400'}`}
+                        style={{ width: `${f.score * 10}%` }}
+                      />
+                    </div>
+                    <div className="text-[9px] text-white/50 w-28 flex-shrink-0 text-right">{f.note}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="px-4 py-3 flex items-center justify-between gap-3">
+              <div className="text-[10px] text-[#e8eaed]">Joined Jan · never completed onboarding · 34d inactive</div>
+              <button className="text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg whitespace-nowrap">
+                ✨ Win-back email
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 4 — Tax pot (reversed) */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Mockup left */}
+          <div className="rounded-2xl border border-white/[0.10] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
+            <div className="px-5 py-4 flex items-center gap-3 border-b border-white/[0.06]">
+              <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-xl flex-shrink-0">💰</div>
+              <div className="flex-1">
+                <div className="text-sm font-semibold">Set aside <span className="text-[#e8eaed]">$1,446</span> for taxes</div>
+                <div className="text-[11px] text-[#e8eaed] mt-0.5">30% of $4,820 MRR · tap to see breakdown</div>
+              </div>
+              <span className="text-white/50 text-xs">▼</span>
+            </div>
+            <div className="px-5 py-4 bg-white/[0.02] space-y-3">
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Breakdown</div>
+              {[
+                { label: 'Total MRR',            value: '$4,820', note: 'All active subscriber revenue', bold: false },
+                { label: '× 30% tax rate',        value: '',       note: 'Standard self-employed set-aside', bold: false },
+                { label: 'Recommended set-aside', value: '$1,446', note: 'Transfer to a separate account', bold: true  },
+              ].map(row => (
+                <div key={row.label} className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className={`text-xs ${row.bold ? 'font-semibold text-[#e8eaed]' : 'text-white/45'}`}>{row.label}</div>
+                    <div className="text-[10px] text-white/50">{row.note}</div>
+                  </div>
+                  {row.value && <div className={`text-sm font-bold flex-shrink-0 ${row.bold ? 'text-white/65' : 'text-white/45'}`}>{row.value}</div>}
+                </div>
+              ))}
+              <div className="text-[10px] text-white/45 pt-2 border-t border-white/[0.04]">
+                Guide only — consult a tax professional.
+              </div>
+            </div>
+          </div>
+          {/* Text right */}
+          <div className="order-1 md:order-2">
+            <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
+            <p className="text-white/45 text-base leading-relaxed mb-6">
+              SaaS revenue fluctuates. SubPilot calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
+            </p>
+            <ul className="space-y-3">
+              {[
+                'Updates automatically every time your MRR changes',
+                'Clear breakdown of the calculation',
+                'One less thing to stress about at tax time',
+              ].map(f => (
+                <li key={f} className="flex items-start gap-2 text-base text-[#e8eaed]">
+                  <Check /> {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── RESULTS ───────────────────────────────────────────────────────── */}
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">What SaaS founders recover with SubPilot</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+            {[
+              {
+                stat: '$2,400',
+                label: 'Average MRR silently at risk per month',
+                desc: 'Across SaaS teams with 300+ users, that\'s how much is quietly at risk each month from disengaged accounts.',
+                icon: '⚠️',
+                color: 'border-red-500/20 bg-red-500/[0.025]',
+                statColor: 'text-red-400',
+              },
+              {
+                stat: '34%',
+                label: 'Churn reduction in 30 days',
+                desc: 'SaaS teams using SubPilot\'s daily briefing see measurable churn reduction within the first month of use.',
+                icon: '📉',
+                color: 'border-emerald-500/20 bg-emerald-500/[0.025]',
+                statColor: 'text-emerald-400',
+              },
+              {
+                stat: '2.4×',
+                label: 'Average ROI vs. subscription cost',
+                desc: 'Retaining just 2 users per month pays for the entire SubPilot plan. Most teams save far more.',
+                icon: '💸',
+                color: 'border-blue-500/20 bg-blue-500/[0.025]',
+                statColor: 'text-blue-400',
+              },
+            ].map(r => (
+              <div key={r.label}
+                className={`border rounded-2xl p-6 ${r.color} hover:brightness-110 transition-all`}>
+                <div className="text-2xl mb-3">{r.icon}</div>
+                <div className={`text-4xl font-bold mb-1 ${r.statColor}`}>{r.stat}</div>
+                <div className="text-sm font-semibold mb-3 text-white/80">{r.label}</div>
+                <p className="text-sm text-white/40 leading-relaxed">{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AUDIENCE ──────────────────────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+        <div className="text-center mb-10 md:mb-12">
+          <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">Who it's for</div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Built for SaaS teams</h2>
+          <p className="text-white/40 text-base max-w-md mx-auto">
+            Whether you have 50 users or 5,000, silent churn is quietly compounding against your MRR every month.
+          </p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { icon: '🚀', title: 'Early-stage founders', desc: 'Pre-Series A teams who need to protect every paying user and can\'t afford a dedicated CS team.' },
+            { icon: '📦', title: 'B2B SaaS', desc: 'Monthly subscription products where one churned account can represent thousands in lost ARR.' },
+            { icon: '🛠️', title: 'Product-led growth', desc: 'Teams where users self-serve but need a signal when someone is drifting before they cancel.' },
+            { icon: '💳', title: 'Stripe-billed products', desc: 'Any team billing through Stripe who wants to act on churn signals before they hit the numbers.' },
+          ].map(a => (
+            <div key={a.title}
+              className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-5 hover:border-white/[0.12] hover:bg-white/[0.035] transition-all">
+              <div className="text-2xl mb-3">{a.icon}</div>
+              <div className="text-sm font-semibold mb-2">{a.title}</div>
+              <p className="text-sm text-white/40 leading-relaxed">{a.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
+      <section id="how" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-14">
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">How it works</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Up and running in 4 minutes</h2>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-8 sm:gap-6 md:gap-8">
+            {[
+              { n: '01', title: 'Connect Stripe or import CSV', desc: 'Link Stripe for automatic sync or upload a CSV. Read-only access — we never write to your account or charge your users.' },
+              { n: '02', title: 'AI scores every user',        desc: 'Every user gets a daily churn risk score 1–10, with a plain-English reason based on their product behaviour.' },
+              { n: '03', title: 'Act before they cancel',      desc: 'Get a morning email with the top 3 users to contact — and an AI-drafted message personalised to each one.' },
+            ].map((s, i) => (
+              <div key={s.n} className="relative">
+                {i < 2 && (
+                  <div className="hidden md:block absolute top-5 left-full w-8 border-t border-dashed border-white/[0.10] -translate-x-4" />
+                )}
+                <div className="flex gap-4">
+                  <div className="text-4xl font-bold text-white/[0.08] leading-none pt-1 flex-shrink-0 tabular-nums">{s.n}</div>
+                  <div>
+                    <div className="font-semibold text-base mb-2">{s.title}</div>
+                    <p className="text-white/40 text-base leading-relaxed">{s.desc}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -239,120 +966,191 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHO IT'S FOR */}
-      <section className="max-w-5xl mx-auto px-8 py-24">
-        <div className="text-center mb-12">
-          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Who it's for</div>
-          <h2 className="text-3xl font-bold">Built for subscription businesses that can't afford to lose customers</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { icon: '🎓', type: 'Course creators', pain: 'Students drop off after month 2 and you have no idea why.', fix: 'SubPilot tells you which students are disengaging and what to send them.' },
-            { icon: '⚙️', type: 'SaaS founders', pain: "Churn is killing your growth but your analytics don't tell you who or why.", fix: 'SubPilot scores every user for churn risk and gives you a daily action list.' },
-            { icon: '📊', type: 'Agencies', pain: 'Clients cancel retainers without warning, destroying your revenue forecast.', fix: 'SubPilot flags at-risk clients 3 weeks early so you can save the relationship.' },
-          ].map((w) => (
-            <div key={w.type} className="bg-white/[0.03] border border-white/10 rounded-xl p-6 hover:border-emerald-500/30 transition-colors">
-              <div className="text-3xl mb-4">{w.icon}</div>
-              <div className="font-semibold text-sm mb-3 text-emerald-400">{w.type}</div>
-              <div className="text-xs text-white/40 mb-3 leading-relaxed"><span className="text-white/60">The problem:</span> {w.pain}</div>
-              <div className="text-xs text-white/70 leading-relaxed"><span className="text-emerald-400">SubPilot:</span> {w.fix}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TRUST */}
-      <section className="border-y border-white/10 bg-white/[0.02] py-16">
-        <div className="max-w-4xl mx-auto px-8">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+      {/* ── REVIEWS ──────────────────────────────────────────────────────── */}
+      <section className="py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What founders say</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Real results from real founders</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+            {/* ⚠️ PLACEHOLDER TESTIMONIALS — review before launch */}
             {[
-              { icon: '🔒', title: 'Read-only access', desc: 'We connect to Stripe in read-only mode. We can never move money, create charges, or modify your account.' },
-              { icon: '🏦', title: 'Bank-level security', desc: 'All data encrypted in transit and at rest. OAuth authentication — we never see your Stripe login.' },
-              { icon: '🚫', title: 'We never sell your data', desc: 'Your subscriber data is yours. We use it only to generate your insights. Full stop.' },
-            ].map((t) => (
-              <div key={t.title}>
-                <div className="text-2xl mb-3">{t.icon}</div>
-                <div className="text-sm font-semibold mb-2">{t.title}</div>
-                <div className="text-xs text-white/40 leading-relaxed">{t.desc}</div>
+              {
+                quote: "I had 11 users about to cancel and had no idea. Reached out to 3 of them and kept all 3. That's $440/mo I would have just lost.",
+                name: 'Alex Rivera',  role: 'SaaS founder · 1,200 users', av: 'A',
+              },
+              {
+                quote: "The daily briefing is the first thing I read every morning. It tells me exactly who to call — not just data, but actions. Saved 18% of at-risk users last month.",
+                name: 'Sarah Kim',    role: 'B2B SaaS · $12k MRR', av: 'S',
+              },
+              {
+                quote: "Set up in 4 minutes with Stripe. Three users were already at 9/10 risk. Kept two of them. Paid for a year of SubPilot in one week.",
+                name: 'Marcus Webb',  role: 'PLG startup · 840 paying users', av: 'M',
+              },
+            ].map(r => (
+              <div key={r.name}
+                className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-6 flex flex-col gap-5 hover:border-white/[0.12] transition-colors">
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(i => <span key={i} className="text-emerald-400 text-sm">★</span>)}
+                </div>
+                <p className="text-sm text-[#e8eaed] leading-relaxed flex-1">"{r.quote}"</p>
+                <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
+                  <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold flex-shrink-0">{r.av}</div>
+                  <div>
+                    <div className="text-xs font-semibold">{r.name}</div>
+                    <div className="text-[10px] text-[#e8eaed]">{r.role}</div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" className="max-w-5xl mx-auto px-8 py-24">
-        <div className="text-center mb-16">
-          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
-          <h2 className="text-3xl font-bold">Simple, flat pricing. No transaction fees.</h2>
-          <p className="text-white/50 mt-3 text-sm">If SubPilot saves you 2 subscribers, it pays for itself. Every month.</p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { name: 'Starter', price: '$29', per: '/mo', desc: 'For early-stage subscription businesses.', limit: 'Up to 100 subscribers', features: ['Stripe connect', 'Daily churn risk scores', 'Morning email briefing', 'At-risk subscriber list'], featured: false },
-            { name: 'Growth', price: '$79', per: '/mo', desc: 'For growing businesses that need to act fast.', limit: 'Up to 500 subscribers', features: ['Everything in Starter', 'AI action recommendations', 'Win-back email drafts', 'Failed payment recovery', 'Revenue opportunity alerts'], featured: true },
-            { name: 'Pro', price: '$149', per: '/mo', desc: 'Full automation for serious operators.', limit: 'Unlimited subscribers', features: ['Everything in Growth', 'Automated email sending', 'Slack + webhook alerts', 'Team access', 'Priority support'], featured: false },
-          ].map((p) => (
-            <div key={p.name} className={`rounded-xl p-6 border relative ${p.featured ? 'bg-emerald-500/10 border-emerald-500' : 'bg-white/[0.03] border-white/10'}`}>
-              {p.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-500 text-black text-xs font-semibold px-3 py-1 rounded-full whitespace-nowrap">Most popular</div>
-              )}
-              <div className="text-xs text-white/50 uppercase tracking-widest mb-2">{p.name}</div>
-              <div className="text-4xl font-bold mb-1">{p.price}<span className="text-sm text-white/40 font-normal">{p.per}</span></div>
-              <div className="text-xs text-white/40 mb-1">{p.desc}</div>
-              <div className="text-xs text-emerald-400 mb-5">{p.limit}</div>
-              <ul className="space-y-2 mb-6">
-                {p.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-xs text-white/70">
-                    <span className="text-emerald-400 flex-shrink-0">✓</span> {f}
-                  </li>
-                ))}
-              </ul>
-              <button className={`w-full py-2.5 rounded-lg text-sm font-medium transition-colors ${p.featured ? 'bg-emerald-500 hover:bg-emerald-400 text-black' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'}`}>
-                Start free trial
-              </button>
-            </div>
-          ))}
-        </div>
-        <div className="text-center mt-8 text-xs text-white/30">
-          Annual billing available at 20% discount · Cancel anytime · No contracts
+      {/* ── PRICING ──────────────────────────────────────────────────────── */}
+      <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center mb-10 md:mb-12">
+            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
+            <p className="text-[#e8eaed] text-sm">Retain 2 extra users a month and it's already paid for.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 items-start">
+            {[
+              {
+                name: 'Starter', price: '$29', per: '/mo',
+                desc: 'For early-stage SaaS teams getting started.',
+                limit: 'Up to 500 users',
+                features: ['Stripe + CSV import', 'Daily churn risk scores', 'Morning email briefing', 'At-risk user list', 'Tax pot calculator'],
+                featured: false,
+              },
+              {
+                name: 'Pro', price: '$79', per: '/mo',
+                desc: 'For growing SaaS teams protecting MRR.',
+                limit: 'Up to 2,000 users',
+                features: ['Everything in Starter', 'AI win-back email drafts', 'Onboarding completion tracking', 'Failed payment recovery', 'Priority support'],
+                featured: true,
+              },
+              {
+                name: 'Scale', price: '$149', per: '/mo',
+                desc: 'For scaling SaaS businesses.',
+                limit: 'Unlimited users',
+                features: ['Everything in Pro', 'Automated email sending', 'Team seats', 'Slack + webhook alerts', 'Dedicated onboarding'],
+                featured: false,
+              },
+            ].map(p => (
+              <div key={p.name}
+                className={`relative rounded-2xl p-6 border transition-all ${
+                  p.featured
+                    ? 'bg-emerald-500/[0.05] border-emerald-500/30 shadow-[0_0_40px_rgba(16,185,129,0.08)]'
+                    : 'bg-white/[0.02] border-white/[0.08] hover:border-white/[0.14]'
+                }`}>
+                {p.featured && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-[#0a0a0a] border border-emerald-500/30 px-3 py-1 rounded-full whitespace-nowrap">
+                    Most popular
+                  </div>
+                )}
+                <div className="text-xs text-[#e8eaed] uppercase tracking-widest mb-1">{p.name}</div>
+                <div className="text-4xl font-bold mb-0.5">
+                  {p.price}<span className="text-sm text-[#e8eaed] font-normal">{p.per}</span>
+                </div>
+                <div className="text-xs text-emerald-400 mb-1">{p.limit}</div>
+                <div className="text-xs text-[#e8eaed] mb-5">{p.desc}</div>
+                <ul className="space-y-2.5 mb-6">
+                  {p.features.map(f => (
+                    <li key={f} className="flex items-start gap-2 text-xs text-[#e8eaed]">
+                      <Check /> {f}
+                    </li>
+                  ))}
+                </ul>
+                <a href="/auth/signup"
+                  className={`block w-full py-3 rounded-xl text-sm font-semibold text-center transition-all ${
+                    p.featured
+                      ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-lg shadow-emerald-500/20'
+                      : 'bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white'
+                  }`}>
+                  Start free trial
+                </a>
+              </div>
+            ))}
+          </div>
+          <p className="text-center mt-6 text-xs text-white/50">Annual billing saves 20% · Cancel anytime · No contracts</p>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="bg-emerald-500 py-20 text-center">
-        <div className="max-w-2xl mx-auto px-8">
-          <h2 className="text-3xl font-bold text-black mb-4">Find out who's about to cancel — before they do</h2>
-          <p className="text-black/70 mb-8">Join subscription businesses already reducing churn with SubPilot. Free 14-day trial. No credit card required.</p>
+      {/* ── FAQ ───────────────────────────────────────────────────────────── */}
+      <section id="faq" className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+        <div className="text-center mb-10 md:mb-12">
+          <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">FAQ</div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Common questions</h2>
+        </div>
+        <div className="space-y-2">
+          {faqs.map(f => <FaqItem key={f.q} q={f.q} a={f.a} />)}
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
+      <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            Free 14-day trial · No credit card required
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+            Stop losing MRR<br />before it hits your dashboard
+          </h2>
+          <p className="text-white/40 text-base mb-8 leading-relaxed">
+            Join SaaS founders who protect their MRR with SubPilot. Set up in 4 minutes, see your first at-risk users immediately.
+          </p>
           {!submitted ? (
-            <form onSubmit={handleWaitlist} className="flex gap-3 max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto mb-4">
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="flex-1 bg-black/20 border border-black/20 rounded-lg px-4 py-3 text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-black/40"
+                className="flex-1 bg-white/[0.05] border border-white/[0.10] rounded-xl px-4 py-3 text-sm placeholder:text-white/50 focus:outline-none focus:border-white/30 transition-colors"
               />
-              <button type="submit" className="bg-black text-white font-semibold px-6 py-3 rounded-lg text-sm hover:bg-black/80 transition-colors whitespace-nowrap">
-                Get early access →
+              <button type="submit"
+                className="bg-white hover:bg-white/90 text-black font-semibold px-6 py-3 rounded-xl text-sm transition-all shadow-lg shadow-black/30 whitespace-nowrap">
+                Get started free →
               </button>
             </form>
           ) : (
-            <div className="bg-black/20 text-black px-6 py-4 rounded-lg max-w-md mx-auto text-sm font-medium">✓ You're on the list — talk soon.</div>
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-5 py-3 rounded-xl max-w-sm mx-auto text-sm font-medium mb-4">
+              ✓ You're on the list — talk soon.
+            </div>
           )}
+          <p className="text-xs text-white/50">No spam, ever. Unsubscribe anytime.</p>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 px-8 py-8 flex items-center justify-between text-xs text-white/30">
-        <div>
-          <span className="text-white/60 font-medium">Sub<span className="text-emerald-400">Pilot</span></span>
-          <span className="ml-4">© 2026 · Retain more. Earn more.</span>
-        </div>
-        <div className="flex gap-6">
-          <a href="#" className="hover:text-white transition-colors">Privacy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms</a>
-          <a href="#" className="hover:text-white transition-colors">Contact</a>
+      {/* ── FOOTER ────────────────────────────────────────────────────────── */}
+      <footer className="border-t border-white/[0.06] px-4 md:px-8 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 pb-6 border-b border-white/[0.06]">
+            <div>
+              <a href="/" className="text-base font-bold hover:opacity-80 transition-opacity">
+                Sub<span className="text-emerald-400">Pilot</span>
+              </a>
+              <p className="text-xs text-white/50 mt-1">Protect your MRR.</p>
+            </div>
+            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-[#e8eaed]">
+              <a href="#features"  className="hover:text-white transition-colors">Features</a>
+              <a href="#pricing"   className="hover:text-white transition-colors">Pricing</a>
+              <a href="#faq"       className="hover:text-white transition-colors">FAQ</a>
+              <a href="/auth/login" className="hover:text-white transition-colors">Log in</a>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
+            <span>© 2026 SubPilot. All rights reserved.</span>
+            <div className="flex gap-5">
+              <a href="#" className="hover:text-white transition-colors">Privacy</a>
+              <a href="#" className="hover:text-white transition-colors">Terms</a>
+              <a href="#" className="hover:text-white transition-colors">Contact</a>
+            </div>
+          </div>
         </div>
       </footer>
 

@@ -115,7 +115,7 @@ export default function AIInsightsPanel() {
             <div className="w-5 h-5 bg-amber-500/20 rounded flex items-center justify-center text-xs flex-shrink-0 mt-0.5">!</div>
             <div>
               <div className="text-xs font-medium text-amber-400 mb-0.5">Top priority</div>
-              <div className="text-xs text-white/60">{data.topPriority}</div>
+              <div className="text-xs text-[#e8eaed]">{data.topPriority}</div>
             </div>
           </div>
 
@@ -129,7 +129,7 @@ export default function AIInsightsPanel() {
                 {data.opportunities.map((opp, i) => (
                   <div key={i} className="flex items-start gap-2">
                     <span className="text-emerald-400 text-xs mt-0.5 flex-shrink-0">↑</span>
-                    <span className="text-xs text-white/60">{opp}</span>
+                    <span className="text-xs text-[#e8eaed]">{opp}</span>
                   </div>
                 ))}
               </div>
@@ -157,14 +157,14 @@ export default function AIInsightsPanel() {
                         </div>
                         <div>
                           <div className="text-xs font-medium">{insight.name}</div>
-                          <div className="text-xs text-white/30">{insight.reason}</div>
+                          <div className="text-xs text-[#e8eaed]">{insight.reason}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${labelColors[insight.label] || 'text-white/40 bg-white/10'}`}>
                           {insight.score}/10
                         </span>
-                        <span className="text-white/20 text-xs">
+                        <span className="text-white/45 text-xs">
                           {activeInsight === insight.subscriberId ? '▲' : '▼'}
                         </span>
                       </div>
@@ -177,26 +177,26 @@ export default function AIInsightsPanel() {
                         {/* Predicted window */}
                         <div className="flex items-center gap-2 text-xs text-white/40">
                           <span>⏱</span>
-                          <span>Predicted to churn in <span className="text-white/60">{insight.predictedChurnWindow}</span></span>
+                          <span>Predicted to churn in <span className="text-[#e8eaed]">{insight.predictedChurnWindow}</span></span>
                         </div>
 
                         {/* Email preview */}
                         <div className="bg-[#111] border border-white/10 rounded-lg p-4">
-                          <div className="text-xs text-white/30 mb-1">Subject</div>
+                          <div className="text-xs text-[#e8eaed] mb-1">Subject</div>
                           <div className="text-xs font-medium text-white mb-3">{insight.emailSubject}</div>
-                          <div className="text-xs text-white/30 mb-1">Body</div>
-                          <div className="text-xs text-white/60 leading-relaxed whitespace-pre-line">
+                          <div className="text-xs text-[#e8eaed] mb-1">Body</div>
+                          <div className="text-xs text-[#e8eaed] leading-relaxed whitespace-pre-line">
                             {insight.emailBody}
                           </div>
                         </div>
 
                         {/* Talking points */}
                         <div>
-                          <div className="text-xs text-white/30 mb-2">If you call them instead:</div>
+                          <div className="text-xs text-[#e8eaed] mb-2">If you call them instead:</div>
                           <div className="space-y-1">
                             {insight.talkingPoints.map((point, i) => (
                               <div key={i} className="flex items-start gap-2">
-                                <span className="text-white/20 text-xs mt-0.5">·</span>
+                                <span className="text-white/45 text-xs mt-0.5">·</span>
                                 <span className="text-xs text-white/50">{point}</span>
                               </div>
                             ))}
@@ -235,7 +235,7 @@ export default function AIInsightsPanel() {
             </div>
           )}
 
-          <div className="text-xs text-white/20 text-right">
+          <div className="text-xs text-white/45 text-right">
             Generated {new Date(data.generatedAt).toLocaleTimeString()}
           </div>
         </div>
