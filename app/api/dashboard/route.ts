@@ -22,8 +22,7 @@ export async function GET(req: NextRequest) {
 
     const userId = session.user.id
 
-    // Get user plan and patreon status fresh from DB
-    const user  = await User.findById(userId).select('plan patreonConnected').lean() as { plan?: string; patreonConnected?: boolean } | null
+    const user  = await User.findById(userId).select('plan').lean() as { plan?: string } | null
     const plan  = (user?.plan as string) || 'starter'
     const limit = PLAN_LIMITS[plan] ?? 100
 
@@ -126,7 +125,6 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({
-      patreonConnected: user?.patreonConnected ?? false,
       taxPot,
       planInfo: {
         plan,

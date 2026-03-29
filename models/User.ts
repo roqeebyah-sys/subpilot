@@ -28,10 +28,6 @@ const UserSchema = new Schema(
       type: String,
       // added later when they subscribe
     },
-    // Patreon OAuth — stored when the user connects their Patreon account
-    patreonAccessToken:  { type: String },
-    patreonRefreshToken: { type: String },
-    patreonConnected:    { type: Boolean, default: false },
     onboarded: {
       type: Boolean,
       default: false,
