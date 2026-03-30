@@ -349,8 +349,15 @@ export default function Home() {
       <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 md:px-8 flex items-center justify-between h-14">
           {/* Logo */}
-          <a href="/" className="text-base font-bold tracking-tight hover:opacity-80 transition-opacity">
-            User<span className="text-emerald-400">Retain</span>
+          <a href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+            <div className="w-[28px] h-[28px] rounded-[7px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
+              <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+                <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span className="text-[15px] font-bold tracking-tight leading-none">
+              User<span className="text-emerald-400">Retain</span>
+            </span>
           </a>
 
           {/* Desktop links */}
@@ -1131,8 +1138,15 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 pb-6 border-b border-white/[0.06]">
             <div>
-              <a href="/" className="text-base font-bold hover:opacity-80 transition-opacity">
-                User<span className="text-emerald-400">Retain</span>
+              <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div className="w-[22px] h-[22px] rounded-[5px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-sm shadow-emerald-500/30">
+                  <svg width="12" height="9" viewBox="0 0 15 11" fill="none">
+                    <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span className="text-base font-bold tracking-tight">
+                  User<span className="text-emerald-400">Retain</span>
+                </span>
               </a>
               <p className="text-xs text-white/50 mt-1">Protect your MRR.</p>
             </div>
