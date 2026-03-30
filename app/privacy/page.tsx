@@ -13,14 +13,14 @@ export default function PrivacyPage() {
 
       <MarketingHeader />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-10">
 
-        <div className="mb-12">
-          <h1 className="text-3xl font-bold mb-3">Privacy Policy</h1>
-          <p className="text-sm text-white/40">Last updated: {LAST_UPDATED}</p>
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2">Privacy Policy</h1>
+          <p className="text-xs text-white/40">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        <div className="space-y-10 text-[#e8eaed] leading-relaxed">
+        <div className="space-y-8 text-sm text-[#e8eaed] leading-relaxed">
 
           <section>
             <p>
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">1. What we collect</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">1. What we collect</h2>
             <div className="space-y-4">
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
                 <h3 className="text-sm font-semibold text-white mb-2">Account data</h3>
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">2. How we store your data</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">2. How we store your data</h2>
             <p className="mb-3">
               All data is stored in <strong className="text-white">MongoDB Atlas</strong>, a
               cloud-hosted database with encryption at rest and in transit. We follow
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">3. How we use your data</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">3. How we use your data</h2>
             <ul className="space-y-2 text-sm text-white/70">
               {[
                 'To run the UserRetain service and provide you with churn predictions',
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">4. Third-party sub-processors</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">4. Third-party sub-processors</h2>
             <p className="mb-4 text-sm text-white/60">
               We use the following services to run UserRetain. Each has their own privacy policy.
             </p>
@@ -129,7 +129,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">5. AI processing</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">5. AI processing</h2>
             <p className="mb-3">
               UserRetain uses <strong className="text-white">Anthropic Claude</strong> to generate
               churn insights and win-back email suggestions. When you run AI analysis, anonymised
@@ -143,7 +143,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">6. Stripe integration</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">6. Stripe integration</h2>
             <p>
               When you connect Stripe, we use read-only OAuth access to sync your subscriber list.
               We never store your Stripe secret key. We can only read customer and subscription
@@ -152,7 +152,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">7. Your rights</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">7. Your rights</h2>
             <p className="mb-3">You have the right to:</p>
             <ul className="space-y-2 text-sm text-white/70">
               {[
@@ -178,7 +178,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">8. Data retention</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">8. Data retention</h2>
             <p>
               We keep your data for as long as your account is active. If you delete your account,
               we delete all your data within 30 days, except where we&apos;re required by law to
@@ -187,7 +187,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">9. Cookies</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">9. Cookies</h2>
             <p>
               We use cookies for authentication and basic analytics. See our{' '}
               <Link href="/cookies" className="text-emerald-400 hover:text-emerald-300">
@@ -198,7 +198,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">10. Changes to this policy</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">10. Changes to this policy</h2>
             <p>
               If we make significant changes, we&apos;ll notify you by email before they take
               effect. The &quot;Last updated&quot; date at the top of this page will always reflect
@@ -207,7 +207,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">11. Contact us</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">11. Contact us</h2>
             <p>
               Questions? Email us at{' '}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-emerald-400 hover:text-emerald-300">

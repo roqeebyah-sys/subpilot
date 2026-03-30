@@ -12,14 +12,14 @@ export default function CookiesPage() {
 
       <MarketingHeader />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-10">
 
-        <div className="mb-12">
-          <h1 className="text-3xl font-bold mb-3">Cookie Policy</h1>
-          <p className="text-sm text-white/40">Last updated: {LAST_UPDATED}</p>
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2">Cookie Policy</h1>
+          <p className="text-xs text-white/40">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        <div className="space-y-10 text-[#e8eaed] leading-relaxed">
+        <div className="space-y-8 text-sm text-[#e8eaed] leading-relaxed">
 
           <section>
             <p>
@@ -29,7 +29,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">1. What are cookies?</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">1. What are cookies?</h2>
             <p>
               Cookies are small text files stored in your browser when you visit a website. They
               help keep you logged in, remember your preferences, and understand how the site is
@@ -38,7 +38,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">2. Cookies we use</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">2. Cookies we use</h2>
             <div className="overflow-hidden border border-white/[0.06] rounded-xl">
               <table className="w-full text-sm">
                 <thead>
@@ -90,7 +90,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">3. Essential cookies</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">3. Essential cookies</h2>
             <p>
               All cookies listed above are <strong className="text-white">essential</strong> —
               they are strictly necessary for UserRetain to work. Because of this, we
@@ -100,7 +100,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">4. Analytics</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">4. Analytics</h2>
             <p>
               We currently do not run any third-party analytics (no Google Analytics, no Hotjar,
               no tracking pixels). If we add analytics in the future, we will update this policy
@@ -109,7 +109,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">5. How to manage cookies</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">5. How to manage cookies</h2>
             <p className="mb-3">
               You can control cookies through your browser settings. Here&apos;s how for the main
               browsers:
@@ -133,7 +133,7 @@ export default function CookiesPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">6. Contact</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">6. Contact</h2>
             <p>
               Questions about our cookie usage? Email{' '}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-emerald-400 hover:text-emerald-300">

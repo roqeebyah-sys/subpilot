@@ -12,14 +12,14 @@ export default function TermsPage() {
 
       <MarketingHeader />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-10">
 
-        <div className="mb-12">
-          <h1 className="text-3xl font-bold mb-3">Terms of Service</h1>
-          <p className="text-sm text-white/40">Last updated: {LAST_UPDATED}</p>
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold mb-2">Terms of Service</h1>
+          <p className="text-xs text-white/40">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        <div className="space-y-10 text-[#e8eaed] leading-relaxed">
+        <div className="space-y-8 text-sm text-[#e8eaed] leading-relaxed">
 
           <section>
             <p>
@@ -30,7 +30,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">1. What UserRetain is</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">1. What UserRetain is</h2>
             <p>
               UserRetain is a churn prediction and subscriber intelligence tool for SaaS businesses.
               It connects to Stripe or accepts CSV imports to analyse subscriber behaviour, score
@@ -39,7 +39,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">2. Your account</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">2. Your account</h2>
             <ul className="space-y-3 text-sm text-white/70">
               {[
                 "You must be 18 or older to create an account.",
@@ -57,7 +57,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">3. Plans and billing</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">3. Plans and billing</h2>
             <div className="space-y-4 text-sm">
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 space-y-2">
                 <h3 className="font-semibold text-white">Free trial</h3>
@@ -85,7 +85,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">4. Your data</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">4. Your data</h2>
             <p className="mb-3">
               You own your data. By importing subscriber data into UserRetain, you give us permission
               to process it in order to provide the service (calculate churn scores, generate AI
@@ -103,7 +103,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">5. Acceptable use</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">5. Acceptable use</h2>
             <p className="mb-3">Don&apos;t use UserRetain to:</p>
             <ul className="space-y-2 text-sm text-white/70">
               {[
@@ -125,7 +125,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">6. AI-generated content</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">6. AI-generated content</h2>
             <p className="mb-3">
               UserRetain uses Anthropic&apos;s Claude AI to generate churn predictions and win-back
               email suggestions. AI output is a recommendation, not a guarantee.
@@ -137,7 +137,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">7. Stripe integration</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">7. Stripe integration</h2>
             <p>
               When you connect Stripe, we access your subscriber data using read-only OAuth
               permissions. We do not store your Stripe secret key and cannot initiate charges on
@@ -147,7 +147,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">8. Uptime and availability</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">8. Uptime and availability</h2>
             <p className="mb-3">
               We aim for 99.9% uptime but don&apos;t formally guarantee it. Planned maintenance
               will be announced in advance where possible.
@@ -160,7 +160,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">9. Limitation of liability</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">9. Limitation of liability</h2>
             <p>
               Our total liability to you for any claim is limited to the amount you paid us in the
               three months preceding the claim. We are not liable for indirect, incidental, or
@@ -169,7 +169,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">10. Termination</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">10. Termination</h2>
             <p className="mb-3">
               You can cancel your account at any time from the Billing page. We can suspend or
               terminate your account if you violate these terms, with or without notice depending
@@ -182,7 +182,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">11. Changes to these terms</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">11. Changes to these terms</h2>
             <p>
               We may update these terms from time to time. For significant changes, we&apos;ll
               email you at least 14 days before they take effect. Continued use of UserRetain after
@@ -191,7 +191,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">12. Contact</h2>
+            <h2 className="text-sm font-semibold text-white mb-3">12. Contact</h2>
             <p>
               Questions about these terms? Email us at{' '}
               <a href={`mailto:${CONTACT_EMAIL}`} className="text-emerald-400 hover:text-emerald-300">
