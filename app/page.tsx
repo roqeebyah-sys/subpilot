@@ -977,48 +977,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── REVIEWS ──────────────────────────────────────────────────────── */}
-      <section className="py-14 md:py-20 lg:py-24">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
-          <div className="text-center mb-10 md:mb-12">
-            <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What founders say</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Real results from real founders</h2>
-          </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
-            {/* ⚠️ PLACEHOLDER TESTIMONIALS — review before launch */}
-            {[
-              {
-                quote: "I had 11 users about to cancel and had no idea. Reached out to 3 of them and kept all 3. That's $440/mo I would have just lost.",
-                name: 'Alex Rivera',  role: 'SaaS founder · 1,200 users', av: 'A',
-              },
-              {
-                quote: "The daily briefing is the first thing I read every morning. It tells me exactly who to call. Not just data, but actions. Saved 18% of at-risk users last month.",
-                name: 'Sarah Kim',    role: 'B2B SaaS · $12k MRR', av: 'S',
-              },
-              {
-                quote: "Set up in 4 minutes with Stripe. Three users were already at 9/10 risk. Kept two of them. Paid for a year of UserRetain in one week.",
-                name: 'Marcus Webb',  role: 'PLG startup · 840 paying users', av: 'M',
-              },
-            ].map(r => (
-              <div key={r.name}
-                className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-6 flex flex-col gap-5 hover:border-white/[0.12] transition-colors">
-                <div className="flex gap-0.5">
-                  {[1,2,3,4,5].map(i => <span key={i} className="text-emerald-400 text-sm">★</span>)}
-                </div>
-                <p className="text-sm text-[#e8eaed] leading-relaxed flex-1">"{r.quote}"</p>
-                <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
-                  <div className="w-9 h-9 rounded-full bg-white/[0.08] flex items-center justify-center text-xs font-bold flex-shrink-0">{r.av}</div>
-                  <div>
-                    <div className="text-xs font-semibold">{r.name}</div>
-                    <div className="text-[10px] text-[#e8eaed]">{r.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
