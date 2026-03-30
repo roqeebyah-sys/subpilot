@@ -347,21 +347,21 @@ export default function Home() {
 
       {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-14">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-            <div className="w-[28px] h-[28px] rounded-[7px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
-              <svg width="15" height="11" viewBox="0 0 15 11" fill="none">
+          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="w-[34px] h-[34px] rounded-[8px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
+              <svg width="17" height="12" viewBox="0 0 15 11" fill="none">
                 <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span className="text-[15px] font-bold tracking-tight leading-none">
+            <span className="text-lg font-bold tracking-tight leading-none">
               User<span className="text-emerald-400">Retain</span>
             </span>
           </a>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-7 text-sm text-white/45">
+          <div className="hidden md:flex items-center gap-8 text-[15px] text-white/60">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#how"      className="hover:text-white transition-colors">How it works</a>
             <a href="#pricing"  className="hover:text-white transition-colors">Pricing</a>
@@ -369,24 +369,24 @@ export default function Home() {
           </div>
 
           {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <a href="/auth/login"
-              className="text-sm text-white/45 hover:text-white transition-colors px-3 py-1.5">
+              className="text-[15px] text-white/60 hover:text-white transition-colors px-4 py-2">
               Log in
             </a>
             <a href="/auth/signup"
-              className="bg-white hover:bg-white/90 text-black text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-lg shadow-black/20">
+              className="bg-emerald-400 hover:bg-emerald-300 text-black text-[15px] font-semibold px-5 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-500/20">
               Get started free →
             </a>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden text-white/50 hover:text-white transition-colors p-1"
+            className="md:hidden text-white/60 hover:text-white transition-colors p-1"
             onClick={() => setMobileOpen(o => !o)}
             aria-label="Menu"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               {mobileOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 : <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 16h16" />}
@@ -413,7 +413,7 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <section className="min-h-[calc(100vh-56px)] flex items-center">
+      <section className="min-h-[calc(100vh-80px)] flex items-center">
       <div className="max-w-[1400px] mx-auto w-full px-6 md:px-10 py-16 md:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
