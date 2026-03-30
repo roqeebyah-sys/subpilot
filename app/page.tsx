@@ -537,7 +537,7 @@ export default function Home() {
       </section>
 
       {/* ── PROBLEM ───────────────────────────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 text-center">
+      <section className="max-w-[1400px] mx-auto px-6 md:px-10 py-14 md:py-20 lg:py-24 text-center">
         <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">The problem</div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-5 leading-tight">
           Churn is silent until it's too late to do anything
@@ -575,7 +575,7 @@ export default function Home() {
 
       {/* ── SOLUTION ──────────────────────────────────────────────────────── */}
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
@@ -638,7 +638,7 @@ export default function Home() {
       </section>
 
       {/* ── PRODUCT (alternating) ─────────────────────────────────────────── */}
-      <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 space-y-16 md:space-y-24 lg:space-y-32">
+      <section id="features" className="max-w-[1400px] mx-auto px-6 md:px-10 py-14 md:py-20 lg:py-24 space-y-16 md:space-y-24 lg:space-y-32">
         <div className="text-center">
           <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Inside UserRetain</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Every feature you actually need</h2>
@@ -877,7 +877,7 @@ export default function Home() {
 
       {/* ── RESULTS ───────────────────────────────────────────────────────── */}
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">What SaaS founders recover with UserRetain</h2>
@@ -922,7 +922,7 @@ export default function Home() {
       </section>
 
       {/* ── AUDIENCE ──────────────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+      <section className="max-w-[1400px] mx-auto px-6 md:px-10 py-14 md:py-20 lg:py-24">
         <div className="text-center mb-10 md:mb-12">
           <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">Who it's for</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Built for SaaS teams</h2>
@@ -949,7 +949,7 @@ export default function Home() {
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
       <section id="how" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">How it works</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Up and running in 4 minutes</h2>
@@ -979,7 +979,7 @@ export default function Home() {
 
       {/* ── REVIEWS ──────────────────────────────────────────────────────── */}
       <section className="py-14 md:py-20 lg:py-24">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">What founders say</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Real results from real founders</h2>
@@ -1021,7 +1021,7 @@ export default function Home() {
 
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
       <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">Pay for itself on day one</h2>
@@ -1091,7 +1091,7 @@ export default function Home() {
       </section>
 
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
-      <section id="faq" className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24">
+      <section id="faq" className="max-w-[1400px] mx-auto px-6 md:px-10 py-14 md:py-20 lg:py-24">
         <div className="text-center mb-10 md:mb-12">
           <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">FAQ</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Common questions</h2>
@@ -1103,7 +1103,7 @@ export default function Home() {
 
       {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
       <section className="border-t border-white/[0.06] bg-white/[0.01] py-14 md:py-20 lg:py-24">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 md:px-8 text-center">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 text-center">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
             Free 14-day trial · No credit card required
