@@ -347,7 +347,7 @@ export default function Home() {
 
       {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
-        <div className="px-6 md:px-12 lg:px-16 flex items-center justify-between h-14">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-14">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="w-[28px] h-[28px] rounded-[7px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
@@ -414,7 +414,7 @@ export default function Home() {
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
       <section className="min-h-[calc(100vh-56px)] flex items-center">
-      <div className="w-full px-6 sm:px-10 md:px-14 lg:px-20 py-16 md:py-20">
+      <div className="max-w-[1400px] mx-auto w-full px-6 md:px-10 py-16 md:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
           {/* Left: copy */}
@@ -489,7 +489,7 @@ export default function Home() {
 
       {/* ── SOCIAL PROOF NUMBERS ──────────────────────────────────────────── */}
       <section className="border-y border-white/[0.06] bg-white/[0.015] py-8 md:py-10">
-        <div className="px-6 sm:px-10 md:px-14 lg:px-20 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 text-center">
           {[
             { val: '23%',     label: 'Average MRR lost annually to silent churn' },
             { val: '18 days', label: 'Average warning window before a user cancels' },
@@ -504,7 +504,8 @@ export default function Home() {
       </section>
 
       {/* ── DASHBOARD PREVIEW ────────────────────────────────────────────── */}
-      <section className="px-6 sm:px-10 md:px-14 lg:px-20 py-14 md:py-20">
+      <section className="py-14 md:py-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
         <div className="text-center mb-8 md:mb-12">
           <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The product</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Your revenue recovery control centre</h2>
@@ -531,6 +532,7 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
         </div>
       </section>
 
@@ -1137,7 +1139,7 @@ export default function Home() {
 
       {/* ── FOOTER ────────────────────────────────────────────────────────── */}
       <footer className="border-t border-white/[0.06] px-4 md:px-8 py-8">
-        <div className="px-6 sm:px-10 md:px-14 lg:px-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 pb-6 border-b border-white/[0.06]">
             <div>
               <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
