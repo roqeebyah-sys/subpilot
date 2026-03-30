@@ -413,7 +413,8 @@ export default function Home() {
       </nav>
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 pt-12 pb-10 md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+      <section className="min-h-[calc(100vh-56px)] flex items-center">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 md:px-8 py-16 md:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
           {/* Left: copy */}
@@ -483,6 +484,7 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
       </section>
 
       {/* ── SOCIAL PROOF NUMBERS ──────────────────────────────────────────── */}
