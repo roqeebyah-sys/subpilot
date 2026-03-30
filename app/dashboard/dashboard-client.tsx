@@ -229,22 +229,26 @@ export default function DashboardClient({ session }: { session: any }) {
 
         {/* Trial countdown */}
         {data && !data.trial.onPaidPlan && data.trial.daysLeft !== null && (
-          <div className="px-3 pb-2">
-            <Link href="/billing" className={`block rounded-xl border p-4 text-center transition-all hover:opacity-90 ${
+          <div className="px-3 pb-3">
+            <Link href="/billing" className={`block rounded-xl border-2 py-5 px-3 text-center transition-all group ${
               data.trial.daysLeft <= 2
-                ? 'bg-red-500/10 border-red-500/25'
+                ? 'bg-red-500/20 border-red-500/50 hover:bg-red-500/30'
                 : data.trial.daysLeft <= 5
-                ? 'bg-amber-500/10 border-amber-500/25'
-                : 'bg-white/[0.03] border-white/[0.08]'
+                ? 'bg-amber-500/20 border-amber-500/50 hover:bg-amber-500/30'
+                : 'bg-emerald-500/15 border-emerald-500/40 hover:bg-emerald-500/25'
             }`}>
-              <div className={`text-5xl font-bold leading-none ${
-                data.trial.daysLeft <= 2 ? 'text-red-400' :
-                data.trial.daysLeft <= 5 ? 'text-amber-400' : 'text-emerald-400'
+              <div className={`text-6xl font-black leading-none tabular-nums ${
+                data.trial.daysLeft <= 2 ? 'text-red-300' :
+                data.trial.daysLeft <= 5 ? 'text-amber-300' : 'text-emerald-300'
               }`}>{data.trial.daysLeft}</div>
-              <div className="text-xs text-white/50 mt-1.5 leading-snug font-medium">
+              <div className="text-sm font-semibold text-white/70 mt-2 leading-tight uppercase tracking-widest">
                 {data.trial.daysLeft === 1 ? 'day' : 'days'}<br />left
               </div>
-              <div className="text-[10px] text-white/30 mt-2">Tap to upgrade →</div>
+              <div className={`mt-3 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${
+                data.trial.daysLeft <= 2 ? 'bg-red-500/30 text-red-200 group-hover:bg-red-500/50' :
+                data.trial.daysLeft <= 5 ? 'bg-amber-500/30 text-amber-200 group-hover:bg-amber-500/50' :
+                'bg-emerald-500/25 text-emerald-200 group-hover:bg-emerald-500/40'
+              }`}>Upgrade now →</div>
             </Link>
           </div>
         )}
