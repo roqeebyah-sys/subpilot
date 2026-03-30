@@ -1,13 +1,19 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 
-export default function SignupPage() {
+function SignupForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [form, setForm] = useState({ name: '', email: '', password: '' })
+
+  useEffect(() => {
+    const email = searchParams.get('email')
+    if (email) setForm(f => ({ ...f, email }))
+  }, [searchParams])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -249,5 +255,13 @@ export default function SignupPage() {
       </div>
 
     </div>
+  )
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a]" />}>
+      <SignupForm />
+    </Suspense>
   )
 }

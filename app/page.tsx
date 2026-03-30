@@ -310,7 +310,7 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
-    submit(true)
+    window.location.href = `/auth/signup?email=${encodeURIComponent(email)}`
   }
 
   const faqs = [
