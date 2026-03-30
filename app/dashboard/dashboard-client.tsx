@@ -230,21 +230,21 @@ export default function DashboardClient({ session }: { session: any }) {
         {/* Trial countdown */}
         {data && !data.trial.onPaidPlan && data.trial.daysLeft !== null && (
           <div className="px-3 pb-2">
-            <Link href="/billing" className={`block rounded-lg border p-3 text-center transition-all hover:opacity-90 ${
+            <Link href="/billing" className={`block rounded-xl border p-4 text-center transition-all hover:opacity-90 ${
               data.trial.daysLeft <= 2
                 ? 'bg-red-500/10 border-red-500/25'
                 : data.trial.daysLeft <= 5
                 ? 'bg-amber-500/10 border-amber-500/25'
                 : 'bg-white/[0.03] border-white/[0.08]'
             }`}>
-              <div className={`text-2xl font-bold leading-none ${
+              <div className={`text-5xl font-bold leading-none ${
                 data.trial.daysLeft <= 2 ? 'text-red-400' :
                 data.trial.daysLeft <= 5 ? 'text-amber-400' : 'text-emerald-400'
               }`}>{data.trial.daysLeft}</div>
-              <div className="text-[10px] text-white/50 mt-0.5 leading-tight">
+              <div className="text-xs text-white/50 mt-1.5 leading-snug font-medium">
                 {data.trial.daysLeft === 1 ? 'day' : 'days'}<br />left
               </div>
-              <div className="text-[9px] text-white/30 mt-1.5">Upgrade →</div>
+              <div className="text-[10px] text-white/30 mt-2">Tap to upgrade →</div>
             </Link>
           </div>
         )}
