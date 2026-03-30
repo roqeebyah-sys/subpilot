@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
 import { User } from '@/models/User'
+import { getTrialInfo } from '@/lib/trial'
 
 // How many subscribers each plan can see on the dashboard
 const PLAN_LIMITS: Record<string, number> = {
@@ -22,9 +23,10 @@ export async function GET(req: NextRequest) {
 
     const userId = session.user.id
 
-    const user  = await User.findById(userId).select('plan').lean() as { plan?: string } | null
+    const user  = await User.findById(userId).select('plan createdAt').lean() as { plan?: string; createdAt: Date } | null
     const plan  = (user?.plan as string) || 'starter'
     const limit = PLAN_LIMITS[plan] ?? 100
+    const trial = getTrialInfo(user?.createdAt ?? new Date(), plan)
 
     // Get all subscribers for this user
     const subscribers = await Subscriber.find({ userId }).sort({ startedAt: -1 })
@@ -126,6 +128,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       taxPot,
+      trial: {
+        expired:    trial.expired,
+        daysLeft:   trial.onPaidPlan ? null : trial.daysLeft,
+        onPaidPlan: trial.onPaidPlan,
+      },
       planInfo: {
         plan,
         limit:   limit === Infinity ? null : limit,

@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
+import { User } from '@/models/User'
 import { generateWinBackEmail } from '@/lib/ai-insights'
+import { getTrialInfo } from '@/lib/trial'
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,12 +13,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
+    await connectDB()
+
+    const user = await User.findById(session.user.id).select('plan createdAt').lean() as { plan?: string; createdAt: Date } | null
+    const trial = getTrialInfo(user?.createdAt ?? new Date(), user?.plan ?? 'starter')
+    if (trial.expired) {
+      return NextResponse.json({ error: 'Your free trial has ended. Upgrade to send AI win-back emails.', trialExpired: true }, { status: 403 })
+    }
+
     const { subscriberId, tone = 'warm' } = await req.json()
     if (!subscriberId) {
       return NextResponse.json({ error: 'subscriberId is required' }, { status: 400 })
     }
-
-    await connectDB()
 
     // Verify the subscriber belongs to this user
     const sub = await Subscriber.findOne({

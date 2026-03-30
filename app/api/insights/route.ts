@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
+import { User } from '@/models/User'
 import { generateFullInsights } from '@/lib/ai-insights'
+import { getTrialInfo } from '@/lib/trial'
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +14,12 @@ export async function POST(req: NextRequest) {
     }
 
     await connectDB()
+
+    const user = await User.findById(session.user.id).select('plan createdAt').lean() as { plan?: string; createdAt: Date } | null
+    const trial = getTrialInfo(user?.createdAt ?? new Date(), user?.plan ?? 'starter')
+    if (trial.expired) {
+      return NextResponse.json({ error: 'Your free trial has ended. Upgrade to generate AI insights.', trialExpired: true }, { status: 403 })
+    }
 
     const userId = session.user.id
 

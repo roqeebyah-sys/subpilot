@@ -30,10 +30,25 @@ const labelColors: Record<string, string> = {
   Medium: 'text-amber-400 bg-amber-500/20',
 }
 
-export default function AIInsightsPanel() {
+function TrialLock({ action }: { action: string }) {
+  return (
+    <div className="bg-white/[0.02] border border-white/[0.08] rounded-xl p-6 text-center">
+      <div className="text-2xl mb-3">🔒</div>
+      <div className="text-sm font-semibold mb-1">Trial ended</div>
+      <div className="text-xs text-white/40 mb-4">Upgrade to {action} and protect your MRR.</div>
+      <a href="/billing" className="inline-block bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-semibold px-5 py-2 rounded-lg transition-colors">
+        Upgrade now →
+      </a>
+    </div>
+  )
+}
+
+export default function AIInsightsPanel({ trialExpired }: { trialExpired?: boolean }) {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<InsightsData | null>(null)
   const [error, setError] = useState('')
+
+  if (trialExpired) return <TrialLock action="generate AI insights" />
   const [activeInsight, setActiveInsight] = useState<string | null>(null)
   const [copied, setCopied] = useState<string | null>(null)
 

@@ -20,6 +20,11 @@ type DashboardData = {
     setAside: number
     rate:     number
   }
+  trial: {
+    expired:    boolean
+    daysLeft:   number | null
+    onPaidPlan: boolean
+  }
   planInfo: {
     plan: 'starter' | 'growth' | 'pro'
     limit: number | null
@@ -350,6 +355,36 @@ export default function DashboardClient({ session }: { session: any }) {
                 <p className="text-white/45 text-xs mt-5">Read-only access · We never touch your money</p>
               </div>
             </div>
+          )}
+
+          {/* ── TRIAL BANNER ──────────────────────────────────────────────────── */}
+          {data && !data.trial.onPaidPlan && (
+            data.trial.expired ? (
+              <div className="mx-4 md:mx-6 mt-4 bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-amber-400 text-lg flex-shrink-0">⚠</span>
+                  <div>
+                    <div className="text-sm font-semibold text-amber-400">Your free trial has ended</div>
+                    <div className="text-xs text-white/50">Churn analysis, AI emails, and Stripe sync are locked. Upgrade to keep protecting your MRR.</div>
+                  </div>
+                </div>
+                <a href="/billing" className="flex-shrink-0 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+                  Upgrade now →
+                </a>
+              </div>
+            ) : (
+              <div className="mx-4 md:mx-6 mt-4 bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse flex-shrink-0" />
+                  <span className="text-xs text-white/60">
+                    <span className="text-emerald-400 font-semibold">{data.trial.daysLeft} {data.trial.daysLeft === 1 ? 'day' : 'days'}</span> left on your free trial
+                  </span>
+                </div>
+                <a href="/billing" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
+                  Upgrade →
+                </a>
+              </div>
+            )
           )}
 
           {/* ═══════════════════════════════════════════════════════════════════
@@ -1142,7 +1177,7 @@ export default function DashboardClient({ session }: { session: any }) {
                   <h2 className="text-sm font-semibold mb-1">Stripe sync</h2>
                   <p className="text-xs text-white/40">Refresh subscriber data directly from your Stripe account.</p>
                 </div>
-                <SyncButton />
+                <SyncButton trialExpired={data.trial.expired} />
               </div>
 
               <CSVUploadButton />
@@ -1154,10 +1189,10 @@ export default function DashboardClient({ session }: { session: any }) {
                     Score every subscriber for churn risk based on activity, payment status, and tenure.
                   </p>
                 </div>
-                <ChurnScoreButton />
+                <ChurnScoreButton trialExpired={data.trial.expired} />
               </div>
 
-              <AIInsightsPanel />
+              <AIInsightsPanel trialExpired={data.trial.expired} />
 
             </div>
           )}
