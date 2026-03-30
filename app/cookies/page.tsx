@@ -1,27 +1,18 @@
-import Link from 'next/link'
+import MarketingHeader from '@/app/components/marketing-header'
+import MarketingFooter from '@/app/components/marketing-footer'
 
-export const metadata = { title: 'Cookie Policy – SubPilot' }
+export const metadata = { title: 'Cookie Policy – UserRetain' }
 
 const LAST_UPDATED = 'March 29, 2026'
-const CONTACT_EMAIL = 'support@subpilot.io'
+const CONTACT_EMAIL = 'support@userretain.io'
 
 export default function CookiesPage() {
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
+    <div className="min-h-screen bg-[#080808] text-white flex flex-col">
 
-      {/* Nav */}
-      <nav className="border-b border-white/[0.06] px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-base font-bold">
-            Sub<span className="text-emerald-400">Pilot</span>
-          </Link>
-          <Link href="/" className="text-xs text-white/40 hover:text-white transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </nav>
+      <MarketingHeader />
 
-      <main className="max-w-3xl mx-auto px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
 
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-3">Cookie Policy</h1>
@@ -32,7 +23,7 @@ export default function CookiesPage() {
 
           <section>
             <p>
-              This page explains what cookies SubPilot uses, why, and how to control them. We keep
+              This page explains what cookies UserRetain uses, why, and how to control them. We keep
               it minimal — we only use cookies that are necessary to run the product.
             </p>
           </section>
@@ -62,7 +53,7 @@ export default function CookiesPage() {
                     {
                       name: 'next-auth.session-token',
                       type: 'Essential',
-                      purpose: 'Keeps you logged in. Without this cookie SubPilot cannot function.',
+                      purpose: 'Keeps you logged in. Without this cookie UserRetain cannot function.',
                     },
                     {
                       name: 'next-auth.csrf-token',
@@ -83,11 +74,7 @@ export default function CookiesPage() {
                     <tr key={row.name}>
                       <td className="px-4 py-3 font-mono text-xs text-white/80 align-top">{row.name}</td>
                       <td className="px-4 py-3 align-top">
-                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
-                          row.type === 'Essential'
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-white/5 text-white/50 border border-white/10'
-                        }`}>
+                        <span className="inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                           {row.type}
                         </span>
                       </td>
@@ -106,7 +93,7 @@ export default function CookiesPage() {
             <h2 className="text-lg font-semibold text-white mb-4">3. Essential cookies</h2>
             <p>
               All cookies listed above are <strong className="text-white">essential</strong> —
-              they are strictly necessary for SubPilot to work. Because of this, we
+              they are strictly necessary for UserRetain to work. Because of this, we
               don&apos;t ask for cookie consent for these (they&apos;re exempt under GDPR and
               similar regulations). They cannot be disabled without breaking the product.
             </p>
@@ -129,10 +116,10 @@ export default function CookiesPage() {
             </p>
             <ul className="space-y-2 text-sm text-white/70">
               {[
-                { browser: 'Chrome', path: 'Settings → Privacy and security → Cookies and other site data' },
+                { browser: 'Chrome',  path: 'Settings → Privacy and security → Cookies and other site data' },
                 { browser: 'Firefox', path: 'Settings → Privacy & Security → Cookies and Site Data' },
-                { browser: 'Safari', path: 'Preferences → Privacy → Manage Website Data' },
-                { browser: 'Edge', path: 'Settings → Cookies and site permissions → Cookies and site data' },
+                { browser: 'Safari',  path: 'Preferences → Privacy → Manage Website Data' },
+                { browser: 'Edge',    path: 'Settings → Cookies and site permissions → Cookies and site data' },
               ].map(({ browser, path }) => (
                 <li key={browser} className="flex gap-2">
                   <span className="text-white/40 flex-shrink-0 font-medium w-16">{browser}</span>
@@ -141,7 +128,7 @@ export default function CookiesPage() {
               ))}
             </ul>
             <p className="mt-4 text-sm text-white/50">
-              Note: blocking essential cookies will prevent SubPilot from working correctly.
+              Note: blocking essential cookies will prevent UserRetain from working correctly.
             </p>
           </section>
 
@@ -159,16 +146,7 @@ export default function CookiesPage() {
         </div>
       </main>
 
-      <footer className="border-t border-white/[0.06] px-6 py-8 mt-8">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
-          <span>© 2026 SubPilot. All rights reserved.</span>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms"   className="hover:text-white transition-colors">Terms</Link>
-            <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
     </div>
   )

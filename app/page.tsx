@@ -1,5 +1,7 @@
 'use client'
 import { useState } from 'react'
+import MarketingHeader from '@/app/components/marketing-header'
+import MarketingFooter from '@/app/components/marketing-footer'
 
 /* ─────────────────────────── tiny helpers ─────────────────────────────── */
 
@@ -303,7 +305,7 @@ function DashboardMockup() {
 export default function Home() {
   const [email, setEmail]   = useState('')
   const [submitted, submit] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -345,72 +347,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white antialiased">
 
-      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="w-[34px] h-[34px] rounded-[8px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
-              <svg width="17" height="12" viewBox="0 0 15 11" fill="none">
-                <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <span className="text-lg font-bold tracking-tight leading-none">
-              User<span className="text-emerald-400">Retain</span>
-            </span>
-          </a>
-
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8 text-[15px] text-white/60">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#how"      className="hover:text-white transition-colors">How it works</a>
-            <a href="#pricing"  className="hover:text-white transition-colors">Pricing</a>
-            <a href="#faq"      className="hover:text-white transition-colors">FAQ</a>
-          </div>
-
-          {/* Desktop CTAs */}
-          <div className="hidden md:flex items-center gap-4">
-            <a href="/auth/login"
-              className="text-[15px] text-white/60 hover:text-white transition-colors px-4 py-2">
-              Log in
-            </a>
-            <a href="/auth/signup"
-              className="bg-emerald-400 hover:bg-emerald-300 text-black text-[15px] font-semibold px-5 py-2.5 rounded-lg transition-all shadow-lg shadow-emerald-500/20">
-              Get started free →
-            </a>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className="md:hidden text-white/60 hover:text-white transition-colors p-1"
-            onClick={() => setMobileOpen(o => !o)}
-            aria-label="Menu"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              {mobileOpen
-                ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                : <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 16h16" />}
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-white/[0.06] bg-[#0a0a0a] px-4 py-4 space-y-3">
-            {['Features','How it works','Pricing','FAQ'].map(l => (
-              <a key={l} href={`#${l.toLowerCase().replace(/ /g, '')}`}
-                className="block text-sm text-white/50 hover:text-white transition-colors py-1"
-                onClick={() => setMobileOpen(false)}>
-                {l}
-              </a>
-            ))}
-            <div className="pt-2 flex flex-col gap-2 border-t border-white/[0.06]">
-              <a href="/auth/login" className="text-sm text-center text-white/50 hover:text-white transition-colors py-2">Log in</a>
-              <a href="/auth/signup" className="bg-white text-black text-sm font-semibold text-center py-2.5 rounded-lg">Get started free →</a>
-            </div>
-          </div>
-        )}
-      </nav>
+      <MarketingHeader />
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
       <section className="min-h-[calc(100vh-80px)] flex items-center">
@@ -1095,41 +1032,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FOOTER ────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-white/[0.06] px-4 md:px-8 py-8">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 pb-6 border-b border-white/[0.06]">
-            <div>
-              <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <div className="w-[22px] h-[22px] rounded-[5px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-sm shadow-emerald-500/30">
-                  <svg width="12" height="9" viewBox="0 0 15 11" fill="none">
-                    <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <span className="text-base font-bold tracking-tight">
-                  User<span className="text-emerald-400">Retain</span>
-                </span>
-              </a>
-              <p className="text-xs text-white/50 mt-1">Protect your MRR.</p>
-            </div>
-            <div className="grid grid-cols-2 sm:flex sm:flex-row gap-x-8 gap-y-2 text-xs text-[#e8eaed]">
-              <a href="#features"  className="hover:text-white transition-colors">Features</a>
-              <a href="#pricing"   className="hover:text-white transition-colors">Pricing</a>
-              <a href="#faq"       className="hover:text-white transition-colors">FAQ</a>
-              <a href="/auth/login" className="hover:text-white transition-colors">Log in</a>
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
-            <span>© 2026 UserRetain. All rights reserved.</span>
-            <div className="flex gap-5">
-              <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
-              <a href="/terms"   className="hover:text-white transition-colors">Terms</a>
-              <a href="/cookies" className="hover:text-white transition-colors">Cookies</a>
-              <a href="mailto:support@userretain.io" className="hover:text-white transition-colors">Contact</a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
     </main>
   )

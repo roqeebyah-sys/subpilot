@@ -1,27 +1,18 @@
-import Link from 'next/link'
+import MarketingHeader from '@/app/components/marketing-header'
+import MarketingFooter from '@/app/components/marketing-footer'
 
-export const metadata = { title: 'Terms of Service – SubPilot' }
+export const metadata = { title: 'Terms of Service – UserRetain' }
 
 const LAST_UPDATED = 'March 29, 2026'
-const CONTACT_EMAIL = 'support@subpilot.io'
+const CONTACT_EMAIL = 'support@userretain.io'
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
+    <div className="min-h-screen bg-[#080808] text-white flex flex-col">
 
-      {/* Nav */}
-      <nav className="border-b border-white/[0.06] px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-base font-bold">
-            Sub<span className="text-emerald-400">Pilot</span>
-          </Link>
-          <Link href="/" className="text-xs text-white/40 hover:text-white transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </nav>
+      <MarketingHeader />
 
-      <main className="max-w-3xl mx-auto px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
 
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-3">Terms of Service</h1>
@@ -32,16 +23,16 @@ export default function TermsPage() {
 
           <section>
             <p>
-              By signing up for SubPilot you agree to these terms. If you don&apos;t agree, please
+              By signing up for UserRetain you agree to these terms. If you don&apos;t agree, please
               don&apos;t use the service. These terms are written in plain English — if something
               is unclear, just email us.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-4">1. What SubPilot is</h2>
+            <h2 className="text-lg font-semibold text-white mb-4">1. What UserRetain is</h2>
             <p>
-              SubPilot is a churn prediction and subscriber intelligence tool for SaaS businesses.
+              UserRetain is a churn prediction and subscriber intelligence tool for SaaS businesses.
               It connects to Stripe or accepts CSV imports to analyse subscriber behaviour, score
               churn risk, and generate AI-powered win-back recommendations.
             </p>
@@ -51,11 +42,11 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-white mb-4">2. Your account</h2>
             <ul className="space-y-3 text-sm text-white/70">
               {[
-                'You must be 18 or older to create an account.',
-                'You\'re responsible for keeping your login credentials secure.',
-                'You\'re responsible for all activity that happens under your account.',
-                'One account per person or business. Don\'t share accounts.',
-                'If you think your account has been compromised, email us immediately.',
+                "You must be 18 or older to create an account.",
+                "You're responsible for keeping your login credentials secure.",
+                "You're responsible for all activity that happens under your account.",
+                "One account per person or business. Don't share accounts.",
+                "If you think your account has been compromised, email us immediately.",
               ].map((item) => (
                 <li key={item} className="flex gap-2">
                   <span className="text-white/30 flex-shrink-0">—</span>
@@ -71,7 +62,7 @@ export default function TermsPage() {
               <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 space-y-2">
                 <h3 className="font-semibold text-white">Free trial</h3>
                 <p className="text-white/60">
-                  You can use SubPilot free for 14 days. No credit card required to start. At the
+                  You can use UserRetain free for 14 days. No credit card required to start. At the
                   end of the trial, your account moves to a read-only state until you choose a plan.
                 </p>
               </div>
@@ -96,7 +87,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-white mb-4">4. Your data</h2>
             <p className="mb-3">
-              You own your data. By importing subscriber data into SubPilot, you give us permission
+              You own your data. By importing subscriber data into UserRetain, you give us permission
               to process it in order to provide the service (calculate churn scores, generate AI
               insights, etc.).
             </p>
@@ -113,13 +104,13 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-lg font-semibold text-white mb-4">5. Acceptable use</h2>
-            <p className="mb-3">Don&apos;t use SubPilot to:</p>
+            <p className="mb-3">Don&apos;t use UserRetain to:</p>
             <ul className="space-y-2 text-sm text-white/70">
               {[
-                'Upload data you don\'t have the right to use',
+                "Upload data you don't have the right to use",
                 'Spam or harass your subscribers',
                 'Attempt to reverse-engineer or scrape the platform',
-                'Resell or white-label SubPilot without a written agreement',
+                'Resell or white-label UserRetain without a written agreement',
                 'Violate any applicable laws or regulations',
               ].map((item) => (
                 <li key={item} className="flex gap-2">
@@ -136,7 +127,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-white mb-4">6. AI-generated content</h2>
             <p className="mb-3">
-              SubPilot uses Anthropic&apos;s Claude AI to generate churn predictions and win-back
+              UserRetain uses Anthropic&apos;s Claude AI to generate churn predictions and win-back
               email suggestions. AI output is a recommendation, not a guarantee.
             </p>
             <p>
@@ -150,7 +141,7 @@ export default function TermsPage() {
             <p>
               When you connect Stripe, we access your subscriber data using read-only OAuth
               permissions. We do not store your Stripe secret key and cannot initiate charges on
-              your behalf. All billing for SubPilot itself is processed separately via Stripe
+              your behalf. All billing for UserRetain itself is processed separately via Stripe
               Checkout.
             </p>
           </section>
@@ -162,7 +153,7 @@ export default function TermsPage() {
               will be announced in advance where possible.
             </p>
             <p>
-              SubPilot is provided &quot;as is&quot;. We&apos;re not liable for data loss, missed
+              UserRetain is provided &quot;as is&quot;. We&apos;re not liable for data loss, missed
               churn events, or business losses resulting from service downtime or inaccurate
               predictions.
             </p>
@@ -185,7 +176,7 @@ export default function TermsPage() {
               on severity.
             </p>
             <p>
-              On termination, your right to access SubPilot ends. We&apos;ll delete your data
+              On termination, your right to access UserRetain ends. We&apos;ll delete your data
               within 30 days.
             </p>
           </section>
@@ -194,7 +185,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-white mb-4">11. Changes to these terms</h2>
             <p>
               We may update these terms from time to time. For significant changes, we&apos;ll
-              email you at least 14 days before they take effect. Continued use of SubPilot after
+              email you at least 14 days before they take effect. Continued use of UserRetain after
               that point means you accept the new terms.
             </p>
           </section>
@@ -213,16 +204,7 @@ export default function TermsPage() {
         </div>
       </main>
 
-      <footer className="border-t border-white/[0.06] px-6 py-8 mt-8">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
-          <span>© 2026 SubPilot. All rights reserved.</span>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms"   className="hover:text-white transition-colors">Terms</Link>
-            <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
     </div>
   )

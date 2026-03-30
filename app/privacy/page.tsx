@@ -1,27 +1,19 @@
 import Link from 'next/link'
+import MarketingHeader from '@/app/components/marketing-header'
+import MarketingFooter from '@/app/components/marketing-footer'
 
-export const metadata = { title: 'Privacy Policy – SubPilot' }
+export const metadata = { title: 'Privacy Policy – UserRetain' }
 
 const LAST_UPDATED = 'March 29, 2026'
-const CONTACT_EMAIL = 'support@subpilot.io'
+const CONTACT_EMAIL = 'support@userretain.io'
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
+    <div className="min-h-screen bg-[#080808] text-white flex flex-col">
 
-      {/* Nav */}
-      <nav className="border-b border-white/[0.06] px-6 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <Link href="/" className="text-base font-bold">
-            Sub<span className="text-emerald-400">Pilot</span>
-          </Link>
-          <Link href="/" className="text-xs text-white/40 hover:text-white transition-colors">
-            ← Back to home
-          </Link>
-        </div>
-      </nav>
+      <MarketingHeader />
 
-      <main className="max-w-3xl mx-auto px-6 py-16">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">
 
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-3">Privacy Policy</h1>
@@ -32,7 +24,7 @@ export default function PrivacyPage() {
 
           <section>
             <p>
-              SubPilot (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is a SaaS churn prediction tool. This
+              UserRetain (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is a SaaS churn prediction tool. This
               policy explains what data we collect, how we use it, and what rights you have. We
               keep it plain English — no legal tricks.
             </p>
@@ -90,7 +82,7 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-white mb-4">3. How we use your data</h2>
             <ul className="space-y-2 text-sm text-white/70">
               {[
-                'To run the SubPilot service and provide you with churn predictions',
+                'To run the UserRetain service and provide you with churn predictions',
                 'To generate AI-powered insights and win-back email suggestions',
                 'To send you product updates and alerts you opt into',
                 'To process your subscription payments via Stripe',
@@ -108,7 +100,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-white mb-4">4. Third-party sub-processors</h2>
             <p className="mb-4 text-sm text-white/60">
-              We use the following services to run SubPilot. Each has their own privacy policy.
+              We use the following services to run UserRetain. Each has their own privacy policy.
             </p>
             <div className="overflow-hidden border border-white/[0.06] rounded-xl">
               <table className="w-full text-sm">
@@ -139,7 +131,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-white mb-4">5. AI processing</h2>
             <p className="mb-3">
-              SubPilot uses <strong className="text-white">Anthropic Claude</strong> to generate
+              UserRetain uses <strong className="text-white">Anthropic Claude</strong> to generate
               churn insights and win-back email suggestions. When you run AI analysis, anonymised
               subscriber data (activity patterns, subscription tenure, payment status) is sent to
               Anthropic&apos;s API to generate predictions.
@@ -228,16 +220,7 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      <footer className="border-t border-white/[0.06] px-6 py-8 mt-8">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
-          <span>© 2026 SubPilot. All rights reserved.</span>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms"   className="hover:text-white transition-colors">Terms</Link>
-            <Link href="/cookies" className="hover:text-white transition-colors">Cookies</Link>
-          </div>
-        </div>
-      </footer>
+      <MarketingFooter />
 
     </div>
   )
