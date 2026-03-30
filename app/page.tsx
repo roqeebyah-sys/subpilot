@@ -58,7 +58,7 @@ function DashboardPreview() {
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
         </div>
         <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/45 max-w-[200px] mx-auto text-center">
-          app.subpilot.io/dashboard
+          app.userretain.io/dashboard
         </div>
       </div>
       {/* App shell */}
@@ -66,7 +66,7 @@ function DashboardPreview() {
         {/* Sidebar */}
         <div className="w-44 border-r border-white/[0.05] p-3 flex-shrink-0 hidden lg:flex flex-col">
           <div className="px-2 py-3 text-sm font-bold mb-5">
-            Sub<span className="text-emerald-400">Pilot</span>
+            User<span className="text-emerald-400">Retain</span>
           </div>
           {[
             { icon: '▦', label: 'Overview',    active: true  },
@@ -206,7 +206,7 @@ function DashboardMockup() {
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
         </div>
         <div className="flex-1 bg-white/[0.04] rounded-md px-3 py-1 text-[10px] text-white/45 max-w-[180px] mx-auto text-center">
-          app.subpilot.io/dashboard
+          app.userretain.io/dashboard
         </div>
       </div>
       {/* App shell */}
@@ -214,7 +214,7 @@ function DashboardMockup() {
         {/* Sidebar */}
         <div className="w-40 border-r border-white/[0.05] p-3 flex-shrink-0 hidden sm:flex flex-col">
           <div className="px-2 py-3 text-sm font-bold mb-4">
-            Sub<span className="text-emerald-400">Pilot</span>
+            User<span className="text-emerald-400">Retain</span>
           </div>
           {[
             { icon: '▦', label: 'Overview',    active: true  },
@@ -313,8 +313,8 @@ export default function Home() {
 
   const faqs = [
     {
-      q: 'How does SubPilot connect to my data?',
-      a: 'SubPilot connects directly to Stripe via read-only API access, or you can import users via CSV. We never write to your Stripe account, charge your users, or store raw payment data beyond what is needed to compute risk scores.',
+      q: 'How does UserRetain connect to my data?',
+      a: 'UserRetain connects directly to Stripe via read-only API access, or you can import users via CSV. We never write to your Stripe account, charge your users, or store raw payment data beyond what is needed to compute risk scores.',
     },
     {
       q: 'How does the churn risk score work?',
@@ -330,11 +330,11 @@ export default function Home() {
     },
     {
       q: 'What is the AI win-back email feature?',
-      a: 'On the Pro and Scale plans, clicking any at-risk user opens an AI-drafted win-back email personalised with their history, plan, and inactivity period. You can edit the subject and body, choose a tone (warm, professional, casual, urgent), and send directly from SubPilot or copy it to your own email client.',
+      a: 'On the Pro and Scale plans, clicking any at-risk user opens an AI-drafted win-back email personalised with their history, plan, and inactivity period. You can edit the subject and body, choose a tone (warm, professional, casual, urgent), and send directly from UserRetain or copy it to your own email client.',
     },
     {
       q: 'Is my data safe?',
-      a: 'SubPilot uses read-only API access and never stores raw user financial data beyond what is needed to compute risk scores. All connections are encrypted in transit and at rest. We do not sell or share your data with third parties.',
+      a: 'UserRetain uses read-only API access and never stores raw user financial data beyond what is needed to compute risk scores. All connections are encrypted in transit and at rest. We do not sell or share your data with third parties.',
     },
     {
       q: 'Can I cancel anytime?',
@@ -350,7 +350,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 md:px-8 flex items-center justify-between h-14">
           {/* Logo */}
           <a href="/" className="text-base font-bold tracking-tight hover:opacity-80 transition-opacity">
-            Sub<span className="text-emerald-400">Pilot</span>
+            User<span className="text-emerald-400">Retain</span>
           </a>
 
           {/* Desktop links */}
@@ -423,7 +423,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg md:text-xl text-white/50 leading-relaxed mb-7 max-w-lg">
-              SubPilot monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
+              UserRetain monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
             </p>
 
             {/* CTAs */}
@@ -569,7 +569,7 @@ export default function Home() {
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Detect. Predict. Recover.</h2>
             <p className="text-white/40 text-base max-w-md mx-auto">
-              Three stages, one system. SubPilot works in the background so you can focus on building.
+              Three stages, one system. UserRetain works in the background so you can focus on building.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
@@ -580,7 +580,7 @@ export default function Home() {
                 title: 'Detect',
                 color: 'border-blue-500/20 bg-blue-500/[0.03]',
                 accent: 'text-blue-400',
-                desc: 'SubPilot monitors every user daily — login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
+                desc: 'UserRetain monitors every user daily — login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
                 points: ['Automatic Stripe sync every 24 hours', 'Behavioural signals tracked per user', 'Flags users who never hit activation'],
               },
               {
@@ -599,7 +599,7 @@ export default function Home() {
                 color: 'border-emerald-500/20 bg-emerald-500/[0.03]',
                 accent: 'text-emerald-400',
                 desc: 'Get the right message for the right user — personalised win-back emails drafted by AI, ready to send in one click.',
-                points: ['AI win-back emails per user', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from SubPilot'],
+                points: ['AI win-back emails per user', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from UserRetain'],
               },
             ].map(s => (
               <div key={s.step}
@@ -629,7 +629,7 @@ export default function Home() {
       {/* ── PRODUCT (alternating) ─────────────────────────────────────────── */}
       <section id="features" className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 space-y-16 md:space-y-24 lg:space-y-32">
         <div className="text-center">
-          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Inside SubPilot</div>
+          <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Inside UserRetain</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">Every feature you actually need</h2>
         </div>
 
@@ -695,8 +695,8 @@ export default function Home() {
             <div className="bg-[#101010] px-4 py-3 border-b border-white/[0.06] flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-400">S</div>
               <div>
-                <div className="text-xs font-semibold">SubPilot Daily Briefing</div>
-                <div className="text-[10px] text-[#e8eaed]">hello@subpilot.io → you@email.com</div>
+                <div className="text-xs font-semibold">UserRetain Daily Briefing</div>
+                <div className="text-[10px] text-[#e8eaed]">hello@userretain.io → you@email.com</div>
               </div>
               <div className="ml-auto text-[10px] text-white/50">7:02 AM</div>
             </div>
@@ -847,7 +847,7 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-base leading-relaxed mb-6">
-              SaaS revenue fluctuates. SubPilot calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
+              SaaS revenue fluctuates. UserRetain calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
             </p>
             <ul className="space-y-3">
               {[
@@ -869,7 +869,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">What SaaS founders recover with SubPilot</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">What SaaS founders recover with UserRetain</h2>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
             {[
@@ -884,7 +884,7 @@ export default function Home() {
               {
                 stat: '34%',
                 label: 'Churn reduction in 30 days',
-                desc: 'SaaS teams using SubPilot\'s daily briefing see measurable churn reduction within the first month of use.',
+                desc: 'SaaS teams using UserRetain\'s daily briefing see measurable churn reduction within the first month of use.',
                 icon: '📉',
                 color: 'border-emerald-500/20 bg-emerald-500/[0.025]',
                 statColor: 'text-emerald-400',
@@ -892,7 +892,7 @@ export default function Home() {
               {
                 stat: '2.4×',
                 label: 'Average ROI vs. subscription cost',
-                desc: 'Retaining just 2 users per month pays for the entire SubPilot plan. Most teams save far more.',
+                desc: 'Retaining just 2 users per month pays for the entire UserRetain plan. Most teams save far more.',
                 icon: '💸',
                 color: 'border-blue-500/20 bg-blue-500/[0.025]',
                 statColor: 'text-blue-400',
@@ -985,7 +985,7 @@ export default function Home() {
                 name: 'Sarah Kim',    role: 'B2B SaaS · $12k MRR', av: 'S',
               },
               {
-                quote: "Set up in 4 minutes with Stripe. Three users were already at 9/10 risk. Kept two of them. Paid for a year of SubPilot in one week.",
+                quote: "Set up in 4 minutes with Stripe. Three users were already at 9/10 risk. Kept two of them. Paid for a year of UserRetain in one week.",
                 name: 'Marcus Webb',  role: 'PLG startup · 840 paying users', av: 'M',
               },
             ].map(r => (
@@ -1101,7 +1101,7 @@ export default function Home() {
             Stop losing MRR<br />before it hits your dashboard
           </h2>
           <p className="text-white/40 text-base mb-8 leading-relaxed">
-            Join SaaS founders who protect their MRR with SubPilot. Set up in 4 minutes, see your first at-risk users immediately.
+            Join SaaS founders who protect their MRR with UserRetain. Set up in 4 minutes, see your first at-risk users immediately.
           </p>
           {!submitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto mb-4">
@@ -1132,7 +1132,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6 pb-6 border-b border-white/[0.06]">
             <div>
               <a href="/" className="text-base font-bold hover:opacity-80 transition-opacity">
-                Sub<span className="text-emerald-400">Pilot</span>
+                User<span className="text-emerald-400">Retain</span>
               </a>
               <p className="text-xs text-white/50 mt-1">Protect your MRR.</p>
             </div>
@@ -1144,12 +1144,12 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
-            <span>© 2026 SubPilot. All rights reserved.</span>
+            <span>© 2026 UserRetain. All rights reserved.</span>
             <div className="flex gap-5">
               <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
               <a href="/terms"   className="hover:text-white transition-colors">Terms</a>
               <a href="/cookies" className="hover:text-white transition-colors">Cookies</a>
-              <a href="mailto:support@subpilot.io" className="hover:text-white transition-colors">Contact</a>
+              <a href="mailto:support@userretain.io" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
         </div>
