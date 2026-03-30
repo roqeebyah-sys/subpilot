@@ -230,13 +230,7 @@ export default function DashboardClient({ session }: { session: any }) {
         {/* Trial countdown */}
         {data && !data.trial.onPaidPlan && data.trial.daysLeft !== null && (
           <div className="px-3 pb-3">
-            <Link href="/billing" className={`block rounded-xl border-2 py-5 px-3 text-center transition-all group ${
-              data.trial.daysLeft <= 2
-                ? 'bg-red-500/20 border-red-500/50 hover:bg-red-500/30'
-                : data.trial.daysLeft <= 5
-                ? 'bg-amber-500/20 border-amber-500/50 hover:bg-amber-500/30'
-                : 'bg-emerald-500/15 border-emerald-500/40 hover:bg-emerald-500/25'
-            }`}>
+            <Link href="/billing" className="block rounded-xl py-5 px-3 text-center transition-all group hover:bg-white/[0.04]">
               <div className={`text-6xl font-black leading-none tabular-nums ${
                 data.trial.daysLeft <= 2 ? 'text-red-300' :
                 data.trial.daysLeft <= 5 ? 'text-amber-300' : 'text-emerald-300'
