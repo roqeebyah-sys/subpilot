@@ -147,7 +147,7 @@ function DashboardPreview() {
               <div className="p-3 space-y-3">
                 <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-lg p-3">
                   <div className="text-[9px] text-emerald-400 uppercase tracking-widest mb-1.5">Today's briefing</div>
-                  <p className="text-[10px] text-white/60 leading-relaxed">4 subscribers show elevated churn risk. Immediate action on James M. could protect $49/mo — he never completed onboarding.</p>
+                  <p className="text-[10px] text-white/60 leading-relaxed">4 subscribers show elevated churn risk. Immediate action on James M. could protect $49/mo. He never completed onboarding.</p>
                 </div>
                 <div className="bg-white/[0.03] border border-white/[0.07] rounded-lg p-3 flex gap-2">
                   <span className="text-[9px] mt-0.5 flex-shrink-0 text-amber-400">!</span>
@@ -171,7 +171,7 @@ function DashboardPreview() {
 
           {/* MRR chart (simplified bar chart) */}
           <div className="border border-white/[0.07] rounded-xl p-3">
-            <div className="text-[10px] text-white/40 mb-3 uppercase tracking-widest">MRR — last 6 months</div>
+            <div className="text-[10px] text-white/40 mb-3 uppercase tracking-widest">MRR, last 6 months</div>
             <div className="flex items-end gap-2 h-16">
               {[
                 { month: 'Oct', h: 52 }, { month: 'Nov', h: 58 }, { month: 'Dec', h: 61 },
@@ -326,7 +326,7 @@ export default function Home() {
     },
     {
       q: 'Can I try it before paying?',
-      a: 'Yes — every plan starts with a free 14-day trial, no credit card required. You will see real data from your users within minutes of connecting Stripe or uploading a CSV.',
+      a: 'Yes, every plan starts with a free 14-day trial, no credit card required. You will see real data from your users within minutes of connecting Stripe or uploading a CSV.',
     },
     {
       q: 'What is the AI win-back email feature?',
@@ -338,7 +338,7 @@ export default function Home() {
     },
     {
       q: 'Can I cancel anytime?',
-      a: 'Yes — no contracts, no lock-in. Cancel from your billing page at any time. If you cancel mid-month you retain access until the end of the billing period.',
+      a: 'Yes, no contracts, no lock-in. Cancel from your billing page at any time. If you cancel mid-month you retain access until the end of the billing period.',
     },
   ]
 
@@ -430,7 +430,7 @@ export default function Home() {
             </h1>
 
             <p className="text-lg md:text-xl text-white/50 leading-relaxed mb-7 max-w-lg">
-              UserRetain monitors every user for behavioural churn signals — inactivity, missed activation, payment drops — and tells you who to reach out to before they cancel.
+              UserRetain monitors every user for behavioural churn signals: inactivity, missed activation, payment drops. It tells you who to reach out to before they cancel.
             </p>
 
             {/* CTAs */}
@@ -451,7 +451,7 @@ export default function Home() {
                 </form>
               ) : (
                 <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-5 py-3 rounded-lg text-sm font-medium max-w-sm">
-                  ✓ You're in — we'll be in touch within 24 hours.
+                  ✓ You're in. We'll be in touch within 24 hours.
                 </div>
               )}
               <a href="/dashboard"
@@ -479,7 +479,7 @@ export default function Home() {
             <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-3xl pointer-events-none" />
             <DashboardMockup />
             <p className="text-center text-[11px] text-white/45 mt-3">
-              Your revenue recovery control centre — every at-risk user, one click away
+              Your revenue recovery control centre. Every at-risk user, one click away.
             </p>
           </div>
         </div>
@@ -507,7 +507,7 @@ export default function Home() {
           <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The product</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Your revenue recovery control centre</h2>
           <p className="text-white/50 text-base md:text-lg max-w-xl mx-auto">
-            Every at-risk user, their churn score, and a personalised AI message — all in one place.
+            Every at-risk user, their churn score, and a personalised AI message. All in one place.
           </p>
         </div>
         <div className="relative">
@@ -536,7 +536,7 @@ export default function Home() {
       <section className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-14 md:py-20 lg:py-24 text-center">
         <div className="text-xs text-[#e8eaed] font-medium uppercase tracking-widest mb-3">The problem</div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-5 leading-tight">
-          Churn is silent — until it's too late to do anything
+          Churn is silent until it's too late to do anything
         </h2>
         <p className="text-white/45 text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto">
           Most SaaS analytics tools show you aggregate metrics. They don't tell you which specific users are drifting away, why they stopped engaging, or what you could do right now to keep them.
@@ -546,12 +546,12 @@ export default function Home() {
             {
               icon: '👻',
               title: 'Silent cancellations',
-              desc: 'Users disengage weeks before they cancel. You only find out when the payment stops — by then it\'s too late.',
+              desc: 'Users disengage weeks before they cancel. You only find out when the payment stops. By then it\'s too late.',
             },
             {
               icon: '📉',
               title: 'No early warning',
-              desc: 'Your analytics show historical data — not predictive signals. By the time churn shows in your MRR, it\'s already gone.',
+              desc: 'Your analytics show historical data, not predictive signals. By the time churn shows in your MRR, it\'s already gone.',
             },
             {
               icon: '✉️',
@@ -587,7 +587,7 @@ export default function Home() {
                 title: 'Detect',
                 color: 'border-blue-500/20 bg-blue-500/[0.03]',
                 accent: 'text-blue-400',
-                desc: 'UserRetain monitors every user daily — login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
+                desc: 'UserRetain monitors every user daily: login activity, feature usage, payment patterns, onboarding completion, and account age. No manual work required.',
                 points: ['Automatic Stripe sync every 24 hours', 'Behavioural signals tracked per user', 'Flags users who never hit activation'],
               },
               {
@@ -605,7 +605,7 @@ export default function Home() {
                 title: 'Recover',
                 color: 'border-emerald-500/20 bg-emerald-500/[0.03]',
                 accent: 'text-emerald-400',
-                desc: 'Get the right message for the right user — personalised win-back emails drafted by AI, ready to send in one click.',
+                desc: 'Get the right message for the right user. Personalised win-back emails drafted by AI, ready to send in one click.',
                 points: ['AI win-back emails per user', 'Tone selector (warm, casual, urgent)', 'Copy or send direct from UserRetain'],
               },
             ].map(s => (
@@ -648,14 +648,14 @@ export default function Home() {
               Every user scored 1–10, every morning
             </h3>
             <p className="text-white/45 text-base leading-relaxed mb-6">
-              Our AI checks login activity, feature adoption, onboarding completion, and payment history. Each user gets a risk score so you know exactly who to reach out to — before they decide to cancel.
+              Our AI checks login activity, feature adoption, onboarding completion, and payment history. Each user gets a risk score so you know exactly who to reach out to before they decide to cancel.
             </p>
             <ul className="space-y-3">
               {[
-                { badge: '9–10', color: 'bg-red-500/20 text-red-400 border-red-500/20',       label: 'Immediate risk — reach out today' },
-                { badge: '7–8',  color: 'bg-orange-500/20 text-orange-400 border-orange-500/20', label: 'High risk — worth a personal message' },
-                { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate — monitor closely' },
-                { badge: '1–3',  color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20', label: 'Healthy — no action needed' },
+                { badge: '9–10', color: 'bg-red-500/20 text-red-400 border-red-500/20',       label: 'Immediate risk. Reach out today.' },
+                { badge: '7–8',  color: 'bg-orange-500/20 text-orange-400 border-orange-500/20', label: 'High risk. Worth a personal message.' },
+                { badge: '4–6',  color: 'bg-amber-500/20 text-amber-400 border-amber-500/20',  label: 'Moderate. Monitor closely.' },
+                { badge: '1–3',  color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20', label: 'Healthy. No action needed.' },
               ].map(t => (
                 <li key={t.badge} className="flex items-center gap-3 text-base text-[#e8eaed]">
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full border flex-shrink-0 ${t.color}`}>{t.badge}</span>
@@ -708,13 +708,13 @@ export default function Home() {
               <div className="ml-auto text-[10px] text-white/50">7:02 AM</div>
             </div>
             <div className="p-4 space-y-3">
-              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Good morning — here's your briefing</div>
+              <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest">Good morning. Here's your briefing.</div>
               <div className="bg-red-500/5 border border-red-500/15 rounded-xl p-3">
                 <div className="text-xs font-semibold text-red-400 mb-2">⚡ 3 users need attention today</div>
                 {[
-                  { name: 'James M.',  note: '34 days inactive, $49/mo — score 9/10. Never completed onboarding.' },
-                  { name: 'Sarah K.',  note: 'Hasn\'t used core feature in 3 weeks, $29/mo — score 8/10. Offer a check-in call.' },
-                  { name: 'David L.',  note: 'Payment failed once, 18d inactive — score 7/10. Re-engage with a product update.' },
+                  { name: 'James M.',  note: '34 days inactive, $49/mo. Score 9/10. Never completed onboarding.' },
+                  { name: 'Sarah K.',  note: 'Hasn\'t used core feature in 3 weeks, $29/mo. Score 8/10. Offer a check-in call.' },
+                  { name: 'David L.',  note: 'Payment failed once, 18 days inactive. Score 7/10. Re-engage with a product update.' },
                 ].map(a => (
                   <div key={a.name} className="mt-2.5 first:mt-0">
                     <div className="text-[11px] font-semibold text-white/75">{a.name}</div>
@@ -737,7 +737,7 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Morning briefing</div>
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Your daily action list, in your inbox at 7 AM</h3>
             <p className="text-white/45 text-base leading-relaxed mb-6">
-              No more digging through dashboards. Every morning you get an email with the 3 users to reach out to today — each with a suggested action written by AI based on their specific product behaviour and risk signals.
+              No more digging through dashboards. Every morning you get an email with the 3 users to reach out to today, each with a suggested action written by AI based on their specific product behaviour and risk signals.
             </p>
             <ul className="space-y-3">
               {[
@@ -760,12 +760,12 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">User profiles</div>
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Full product history on every user, one click away</h3>
             <p className="text-white/45 text-base leading-relaxed mb-6">
-              Click any user to see their complete profile — churn score, payment history, product activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
+              Click any user to see their complete profile: churn score, payment history, product activity timeline, and a one-click AI win-back email. Everything you need before you reach out.
             </p>
             <ul className="space-y-3">
               {[
                 'Activity timeline with exact dates and feature usage',
-                'Churn score breakdown — see exactly why they\'re at risk',
+                'Churn score breakdown: see exactly why they\'re at risk',
                 'Onboarding completion status and activation milestone tracking',
                 'One-click AI win-back email, editable before sending',
               ].map(f => (
@@ -845,7 +845,7 @@ export default function Home() {
                 </div>
               ))}
               <div className="text-[10px] text-white/45 pt-2 border-t border-white/[0.04]">
-                Guide only — consult a tax professional.
+                Guide only. Consult a tax professional.
               </div>
             </div>
           </div>
@@ -854,7 +854,7 @@ export default function Home() {
             <div className="text-[10px] text-[#e8eaed] uppercase tracking-widest mb-3">Tax pot calculator</div>
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 leading-snug">Always know what to set aside for tax</h3>
             <p className="text-white/45 text-base leading-relaxed mb-6">
-              SaaS revenue fluctuates. UserRetain calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account — no spreadsheets needed.
+              SaaS revenue fluctuates. UserRetain calculates 30% of your monthly MRR and shows exactly how much to transfer to your tax account. No spreadsheets needed.
             </p>
             <ul className="space-y-3">
               {[
@@ -952,9 +952,9 @@ export default function Home() {
           </div>
           <div className="grid sm:grid-cols-3 gap-8 sm:gap-6 md:gap-8">
             {[
-              { n: '01', title: 'Connect Stripe or import CSV', desc: 'Link Stripe for automatic sync or upload a CSV. Read-only access — we never write to your account or charge your users.' },
+              { n: '01', title: 'Connect Stripe or import CSV', desc: 'Link Stripe for automatic sync or upload a CSV. Read-only access. We never write to your account or charge your users.' },
               { n: '02', title: 'AI scores every user',        desc: 'Every user gets a daily churn risk score 1–10, with a plain-English reason based on their product behaviour.' },
-              { n: '03', title: 'Act before they cancel',      desc: 'Get a morning email with the top 3 users to contact — and an AI-drafted message personalised to each one.' },
+              { n: '03', title: 'Act before they cancel',      desc: 'Get a morning email with the top 3 users to contact, with an AI-drafted message personalised to each one.' },
             ].map((s, i) => (
               <div key={s.n} className="relative">
                 {i < 2 && (
@@ -988,7 +988,7 @@ export default function Home() {
                 name: 'Alex Rivera',  role: 'SaaS founder · 1,200 users', av: 'A',
               },
               {
-                quote: "The daily briefing is the first thing I read every morning. It tells me exactly who to call — not just data, but actions. Saved 18% of at-risk users last month.",
+                quote: "The daily briefing is the first thing I read every morning. It tells me exactly who to call. Not just data, but actions. Saved 18% of at-risk users last month.",
                 name: 'Sarah Kim',    role: 'B2B SaaS · $12k MRR', av: 'S',
               },
               {
@@ -1126,7 +1126,7 @@ export default function Home() {
             </form>
           ) : (
             <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-5 py-3 rounded-xl max-w-sm mx-auto text-sm font-medium mb-4">
-              ✓ You're on the list — talk soon.
+              ✓ You're on the list. Talk soon.
             </div>
           )}
           <p className="text-xs text-white/50">No spam, ever. Unsubscribe anytime.</p>
