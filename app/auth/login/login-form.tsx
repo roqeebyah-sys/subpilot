@@ -12,8 +12,8 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // Check if they just signed up successfully
   const justSignedUp = searchParams.get('signup') === 'success'
+  const justReset = searchParams.get('reset') === 'success'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,44 +42,111 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-white flex">
 
       {/* LEFT PANEL */}
-      <div className="hidden lg:flex flex-col justify-between w-1/2 bg-[#0f0f0f] border-r border-white/10 p-12">
-        <Link href="/" className="text-xl font-semibold">
-          Sub<span className="text-emerald-400">Pilot</span>
+      <div className="hidden lg:flex flex-col justify-between w-[52%] bg-[#0d0d0d] border-r border-white/[0.06] p-12 overflow-hidden">
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
+          <div className="w-[26px] h-[26px] rounded-[6px] bg-emerald-400 flex items-center justify-center flex-shrink-0">
+            <svg width="13" height="9" viewBox="0 0 15 11" fill="none">
+              <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <span className="text-[15px] font-bold tracking-tight">User<span className="text-emerald-400">Retain</span></span>
         </Link>
-        <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
-          <div className="text-xs text-emerald-400 uppercase tracking-widest mb-4">✦ Live alert example</div>
-          <div className="space-y-3">
-            {[
-              { level: 'high', text: '3 subscribers likely to cancel this week', sub: '$2,400/mo at risk' },
-              { level: 'medium', text: '6 failed payments need recovery', sub: '$588/mo at risk' },
-              { level: 'good', text: '11 users ready to upgrade', sub: '+$700/mo opportunity' },
-            ].map((a) => (
-              <div key={a.text} className={`flex gap-3 p-3 rounded-lg border ${
-                a.level === 'high' ? 'bg-red-500/5 border-red-500/20' :
-                a.level === 'medium' ? 'bg-amber-500/5 border-amber-500/20' :
-                'bg-emerald-500/5 border-emerald-500/20'
-              }`}>
-                <div className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
-                  a.level === 'high' ? 'bg-red-400' :
-                  a.level === 'medium' ? 'bg-amber-400' : 'bg-emerald-400'
-                }`} />
-                <div>
-                  <div className="text-xs font-medium">{a.text}</div>
-                  <div className="text-xs text-[#e8eaed] mt-0.5">{a.sub}</div>
+
+        {/* Main content */}
+        <div className="space-y-7">
+
+          <div>
+            <h2 className="text-2xl font-bold leading-snug mb-2">
+              Welcome back.<br />
+              <span className="text-emerald-400">Your subscribers missed you.</span>
+            </h2>
+            <p className="text-[#e8eaed] text-sm leading-relaxed">
+              Here&apos;s what UserRetain has been watching while you were away.
+            </p>
+          </div>
+
+          {/* Live alerts */}
+          <div className="bg-[#0a0a0a] border border-white/[0.08] rounded-xl overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                <span className="text-xs font-semibold text-white/70">Today&apos;s alerts</span>
+              </div>
+              <span className="text-[10px] text-white/30">Updated 2 mins ago</span>
+            </div>
+            <div className="divide-y divide-white/[0.04]">
+              {[
+                { level: 'high',   icon: '🔴', text: '3 subscribers likely to cancel this week', sub: '$2,400/mo at risk', action: 'Send win-back email' },
+                { level: 'medium', icon: '🟡', text: '6 failed payments need recovery', sub: '$588/mo at risk', action: 'Retry payments' },
+                { level: 'good',   icon: '🟢', text: '11 users ready to upgrade', sub: '+$700/mo opportunity', action: 'Send upgrade offer' },
+              ].map((a) => (
+                <div key={a.text} className="flex items-center justify-between px-4 py-3 gap-3">
+                  <div className="flex items-start gap-2.5 min-w-0">
+                    <span className="text-xs mt-0.5 flex-shrink-0">{a.icon}</span>
+                    <div className="min-w-0">
+                      <div className="text-xs font-medium text-white truncate">{a.text}</div>
+                      <div className="text-[10px] text-white/40 mt-0.5">{a.sub}</div>
+                    </div>
+                  </div>
+                  <span className={`text-[10px] px-2 py-1 rounded-md border font-medium flex-shrink-0 ${
+                    a.level === 'high'   ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                    a.level === 'medium' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
+                                          'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  }`}>{a.action} →</span>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { val: '34%', label: 'Churn reduction' },
+              { val: '18d', label: 'Early warning' },
+              { val: '$2.4k', label: 'Avg. recovered/mo' },
+            ].map((s) => (
+              <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-3 text-center">
+                <div className="text-base font-bold text-emerald-400">{s.val}</div>
+                <div className="text-[10px] text-white/40 mt-0.5">{s.label}</div>
               </div>
             ))}
           </div>
+
+          {/* Feature list */}
+          <div className="space-y-2.5">
+            {[
+              'Daily churn scores for every subscriber',
+              'AI-drafted win-back emails in one click',
+              'Morning briefing with who to contact today',
+              'Stripe sync and CSV import',
+            ].map((f) => (
+              <div key={f} className="flex items-center gap-2.5 text-xs text-[#e8eaed]">
+                <svg className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" viewBox="0 0 14 14" fill="none">
+                  <path d="M2.5 7l3 3 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                {f}
+              </div>
+            ))}
+          </div>
+
         </div>
-        <p className="text-white/45 text-xs">© 2026 SubPilot</p>
+
+        <p className="text-white/20 text-xs">© 2026 UserRetain. All rights reserved.</p>
       </div>
 
       {/* RIGHT PANEL - FORM */}
       <div className="flex-1 flex items-center justify-center px-8">
         <div className="w-full max-w-md">
           <div className="lg:hidden mb-8">
-            <Link href="/" className="text-xl font-semibold">
-              Sub<span className="text-emerald-400">Pilot</span>
+            <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <div className="w-[24px] h-[24px] rounded-[5px] bg-emerald-400 flex items-center justify-center flex-shrink-0">
+                <svg width="12" height="9" viewBox="0 0 15 11" fill="none">
+                  <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span className="text-[15px] font-bold tracking-tight">User<span className="text-emerald-400">Retain</span></span>
             </Link>
           </div>
 
@@ -97,6 +164,12 @@ export default function LoginPage() {
             </div>
           )}
 
+          {justReset && (
+            <div className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm px-4 py-3 rounded-lg mb-6">
+              ✓ Password updated! Log in with your new password.
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-lg mb-6">
               {error}
@@ -105,23 +178,23 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-[#e8eaed] mb-2">Email</label>
+              <label className="block text-sm text-white/60 mb-2">Email</label>
               <input
                 type="email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 placeholder="jane@company.com"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
             <div>
               <div className="flex justify-between mb-2">
-                <label className="text-sm text-[#e8eaed]">Password</label>
-                <button type="button" className="text-xs text-emerald-400 hover:text-emerald-300">
+                <label className="text-sm text-white/60">Password</label>
+                <Link href="/auth/forgot-password" className="text-xs text-emerald-400 hover:text-emerald-300">
                   Forgot password?
-                </button>
+                </Link>
               </div>
               <input
                 type="password"
@@ -129,7 +202,7 @@ export default function LoginPage() {
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 placeholder="Your password"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/45 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm placeholder:text-white/20 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
 
