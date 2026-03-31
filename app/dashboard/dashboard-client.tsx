@@ -117,8 +117,8 @@ function churnWindow(score: number | undefined, days: number | null): string {
 
 function riskReasons(s: { daysInactive: number | null; churnScore?: number; plan: string }): string[] {
   const reasons: string[] = []
-  if (s.daysInactive && s.daysInactive > 7)  reasons.push(`No login in ${s.daysInactive} days`)
-  if (s.churnScore && s.churnScore >= 7)      reasons.push('Significant engagement drop')
+  if (s.daysInactive && s.daysInactive > 7)  reasons.push(`${s.daysInactive} days inactive`)
+  if (s.churnScore && s.churnScore >= 7)      reasons.push('Engagement drop')
   if (s.churnScore && s.churnScore >= 9)      reasons.push('High cancellation probability')
   if (reasons.length === 0)                   reasons.push('Activity below normal baseline')
   return reasons

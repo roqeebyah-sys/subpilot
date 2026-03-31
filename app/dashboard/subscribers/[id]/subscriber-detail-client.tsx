@@ -595,7 +595,7 @@ export default function SubscriberDetailClient({
 
               {/* ── SUBSCRIPTION TIMELINE ──────────────────────────────── */}
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
-                <h2 className="text-sm font-semibold mb-4">Subscription timeline</h2>
+                <h2 className="text-sm font-semibold mb-4">Activity timeline</h2>
                 <div className="relative pl-5 space-y-4 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-px before:bg-white/[0.08]">
 
                   {sub.startedAt && (
