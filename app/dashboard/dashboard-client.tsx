@@ -123,6 +123,76 @@ function riskReasons(s: { daysInactive: number | null; churnScore?: number; plan
   return reasons
 }
 
+// ─── Email preview modal ───────────────────────────────────────────────────────
+
+type EmailPreview = {
+  subscriberId: string
+  subscriberName: string
+  subscriberEmail: string
+  subject: string
+  body: string
+}
+
+function EmailPreviewModal({ preview, onClose, onSend, sending, sent }: {
+  preview: EmailPreview
+  onClose: () => void
+  onSend: () => void
+  sending: boolean
+  sent: boolean
+}) {
+  const [copied, setCopied] = useState(false)
+
+  function copy() {
+    navigator.clipboard.writeText(`Subject: ${preview.subject}\n\n${preview.body}`)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-[#111] border border-white/[0.08] rounded-2xl w-full max-w-lg shadow-2xl">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+          <div>
+            <div className="text-sm font-semibold">AI win-back email</div>
+            <div className="text-xs text-white/40 mt-0.5">For {preview.subscriberName} · {preview.subscriberEmail}</div>
+          </div>
+          <button onClick={onClose} className="text-white/30 hover:text-white transition-colors text-lg leading-none">✕</button>
+        </div>
+        <div className="p-5 space-y-4">
+          <div className="space-y-1.5 text-xs text-white/50">
+            <div className="flex gap-2"><span className="w-14 flex-shrink-0">To:</span><span className="text-white/80">{preview.subscriberEmail}</span></div>
+            <div className="flex gap-2"><span className="w-14 flex-shrink-0">Subject:</span><span className="text-white/80">{preview.subject}</span></div>
+          </div>
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-xs text-[#e8eaed] leading-relaxed whitespace-pre-wrap font-mono">
+            {preview.body}
+          </div>
+          <div className="flex gap-2">
+            {sent ? (
+              <div className="flex-1 text-center text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 py-2.5 rounded-lg font-medium">
+                ✓ Draft sent to your inbox
+              </div>
+            ) : (
+              <button
+                onClick={onSend}
+                disabled={sending}
+                className="flex-1 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black text-xs font-semibold py-2.5 rounded-lg transition-colors"
+              >
+                {sending ? 'Sending…' : 'Send draft to my inbox'}
+              </button>
+            )}
+            <button
+              onClick={copy}
+              className="flex-1 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 text-xs font-medium py-2.5 rounded-lg transition-colors"
+            >
+              {copied ? '✓ Copied!' : 'Copy email'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export default function DashboardClient({ session }: { session: any }) {
@@ -138,6 +208,10 @@ export default function DashboardClient({ session }: { session: any }) {
   const [sendingId, setSendingId]         = useState<string | null>(null)
   const [sentIds, setSentIds]             = useState<Set<string>>(new Set())
   const [showAllRisk, setShowAllRisk]     = useState(false)
+  const [emailPreview, setEmailPreview]   = useState<EmailPreview | null>(null)
+  const [previewLoading, setPreviewLoading] = useState<string | null>(null)
+  const [sendingFromModal, setSendingFromModal] = useState(false)
+  const [sentFromModal, setSentFromModal]       = useState(false)
 
   async function sendBriefing() {
     setBriefing(true)
@@ -154,6 +228,32 @@ export default function DashboardClient({ session }: { session: any }) {
     }
   }
 
+  async function openEmailPreview(subscriberId: string, subscriberName: string) {
+    setPreviewLoading(subscriberId)
+    setSentFromModal(false)
+    try {
+      const res  = await fetch('/api/ai/preview-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscriberId }),
+      })
+      const json = await res.json()
+      if (json.error) throw new Error(json.error)
+      setEmailPreview({
+        subscriberId,
+        subscriberName,
+        subscriberEmail: json.subscriberEmail,
+        subject: json.subject,
+        body: json.body,
+      })
+    } catch {
+      // fallback: send directly if preview fails
+      sendAIMessage(subscriberId)
+    } finally {
+      setPreviewLoading(null)
+    }
+  }
+
   async function sendAIMessage(subscriberId: string) {
     setSendingId(subscriberId)
     try {
@@ -166,10 +266,18 @@ export default function DashboardClient({ session }: { session: any }) {
       if (json.error) throw new Error(json.error)
       setSentIds(prev => new Set([...prev, subscriberId]))
     } catch {
-      // swallow — user can retry from subscriber profile
+      // swallow
     } finally {
       setSendingId(null)
     }
+  }
+
+  async function sendFromModal() {
+    if (!emailPreview) return
+    setSendingFromModal(true)
+    await sendAIMessage(emailPreview.subscriberId)
+    setSentFromModal(true)
+    setSendingFromModal(false)
   }
 
   useEffect(() => {
@@ -186,6 +294,7 @@ export default function DashboardClient({ session }: { session: any }) {
   })
 
   return (
+    <>
     <div className="min-h-screen bg-[#080808] text-white flex">
 
       {/* ══ SIDEBAR ══════════════════════════════════════════════════════════════ */}
@@ -762,11 +871,13 @@ export default function DashboardClient({ session }: { session: any }) {
                                     </span>
                                   ) : (
                                     <button
-                                      onClick={e => { e.stopPropagation(); sendAIMessage(s.id) }}
-                                      disabled={!!sendingId}
-                                      className="text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap disabled:opacity-50"
+                                      onClick={e => { e.stopPropagation(); openEmailPreview(s.id, s.name) }}
+                                      disabled={!!previewLoading}
+                                      className="text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap disabled:opacity-50 flex items-center gap-1.5"
                                     >
-                                      {isSending ? '…' : 'Send AI email →'}
+                                      {previewLoading === s.id ? (
+                                        <><span className="w-2.5 h-2.5 border border-emerald-400 border-t-transparent rounded-full animate-spin" />Generating…</>
+                                      ) : 'Send AI email →'}
                                     </button>
                                   )}
                                 </div>
@@ -1174,5 +1285,16 @@ export default function DashboardClient({ session }: { session: any }) {
         </main>
       </div>
     </div>
+
+      {emailPreview && (
+        <EmailPreviewModal
+          preview={emailPreview}
+          onClose={() => { setEmailPreview(null); setSentFromModal(false) }}
+          onSend={sendFromModal}
+          sending={sendingFromModal}
+          sent={sentFromModal}
+        />
+      )}
+    </>
   )
 }
