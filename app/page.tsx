@@ -392,7 +392,7 @@ export default function Home() {
                   ✓ You're in. We'll be in touch within 24 hours.
                 </div>
               )}
-              <a href="/dashboard"
+              <a href="/demo"
                 className="inline-flex items-center justify-center gap-2 text-sm text-white/50 hover:text-white border border-white/[0.10] hover:border-white/20 px-5 py-3 rounded-lg transition-all w-full sm:w-auto max-w-sm">
                 View demo →
               </a>
