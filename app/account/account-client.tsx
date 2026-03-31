@@ -264,15 +264,62 @@ export default function AccountClient({ session }: { session: any }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white">
+    <div className="min-h-screen bg-[#080808] text-white flex">
 
-      {/* Top bar */}
-      <header className="h-[60px] border-b border-white/[0.06] px-4 md:px-6 flex items-center justify-between sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
+      {/* ── SIDEBAR ── */}
+      <aside className="hidden lg:flex flex-col w-[220px] border-r border-white/[0.06] flex-shrink-0 h-screen sticky top-0">
+        {/* Logo */}
+        <div className="px-5 h-[60px] flex items-center border-b border-white/[0.06]">
+          <Link href="/" className="text-[15px] font-semibold tracking-tight hover:opacity-75 transition-opacity">
+            Sub<span className="text-emerald-400">Pilot</span>
+          </Link>
+        </div>
+        {/* Nav */}
+        <nav className="flex-1 px-3 py-4 space-y-0.5">
+          {[
+            { icon: '⊞', label: 'Overview',    href: '/dashboard' },
+            { icon: '◧', label: 'Subscribers', href: '/dashboard' },
+            { icon: '✦', label: 'Tools',       href: '/dashboard' },
+            { icon: '◈', label: 'Billing',     href: '/billing' },
+          ].map(item => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#e8eaed] hover:text-white hover:bg-white/[0.04] transition-all"
+            >
+              <span className="opacity-60 text-xs">{item.icon}</span>
+              {item.label}
+            </Link>
+          ))}
+          <div className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm bg-white/[0.08] text-white">
+            <span className="opacity-60 text-xs">◉</span>
+            Account
+          </div>
+        </nav>
+        {/* User */}
+        <div className="px-4 py-4 border-t border-white/[0.06]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs font-bold text-emerald-400 flex-shrink-0">
+              {session?.user?.name?.[0]?.toUpperCase() || 'U'}
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
+              <div className="text-[10px] text-white/50 truncate">{session?.user?.email}</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── MAIN ── */}
+      <div className="flex-1 min-w-0">
+
+      {/* Mobile top bar */}
+      <header className="lg:hidden h-[60px] border-b border-white/[0.06] px-4 flex items-center justify-between sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
         <Link href="/dashboard" className="text-white/40 hover:text-white transition-colors text-xs flex items-center gap-1.5">
           ← Dashboard
         </Link>
         <Link href="/" className="text-[15px] font-semibold tracking-tight hover:opacity-75 transition-opacity">
-          User<span className="text-emerald-400">Retain</span>
+          Sub<span className="text-emerald-400">Pilot</span>
         </Link>
         <div className="w-20" />
       </header>
@@ -522,6 +569,7 @@ export default function AccountClient({ session }: { session: any }) {
         </Section>
 
       </main>
+      </div>{/* end flex-1 */}
 
       {showDelete && (
         <DeleteModal
