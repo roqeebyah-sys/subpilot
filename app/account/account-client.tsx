@@ -146,11 +146,13 @@ export default function AccountClient({ session }: { session: any }) {
   const [churnAlerts,   setChurnAlerts]   = useState(true)
   const [notifSaving,   setNotifSaving]   = useState(false)
   const [notifSaved,    setNotifSaved]    = useState(false)
+  const [notifError,    setNotifError]    = useState('')
 
   // Tax
   const [taxRate,   setTaxRate]   = useState(30)
   const [taxSaving, setTaxSaving] = useState(false)
   const [taxSaved,  setTaxSaved]  = useState(false)
+  const [taxError,  setTaxError]  = useState('')
 
   // Billing portal
   const [portalLoading, setPortalLoading] = useState(false)
@@ -209,26 +211,34 @@ export default function AccountClient({ session }: { session: any }) {
   async function saveNotifications() {
     setNotifSaving(true)
     setNotifSaved(false)
-    await fetch('/api/account/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ notifications: { dailyBriefing, churnAlerts } }),
-    })
-    setNotifSaved(true)
-    setTimeout(() => setNotifSaved(false), 3000)
+    setNotifError('')
+    try {
+      const res = await fetch('/api/account/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notifications: { dailyBriefing, churnAlerts } }),
+      })
+      const d = await res.json()
+      if (d.error) setNotifError(d.error)
+      else { setNotifSaved(true); setTimeout(() => setNotifSaved(false), 3000) }
+    } catch { setNotifError('Failed to save') }
     setNotifSaving(false)
   }
 
   async function saveTax() {
     setTaxSaving(true)
     setTaxSaved(false)
-    await fetch('/api/account/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ taxRate }),
-    })
-    setTaxSaved(true)
-    setTimeout(() => setTaxSaved(false), 3000)
+    setTaxError('')
+    try {
+      const res = await fetch('/api/account/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ taxRate }),
+      })
+      const d = await res.json()
+      if (d.error) setTaxError(d.error)
+      else { setTaxSaved(true); setTimeout(() => setTaxSaved(false), 3000) }
+    } catch { setTaxError('Failed to save') }
     setTaxSaving(false)
   }
 
@@ -513,6 +523,7 @@ export default function AccountClient({ session }: { session: any }) {
               </div>
               <Toggle on={churnAlerts} onChange={setChurnAlerts} />
             </div>
+            {notifError && <p className="text-xs text-red-400">{notifError}</p>}
             <SaveButton loading={notifSaving} saved={notifSaved} onClick={saveNotifications} />
           </div>
         </Section>
@@ -542,6 +553,7 @@ export default function AccountClient({ session }: { session: any }) {
                 This updates the tax pot calculation on your dashboard. Default is 30%. Consult a tax professional for your actual rate.
               </p>
             </div>
+            {taxError && <p className="text-xs text-red-400">{taxError}</p>}
             <SaveButton loading={taxSaving} saved={taxSaved} onClick={saveTax} />
           </div>
         </Section>

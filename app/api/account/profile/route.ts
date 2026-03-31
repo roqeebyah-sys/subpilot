@@ -40,7 +40,10 @@ export async function GET() {
 export async function PUT(req: NextRequest) {
   try {
     const session = await auth()
-    if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    if (!session?.user?.id) {
+      console.error('[account/profile PUT] No session user id', JSON.stringify(session?.user))
+      return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    }
 
     await connectDB()
     const body = await req.json()
@@ -68,6 +71,7 @@ export async function PUT(req: NextRequest) {
         dailyBriefing: notifications.dailyBriefing ?? user.notifications?.dailyBriefing ?? true,
         churnAlerts:   notifications.churnAlerts   ?? user.notifications?.churnAlerts   ?? true,
       }
+      user.markModified('notifications')
     }
 
     // Tax rate
