@@ -918,90 +918,75 @@ export default function DashboardClient({ session }: { session: any }) {
 
                   {/* RIGHT — AI Insights Panel */}
                   <div className="space-y-3">
-
-                    {/* Insights summary */}
-                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-5">
+                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-4">
-                        <div className="w-5 h-5 bg-emerald-500/20 rounded-md flex items-center justify-center text-[10px] text-emerald-400">✦</div>
+                        <span className="text-emerald-400 text-xs">✦</span>
                         <h3 className="text-sm font-semibold">AI Insights</h3>
                       </div>
 
                       {isEmpty ? (
                         <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
-                          <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center text-base">✦</div>
-                          <div>
-                            <div className="text-sm font-medium text-white/60 mb-1.5">AI insights will appear here</div>
-                            <div className="text-xs text-white/30 leading-relaxed max-w-[200px]">Import your first subscribers to unlock AI-powered churn predictions and win-back recommendations.</div>
-                          </div>
+                          <div className="text-sm font-medium text-white/60 mb-1">AI insights will appear here</div>
+                          <div className="text-xs text-white/30 leading-relaxed max-w-[200px]">Import your first subscribers to unlock AI-powered churn predictions and win-back recommendations.</div>
                         </div>
                       ) : (
                         <div className="space-y-3">
-                          {/* Likely to churn this week */}
-                          <div className="bg-red-500/5 border border-red-500/15 rounded-lg px-4 py-3">
-                            <div className="text-2xl font-bold text-red-400 mb-0.5">
-                              {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length}
+                          {/* Today's briefing */}
+                          <div className="bg-red-500/10 border border-red-500/15 rounded-lg p-3">
+                            <div className="text-[10px] text-red-400 uppercase tracking-widest mb-1.5 font-semibold">Today's briefing</div>
+                            <div className="text-xs text-[#e8eaed] leading-relaxed">
+                              {data.atRisk.length > 0
+                                ? `${data.atRisk.length} subscriber${data.atRisk.length > 1 ? 's' : ''} show elevated churn risk. Immediate action on ${data.atRisk[0].name} could protect $${data.atRisk[0].amount}/mo.`
+                                : 'All subscribers look healthy today. Keep monitoring for early signals.'}
                             </div>
-                            <div className="text-xs text-white/40">subscribers likely to churn this week</div>
                           </div>
 
-                          {/* Revenue at risk */}
-                          <div className="bg-orange-500/5 border border-orange-500/15 rounded-lg px-4 py-3">
-                            <div className="text-2xl font-bold text-orange-400 mb-0.5">
-                              ${data.metrics.revenueAtRisk.toLocaleString()}
+                          {/* Top priority */}
+                          {data.atRisk.length > 0 && (
+                            <div className="bg-amber-500/10 border border-amber-500/15 rounded-lg p-3">
+                              <div className="text-[10px] text-amber-400 uppercase tracking-widest mb-1.5 font-semibold">Top priority</div>
+                              <div className="text-xs text-[#e8eaed] leading-relaxed">
+                                Reach out to {data.atRisk[0].name} today.
+                                {data.atRisk[0].daysInactive ? ` ${data.atRisk[0].daysInactive} days inactive` : ''}
+                                {data.atRisk[0].churnScore ? `, score ${data.atRisk[0].churnScore}/10.` : '.'}
+                              </div>
                             </div>
-                            <div className="text-xs text-white/40">total revenue at risk per month</div>
-                          </div>
+                          )}
 
-                          {/* Engagement trend */}
-                          <div className={`${mrrDelta > 0 ? 'bg-emerald-500/5 border-emerald-500/15' : 'bg-white/[0.02] border-white/[0.06]'} border rounded-lg px-4 py-3`}>
-                            <div className={`text-2xl font-bold mb-0.5 ${mrrDelta > 0 ? 'text-emerald-400' : 'text-white/40'}`}>
-                              {mrrDelta > 0 ? `+$${mrrDelta.toLocaleString()}` : '—'}
+                          {/* Revenue opportunities */}
+                          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                            <div className="text-[10px] text-white/40 uppercase tracking-widest mb-2 font-semibold">Revenue opportunities</div>
+                            <div className="space-y-1.5 text-xs text-white/50">
+                              {data.metrics.pastDue > 0 && (
+                                <div>↑ Recover {data.metrics.pastDue} failed payment{data.metrics.pastDue > 1 ? 's' : ''}</div>
+                              )}
+                              {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length > 1 && (
+                                <div>↑ {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length} high-risk subscribers need a personal message</div>
+                              )}
+                              {mrrDelta > 0 && (
+                                <div>↑ MRR up ${mrrDelta.toLocaleString()} vs last month — keep momentum</div>
+                              )}
+                              {data.metrics.pastDue === 0 && data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length <= 1 && (
+                                <div>↑ Good health — focus on onboarding new subscribers</div>
+                              )}
                             </div>
-                            <div className="text-xs text-white/40">MRR growth vs last month</div>
                           </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Recommended Action */}
-                    {data.atRisk.length > 0 && (() => {
-                      const top = data.atRisk[0]
-                      const risk = riskLabel(top.churnScore)
-                      return (
-                        <div className="bg-white/[0.02] border border-amber-500/20 rounded-xl p-5">
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-5 h-5 bg-amber-500/20 rounded-md flex items-center justify-center text-[10px] text-amber-400">!</div>
-                            <h3 className="text-xs font-semibold text-amber-400 uppercase tracking-wide">Recommended Action</h3>
-                          </div>
-                          <p className="text-xs text-[#e8eaed] leading-relaxed mb-3">
-                            Send a personalised win-back message to{' '}
-                            <span className="text-white font-medium">{top.name}</span>
-                            {' '}— your highest-risk subscriber at ${top.amount}/mo.
-                            {top.daysInactive ? ` They've been inactive for ${top.daysInactive} days.` : ''}
-                          </p>
-                          <button
-                            onClick={() => sendAIMessage(top.id)}
-                            disabled={!!sendingId || sentIds.has(top.id)}
-                            className="w-full text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border border-amber-500/25 px-3 py-2 rounded-lg transition-all disabled:opacity-50"
-                          >
-                            {sentIds.has(top.id) ? '✓ Message sent' : sendingId === top.id ? 'Sending…' : `Send to ${top.name.split(' ')[0]} →`}
-                          </button>
-                        </div>
-                      )
-                    })()}
-
                     {/* Quick stats */}
-                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-5 space-y-3">
-                      <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wide">Overview</h3>
+                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-4 space-y-2">
+                      <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3 font-semibold">Overview</div>
                       {[
                         { label: 'Active subscribers', value: data.metrics.activeSubscribers.toLocaleString(), color: 'text-emerald-400' },
-                        { label: 'Avg revenue / sub',  value: `$${data.metrics.arpu}`,                         color: 'text-white/70' },
+                        { label: 'Avg revenue / sub',  value: `$${data.metrics.arpu}`,                         color: 'text-white' },
                         { label: 'Past due',            value: String(data.metrics.pastDue),                    color: data.metrics.pastDue > 0 ? 'text-amber-400' : 'text-white/40' },
-                        { label: 'Total MRR',           value: `$${data.metrics.mrr.toLocaleString()}`,         color: 'text-white/70' },
+                        { label: 'Total MRR',           value: `$${data.metrics.mrr.toLocaleString()}`,         color: 'text-white' },
                       ].map(stat => (
-                        <div key={stat.label} className="flex items-center justify-between">
-                          <span className="text-xs text-[#e8eaed]">{stat.label}</span>
-                          <span className={`text-xs font-semibold ${stat.color}`}>{stat.value}</span>
+                        <div key={stat.label} className="flex items-center justify-between text-xs">
+                          <span className="text-white/40">{stat.label}</span>
+                          <span className={`font-semibold ${stat.color}`}>{stat.value}</span>
                         </div>
                       ))}
                     </div>
