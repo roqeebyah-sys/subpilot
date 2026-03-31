@@ -730,91 +730,45 @@ export default function DashboardClient({ session }: { session: any }) {
                           const isSending = sendingId === s.id
 
                           return (
-                            <div key={s.id} className="px-5 py-4 hover:bg-white/[0.025] transition-colors group">
-                              <div className="flex items-start gap-4">
+                            <div key={s.id} className="px-5 py-4 hover:bg-white/[0.02] transition-colors group cursor-pointer" onClick={() => window.location.href = `/dashboard/subscribers/${s.id}`}>
+                              <div className="flex items-start justify-between gap-4">
 
-                                {/* Avatar */}
-                                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${risk.bg} border ${risk.border}`}>
-                                  <span className={risk.color}>{s.name[0]?.toUpperCase()}</span>
+                                {/* Left: avatar + details */}
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                    {s.name[0]?.toUpperCase()}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-medium">{s.name}</div>
+                                    <div className="text-xs text-white/40 mt-0.5">{s.plan} · ${s.amount}/mo</div>
+                                    <div className={`text-[11px] font-medium mt-1 ${
+                                      s.churnScore && s.churnScore >= 8 ? 'text-red-400' :
+                                      s.churnScore && s.churnScore >= 6 ? 'text-orange-400' : 'text-amber-400'
+                                    }`}>{urgency}</div>
+                                    <div className="flex gap-1.5 mt-2 flex-wrap">
+                                      {reasons.map(r => (
+                                        <span key={r} className="text-[10px] bg-white/[0.06] text-white/50 px-2 py-0.5 rounded-full">{r}</span>
+                                      ))}
+                                    </div>
+                                  </div>
                                 </div>
 
-                                {/* Details */}
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                                    <Link
-                                      href={`/dashboard/subscribers/${s.id}`}
-                                      className="text-sm font-semibold hover:text-white/80 transition-colors"
-                                    >
-                                      {s.name}
-                                    </Link>
-                                    <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${risk.bg} ${risk.color} border ${risk.border}`}>
-                                      {risk.label}
+                                {/* Right: score + button */}
+                                <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                                  {s.churnScore !== undefined && <ScoreBadge score={s.churnScore} />}
+                                  {isSent ? (
+                                    <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium whitespace-nowrap">
+                                      ✓ Sent
                                     </span>
-                                    {s.churnScore !== undefined && <ScoreBadge score={s.churnScore} />}
-                                  </div>
-
-                                  {/* Value + reasons */}
-                                  <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span className="text-xs font-semibold text-white/70">${s.amount}<span className="text-[#e8eaed] font-normal">/mo</span></span>
-                                    <span className="text-white/15">·</span>
-                                    <span className="text-xs text-white/40">{s.plan}</span>
-                                  </div>
-
-                                  {/* Risk reasons */}
-                                  <div className="flex flex-wrap gap-1.5 mb-2.5">
-                                    {reasons.map(r => (
-                                      <span key={r} className="text-[10px] text-white/40 bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 rounded-md">
-                                        {r}
-                                      </span>
-                                    ))}
-                                  </div>
-
-                                  {/* Urgency */}
-                                  <div className={`text-[11px] font-medium mb-3 ${
-                                    s.churnScore && s.churnScore >= 8 ? 'text-red-400' :
-                                    s.churnScore && s.churnScore >= 6 ? 'text-orange-400' : 'text-amber-400'
-                                  }`}>
-                                    ⏱ {urgency}
-                                  </div>
-
-                                  {/* Action buttons */}
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    {isSent ? (
-                                      <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium">
-                                        ✓ Draft sent to your inbox
-                                      </span>
-                                    ) : (
-                                      <div className="group/btn relative">
-                                        <button
-                                          onClick={() => sendAIMessage(s.id)}
-                                          disabled={!!sendingId}
-                                          className="flex items-center gap-1.5 text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-black px-3.5 py-1.5 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                          {isSending ? (
-                                            <><span className="w-2.5 h-2.5 border-2 border-black/30 border-t-black rounded-full animate-spin" />Sending…</>
-                                          ) : '✦ Send AI Message'}
-                                        </button>
-                                        {/* Tooltip */}
-                                        <div className="absolute bottom-full left-0 mb-2 hidden group-hover/btn:block z-20 pointer-events-none">
-                                          <div className="bg-[#1a1a1a] border border-white/[0.12] rounded-lg px-3 py-2 text-[10px] text-[#e8eaed] w-52 leading-relaxed shadow-xl">
-                                            Claude writes a personalised win-back email and sends the draft <span className="text-white/90 font-medium">to your inbox</span> — you review before sending.
-                                          </div>
-                                        </div>
-                                      </div>
-                                    )}
-                                    <Link
-                                      href={`/dashboard/subscribers/${s.id}`}
-                                      className="text-xs font-medium text-white/50 hover:text-white/80 bg-white/[0.05] hover:bg-white/[0.09] border border-white/[0.08] px-3.5 py-1.5 rounded-lg transition-all"
+                                  ) : (
+                                    <button
+                                      onClick={e => { e.stopPropagation(); sendAIMessage(s.id) }}
+                                      disabled={!!sendingId}
+                                      className="text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap disabled:opacity-50"
                                     >
-                                      Offer Discount
-                                    </Link>
-                                    <Link
-                                      href={`/dashboard/subscribers/${s.id}`}
-                                      className="text-xs text-white/50 hover:text-white/50 transition-colors ml-auto"
-                                    >
-                                      View profile →
-                                    </Link>
-                                  </div>
+                                      {isSending ? '…' : 'Send AI email →'}
+                                    </button>
+                                  )}
                                 </div>
                               </div>
                             </div>
