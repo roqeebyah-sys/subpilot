@@ -393,7 +393,7 @@ export default function Home() {
                 </div>
               )}
               <a href="/demo"
-                className="inline-flex items-center justify-center gap-2 text-sm text-white/50 hover:text-white border border-white/[0.10] hover:border-white/20 px-5 py-3 rounded-lg transition-all w-full sm:w-auto max-w-sm">
+                className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-black bg-emerald-400 hover:bg-emerald-300 px-5 py-3 rounded-lg transition-all w-full sm:w-auto max-w-sm">
                 View demo →
               </a>
             </div>

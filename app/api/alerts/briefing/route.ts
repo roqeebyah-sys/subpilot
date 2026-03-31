@@ -7,6 +7,65 @@ import { sendBriefingEmail } from '@/lib/email-service'
 
 export const maxDuration = 30
 
+// ── Shared helper to gather metrics and generate briefing text ────────────────
+
+async function buildBriefing(userId: string) {
+  await connectDB()
+  const subscribers = await Subscriber.find({ userId })
+
+  const active    = subscribers.filter(s => s.status === 'active')
+  const cancelled = subscribers.filter(s => s.status === 'cancelled')
+  const mrr       = Math.round(active.reduce((sum, s) => sum + (s.amount || 0), 0) / 100)
+  const churnRate = subscribers.length > 0
+    ? ((cancelled.length / subscribers.length) * 100).toFixed(1) : '0.0'
+
+  const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
+  const atRisk = active.filter(s =>
+    (s.churnScore !== null && s.churnScore >= 7) ||
+    (!s.lastActiveAt || new Date(s.lastActiveAt) < fourteenDaysAgo)
+  )
+
+  const revenueAtRisk  = Math.round(atRisk.reduce((sum, s) => sum + (s.amount || 0), 0) / 100)
+  const criticalCount  = subscribers.filter(s => s.churnScore !== null && s.churnScore >= 9).length
+  const monthStart     = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+  const newThisMonth   = subscribers.filter(s => s.startedAt && new Date(s.startedAt) >= monthStart).length
+  const cancelledThisMonth = cancelled.filter(s => s.cancelledAt && new Date(s.cancelledAt) >= monthStart).length
+
+  const briefingText = await generateDailyBriefing({
+    mrr, activeSubscribers: active.length, churnRate,
+    atRiskCount: atRisk.length, revenueAtRisk, criticalCount, newThisMonth, cancelledThisMonth,
+  })
+
+  const topPriority = atRisk.length > 0
+    ? `Contact your ${atRisk.length} at-risk subscriber${atRisk.length > 1 ? 's' : ''} today — $${revenueAtRisk}/mo at risk`
+    : 'All subscribers look healthy — focus on growth today'
+
+  const topActions = buildTopActions(atRisk, subscribers)
+
+  return { mrr, active, atRisk, revenueAtRisk, churnRate, briefingText, topPriority, topActions }
+}
+
+// GET /api/alerts/briefing — preview without sending
+export async function GET() {
+  try {
+    const session = await auth()
+    if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+    const { briefingText, topPriority, topActions, mrr, active, atRisk, revenueAtRisk, churnRate } =
+      await buildBriefing(session.user.id)
+
+    return NextResponse.json({
+      briefingText,
+      topPriority,
+      topActions,
+      metrics: { mrr, activeSubscribers: active.length, atRiskCount: atRisk.length, revenueAtRisk, churnRate },
+    })
+  } catch (err: any) {
+    console.error('Briefing preview error:', err?.message)
+    return NextResponse.json({ error: 'Failed to generate preview' }, { status: 500 })
+  }
+}
+
 // POST /api/alerts/briefing
 // Computes today's metrics, generates a Claude briefing, and emails it
 // to the account owner via Resend.
@@ -18,66 +77,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
-    await connectDB()
+    const { mrr, active, atRisk, revenueAtRisk, churnRate, briefingText, topPriority, topActions } =
+      await buildBriefing(session.user.id)
 
-    const userId = session.user.id
-
-    // ── Gather metrics ────────────────────────────────────────────────
-    const subscribers = await Subscriber.find({ userId })
-
-    const active = subscribers.filter(s => s.status === 'active')
-    const cancelled = subscribers.filter(s => s.status === 'cancelled')
-    const mrr = Math.round(active.reduce((sum, s) => sum + (s.amount || 0), 0) / 100)
-
-    const churnRate = subscribers.length > 0
-      ? ((cancelled.length / subscribers.length) * 100).toFixed(1)
-      : '0.0'
-
-    // At-risk = scored 7+ or inactive 14+ days
-    const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000)
-    const atRisk = active.filter(s =>
-      (s.churnScore !== null && s.churnScore >= 7) ||
-      (!s.lastActiveAt || new Date(s.lastActiveAt) < fourteenDaysAgo)
-    )
-
-    const revenueAtRisk = Math.round(atRisk.reduce((sum, s) => sum + (s.amount || 0), 0) / 100)
-    const criticalCount = subscribers.filter(s => s.churnScore !== null && s.churnScore >= 9).length
-
-    // New/cancelled this calendar month
-    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-    const newThisMonth = subscribers.filter(s => s.startedAt && new Date(s.startedAt) >= monthStart).length
-    const cancelledThisMonth = cancelled.filter(s => s.cancelledAt && new Date(s.cancelledAt) >= monthStart).length
-
-    // ── Generate briefing text via Claude ─────────────────────────────
-    const briefingText = await generateDailyBriefing({
-      mrr,
-      activeSubscribers: active.length,
-      churnRate,
-      atRiskCount: atRisk.length,
-      revenueAtRisk,
-      criticalCount,
-      newThisMonth,
-      cancelledThisMonth,
-    })
-
-    // ── Build top 3 actions ───────────────────────────────────────────
-    const topActions = buildTopActions(atRisk, subscribers)
-
-    const topPriority = atRisk.length > 0
-      ? `Contact your ${atRisk.length} at-risk subscriber${atRisk.length > 1 ? 's' : ''} today — $${revenueAtRisk}/mo at risk`
-      : 'All subscribers look healthy — focus on growth today'
-
-    // ── Send via Resend ───────────────────────────────────────────────
     const result = await sendBriefingEmail({
       ownerEmail: session.user.email,
       ownerName: session.user.name?.split(' ')[0] || 'there',
-      metrics: {
-        mrr,
-        activeSubscribers: active.length,
-        atRiskCount: atRisk.length,
-        revenueAtRisk,
-        churnRate,
-      },
+      metrics: { mrr, activeSubscribers: active.length, atRiskCount: atRisk.length, revenueAtRisk, churnRate },
       briefingText,
       topPriority,
       topActions,

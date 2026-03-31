@@ -260,6 +260,8 @@ export default function DashboardClient({ session }: { session: any }) {
   const [briefingSending, setBriefing]    = useState(false)
   const [briefingSent, setBriefingSent]   = useState(false)
   const [briefingError, setBriefingError] = useState<string | null>(null)
+  const [briefingPreview, setBriefingPreview] = useState<{ briefingText: string; topPriority: string; topActions: { label: string; description: string; urgency: string }[] } | null>(null)
+  const [briefingPreviewing, setBriefingPreviewing] = useState(false)
   const [activeSection, setSection]       = useState<'overview' | 'subscribers' | 'tools'>('overview')
   const [subSearch, setSubSearch]         = useState('')
   const [subFilter, setSubFilter]         = useState<'all' | 'active' | 'cancelled' | 'past_due'>('all')
@@ -272,6 +274,21 @@ export default function DashboardClient({ session }: { session: any }) {
   const [sendingFromModal, setSendingFromModal] = useState(false)
   const [sentFromModal, setSentFromModal]       = useState(false)
 
+  async function previewBriefing() {
+    setBriefingPreviewing(true)
+    setBriefingError(null)
+    try {
+      const res = await fetch('/api/alerts/briefing')
+      const d   = await res.json()
+      if (d.error) throw new Error(d.error)
+      setBriefingPreview(d)
+    } catch (err: any) {
+      setBriefingError(err.message || 'Failed to generate preview')
+    } finally {
+      setBriefingPreviewing(false)
+    }
+  }
+
   async function sendBriefing() {
     setBriefing(true)
     setBriefingError(null)
@@ -280,6 +297,7 @@ export default function DashboardClient({ session }: { session: any }) {
       const d   = await res.json()
       if (d.error) throw new Error(d.error)
       setBriefingSent(true)
+      setBriefingPreview(null)
     } catch (err: any) {
       setBriefingError(err.message || 'Failed to send briefing')
     } finally {
@@ -423,12 +441,12 @@ export default function DashboardClient({ session }: { session: any }) {
             </div>
           ) : (
             <button
-              onClick={sendBriefing}
-              disabled={briefingSending}
+              onClick={previewBriefing}
+              disabled={briefingPreviewing || briefingSending}
               className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs text-white/50 hover:text-white/80 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] transition-all disabled:opacity-40"
             >
-              {briefingSending ? (
-                <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin flex-shrink-0" />Sending…</>
+              {briefingPreviewing ? (
+                <><span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin flex-shrink-0" />Generating…</>
               ) : <><span>📋</span> Email today's briefing</>}
             </button>
           )}
