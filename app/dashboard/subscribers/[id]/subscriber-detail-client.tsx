@@ -593,58 +593,82 @@ export default function SubscriberDetailClient({
                 </div>
               )}
 
-              {/* ── SUBSCRIPTION TIMELINE ──────────────────────────────── */}
+              {/* ── ACTIVITY TIMELINE ──────────────────────────────────── */}
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
                 <h2 className="text-sm font-semibold mb-4">Activity timeline</h2>
-                <div className="relative pl-5 space-y-4 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-px before:bg-white/[0.08]">
+                <div className="space-y-0 divide-y divide-white/[0.05]">
 
-                  {sub.startedAt && (
-                    <div className="relative flex gap-4 items-start">
-                      <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-4 ring-[#080808] flex-shrink-0" />
-                      <div>
-                        <div className="text-xs font-medium text-white/80">Subscribed</div>
-                        <div className="text-xs text-[#8e918f] mt-0.5">{fmt(sub.startedAt)}</div>
-                      </div>
-                    </div>
-                  )}
-
-                  {sub.lastActiveAt && (
-                    <div className="relative flex gap-4 items-start">
-                      <div className={`absolute -left-5 top-1 w-2.5 h-2.5 rounded-full ring-4 ring-[#080808] flex-shrink-0 ${
-                        days !== null && days > 30 ? 'bg-red-400' :
-                        days !== null && days > 14 ? 'bg-amber-400' : 'bg-blue-400'
-                      }`} />
-                      <div>
-                        <div className="text-xs font-medium text-white/80">Last active</div>
-                        <div className="text-xs text-[#8e918f] mt-0.5">
-                          {fmt(sub.lastActiveAt)}
-                          {days !== null && (
-                            <span className={`ml-2 ${days > 30 ? 'text-red-400' : days > 14 ? 'text-amber-400' : 'text-white/40'}`}>
-                              ({days} days ago)
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {sub.cancelledAt && (
-                    <div className="relative flex gap-4 items-start">
-                      <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-red-400 ring-4 ring-[#080808] flex-shrink-0" />
-                      <div>
-                        <div className="text-xs font-medium text-red-400">Cancelled</div>
-                        <div className="text-xs text-[#8e918f] mt-0.5">{fmt(sub.cancelledAt)}</div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="relative flex gap-4 items-start">
-                    <div className="absolute -left-5 top-1 w-2.5 h-2.5 rounded-full bg-white/20 ring-4 ring-[#080808] flex-shrink-0" />
-                    <div>
-                      <div className="text-xs font-medium text-white/50">Record created</div>
-                      <div className="text-xs text-white/50 mt-0.5">{fmt(sub.createdAt)}</div>
-                    </div>
+                  {/* Last login */}
+                  <div className="flex items-center justify-between py-3">
+                    <span className="text-xs text-white/50">Last login</span>
+                    {sub.lastActiveAt ? (
+                      <span className={`text-xs font-medium ${
+                        days !== null && days > 30 ? 'text-red-400' :
+                        days !== null && days > 14 ? 'text-amber-400' : 'text-white/80'
+                      }`}>
+                        {days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days !== null ? `${days} days ago` : fmt(sub.lastActiveAt)}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-white/25">No data</span>
+                    )}
                   </div>
+
+                  {/* Signed up */}
+                  <div className="flex items-center justify-between py-3">
+                    <span className="text-xs text-white/50">Signed up</span>
+                    {sub.startedAt ? (
+                      <span className="text-xs font-medium text-white/80">
+                        {(() => {
+                          const m = tenureMonths(sub.startedAt)
+                          if (m === null) return fmt(sub.startedAt)
+                          if (m === 0) return 'This month'
+                          return `${m} ${m === 1 ? 'month' : 'months'} ago`
+                        })()}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-white/25">No data</span>
+                    )}
+                  </div>
+
+                  {/* Last payment */}
+                  <div className="flex items-center justify-between py-3">
+                    <span className="text-xs text-white/50">Last payment</span>
+                    {sub.status === 'past_due' ? (
+                      <span className="text-xs font-medium text-red-400">
+                        Failed {sub.updatedAt ? `${daysAgo(sub.updatedAt)} days ago` : 'recently'}
+                      </span>
+                    ) : sub.status === 'cancelled' ? (
+                      <span className="text-xs font-medium text-red-400">
+                        Cancelled {sub.cancelledAt ? fmt(sub.cancelledAt) : ''}
+                      </span>
+                    ) : (
+                      <span className="text-xs font-medium text-emerald-400">Up to date</span>
+                    )}
+                  </div>
+
+                  {/* Features used */}
+                  <div className="flex items-center justify-between py-3">
+                    <span className="text-xs text-white/50">Features used</span>
+                    {sub.metadata?.featuresUsed !== undefined ? (
+                      <span className={`text-xs font-medium ${
+                        sub.metadata.featuresUsed <= 1 ? 'text-red-400' :
+                        sub.metadata.featuresUsed <= 3 ? 'text-amber-400' : 'text-emerald-400'
+                      }`}>
+                        {sub.metadata.featuresUsed} of {sub.metadata.totalFeatures ?? 6}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-white/25">No data</span>
+                    )}
+                  </div>
+
+                  {/* Cancelled */}
+                  {sub.cancelledAt && (
+                    <div className="flex items-center justify-between py-3">
+                      <span className="text-xs text-white/50">Cancelled</span>
+                      <span className="text-xs font-medium text-red-400">{fmt(sub.cancelledAt)}</span>
+                    </div>
+                  )}
+
                 </div>
               </div>
 
