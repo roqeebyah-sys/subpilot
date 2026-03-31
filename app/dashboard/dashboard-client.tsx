@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { signOut } from 'next-auth/react'
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid,
@@ -193,6 +194,64 @@ function EmailPreviewModal({ preview, onClose, onSend, sending, sent }: {
   )
 }
 
+// ─── User menu (sidebar bottom) ───────────────────────────────────────────────
+
+function UserMenu({ session, initials }: { session: any; initials: string }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  return (
+    <div ref={ref} className="px-4 py-4 border-t border-white/[0.06] relative">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="flex items-center gap-2.5 w-full hover:opacity-80 transition-opacity"
+      >
+        <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs font-bold text-emerald-400 flex-shrink-0">
+          {initials}
+        </div>
+        <div className="min-w-0 text-left">
+          <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
+          <div className="text-[10px] text-white/50 truncate">{session?.user?.email}</div>
+        </div>
+        <svg className="w-3 h-3 text-white/30 ml-auto flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4M8 15l4 4 4-4" />
+        </svg>
+      </button>
+      {open && (
+        <div className="absolute bottom-full left-4 right-4 mb-2 bg-[#111] border border-white/[0.1] rounded-xl overflow-hidden shadow-xl z-50">
+          <Link
+            href="/account"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2.5 px-4 py-3 text-xs text-[#e8eaed] hover:bg-white/[0.05] transition-colors"
+          >
+            <svg className="w-3.5 h-3.5 text-white/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Account settings
+          </Link>
+          <button
+            onClick={() => signOut({ callbackUrl: '/' })}
+            className="flex items-center gap-2.5 px-4 py-3 text-xs text-red-400 hover:bg-white/[0.05] transition-colors w-full border-t border-white/[0.06]"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Log out
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export default function DashboardClient({ session }: { session: any }) {
@@ -376,17 +435,7 @@ export default function DashboardClient({ session }: { session: any }) {
         </div>
 
         {/* User */}
-        <div className="px-4 py-4 border-t border-white/[0.06]">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xs font-bold text-emerald-400 flex-shrink-0">
-              {initials}
-            </div>
-            <div className="min-w-0">
-              <div className="text-xs font-medium truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-[10px] text-[#e8eaed] truncate">{session?.user?.email}</div>
-            </div>
-          </div>
-        </div>
+        <UserMenu session={session} initials={initials} />
       </aside>
 
       {/* ══ MAIN ════════════════════════════════════════════════════════════════ */}

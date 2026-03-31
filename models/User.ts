@@ -32,6 +32,25 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    stripeConnected: {
+      type: Boolean,
+      default: false,
+    },
+    stripeConnectedAt: {
+      type: Date,
+    },
+    taxRate: {
+      type: Number,
+      default: 30,
+    },
+    notifications: {
+      dailyBriefing: { type: Boolean, default: true },
+      churnAlerts:   { type: Boolean, default: true },
+    },
+    trialStartedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true, // automatically adds createdAt and updatedAt fields
