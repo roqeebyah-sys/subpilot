@@ -16,13 +16,43 @@ type Profile = {
   memberSince: string
 }
 
-function Card({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  subtitle,
+  open,
+  onToggle,
+  children,
+  danger,
+}: {
+  title: string
+  subtitle?: string
+  open: boolean
+  onToggle: () => void
+  children: React.ReactNode
+  danger?: boolean
+}) {
   return (
-    <div className="bg-white/[0.02] border border-white/[0.08] rounded-xl overflow-hidden">
-      <div className="px-6 py-4 border-b border-white/[0.06]">
-        <h2 className="text-sm font-semibold">{title}</h2>
-      </div>
-      <div className="px-6 py-5">{children}</div>
+    <div className={`border rounded-xl overflow-hidden ${danger ? 'bg-red-500/5 border-red-500/20' : 'bg-white/[0.02] border-white/[0.08]'}`}>
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/[0.02] transition-colors"
+      >
+        <div>
+          <div className={`text-sm font-semibold ${danger ? 'text-red-400' : ''}`}>{title}</div>
+          {subtitle && <div className="text-xs text-white/40 mt-0.5">{subtitle}</div>}
+        </div>
+        <svg
+          className={`w-4 h-4 text-white/30 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className={`px-6 py-5 border-t ${danger ? 'border-red-500/10' : 'border-white/[0.06]'}`}>
+          {children}
+        </div>
+      )}
     </div>
   )
 }
@@ -31,7 +61,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
   return (
     <button
       onClick={() => onChange(!on)}
-      className={`relative w-10 h-5.5 rounded-full transition-colors flex-shrink-0 ${on ? 'bg-emerald-500' : 'bg-white/10'}`}
+      className={`relative rounded-full transition-colors flex-shrink-0 ${on ? 'bg-emerald-500' : 'bg-white/10'}`}
       style={{ height: '22px', width: '40px' }}
     >
       <span className={`absolute top-0.5 left-0.5 w-[18px] h-[18px] bg-white rounded-full shadow transition-transform ${on ? 'translate-x-[18px]' : 'translate-x-0'}`} />
@@ -92,9 +122,14 @@ export default function AccountClient({ session }: { session: any }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Open state for each section
+  const [openSection, setOpenSection] = useState<string | null>('profile')
+  function toggle(id: string) {
+    setOpenSection(o => o === id ? null : id)
+  }
+
   // Profile form
-  const [name, setName]   = useState('')
-  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [profileSaving, setProfileSaving] = useState(false)
   const [profileSaved,  setProfileSaved]  = useState(false)
   const [profileError,  setProfileError]  = useState('')
@@ -113,9 +148,9 @@ export default function AccountClient({ session }: { session: any }) {
   const [notifSaved,    setNotifSaved]    = useState(false)
 
   // Tax
-  const [taxRate,    setTaxRate]   = useState(30)
-  const [taxSaving,  setTaxSaving] = useState(false)
-  const [taxSaved,   setTaxSaved]  = useState(false)
+  const [taxRate,   setTaxRate]   = useState(30)
+  const [taxSaving, setTaxSaving] = useState(false)
+  const [taxSaved,  setTaxSaved]  = useState(false)
 
   // Billing portal
   const [portalLoading, setPortalLoading] = useState(false)
@@ -132,7 +167,6 @@ export default function AccountClient({ session }: { session: any }) {
         if (!d.error) {
           setProfile(d)
           setName(d.name)
-          setEmail(d.email)
           setDailyBriefing(d.notifications.dailyBriefing)
           setChurnAlerts(d.notifications.churnAlerts)
           setTaxRate(d.taxRate)
@@ -149,7 +183,7 @@ export default function AccountClient({ session }: { session: any }) {
     const res = await fetch('/api/account/profile', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email }),
+      body: JSON.stringify({ name }),
     })
     const d = await res.json()
     if (d.error) setProfileError(d.error)
@@ -234,18 +268,16 @@ export default function AccountClient({ session }: { session: any }) {
 
       {/* Top bar */}
       <header className="h-[60px] border-b border-white/[0.06] px-4 md:px-6 flex items-center justify-between sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
-        <div className="flex items-center gap-3">
-          <Link href="/dashboard" className="text-white/40 hover:text-white transition-colors text-xs flex items-center gap-1.5">
-            ← Dashboard
-          </Link>
-        </div>
+        <Link href="/dashboard" className="text-white/40 hover:text-white transition-colors text-xs flex items-center gap-1.5">
+          ← Dashboard
+        </Link>
         <Link href="/" className="text-[15px] font-semibold tracking-tight hover:opacity-75 transition-opacity">
           User<span className="text-emerald-400">Retain</span>
         </Link>
         <div className="w-20" />
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 md:px-6 py-10 space-y-5">
+      <main className="max-w-2xl mx-auto px-4 md:px-6 py-10 space-y-3">
 
         <div className="mb-8">
           <h1 className="text-xl font-bold mb-1">Account settings</h1>
@@ -255,7 +287,12 @@ export default function AccountClient({ session }: { session: any }) {
         </div>
 
         {/* ── PROFILE ── */}
-        <Card title="Profile">
+        <Section
+          title="Profile"
+          subtitle={profile?.name || 'Edit your name'}
+          open={openSection === 'profile'}
+          onToggle={() => toggle('profile')}
+        >
           <div className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
@@ -271,19 +308,25 @@ export default function AccountClient({ session }: { session: any }) {
                 <label className="block text-xs text-white/40 mb-1.5">Email address</label>
                 <input
                   type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-emerald-500/50 transition-colors"
+                  value={profile?.email || ''}
+                  readOnly
+                  className="w-full bg-white/[0.02] border border-white/[0.05] rounded-lg px-3 py-2.5 text-sm text-white/40 cursor-not-allowed select-none"
                 />
+                <p className="text-[10px] text-white/25 mt-1">Email cannot be changed</p>
               </div>
             </div>
             {profileError && <p className="text-xs text-red-400">{profileError}</p>}
             <SaveButton loading={profileSaving} saved={profileSaved} onClick={saveProfile} />
           </div>
-        </Card>
+        </Section>
 
         {/* ── PASSWORD ── */}
-        <Card title="Change password">
+        <Section
+          title="Change password"
+          subtitle="Update your login password"
+          open={openSection === 'password'}
+          onToggle={() => toggle('password')}
+        >
           <div className="space-y-4">
             <div>
               <label className="block text-xs text-white/40 mb-1.5">Current password</label>
@@ -308,13 +351,18 @@ export default function AccountClient({ session }: { session: any }) {
             {pwError && <p className="text-xs text-red-400">{pwError}</p>}
             <SaveButton loading={pwSaving} saved={pwSaved} onClick={savePassword} />
           </div>
-        </Card>
+        </Section>
 
         {/* ── CONNECTED PLATFORMS ── */}
-        <Card title="Connected platforms">
-          <div className="space-y-3">
+        <Section
+          title="Connected platforms"
+          subtitle="Stripe, CSV import"
+          open={openSection === 'platforms'}
+          onToggle={() => toggle('platforms')}
+        >
+          <div className="space-y-0 divide-y divide-white/[0.05]">
             {/* Stripe */}
-            <div className="flex items-center justify-between py-3 border-b border-white/[0.05]">
+            <div className="flex items-center justify-between py-3">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#635bff]/20 flex items-center justify-center text-xs font-bold text-[#635bff]">S</div>
                 <div>
@@ -356,10 +404,15 @@ export default function AccountClient({ session }: { session: any }) {
               </Link>
             </div>
           </div>
-        </Card>
+        </Section>
 
         {/* ── SUBSCRIPTION & BILLING ── */}
-        <Card title="Subscription and billing">
+        <Section
+          title="Subscription and billing"
+          subtitle={`${planLabel} plan`}
+          open={openSection === 'billing'}
+          onToggle={() => toggle('billing')}
+        >
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -389,10 +442,15 @@ export default function AccountClient({ session }: { session: any }) {
               </Link>
             </div>
           </div>
-        </Card>
+        </Section>
 
         {/* ── NOTIFICATIONS ── */}
-        <Card title="Notifications">
+        <Section
+          title="Notifications"
+          subtitle="Email alerts and briefings"
+          open={openSection === 'notifications'}
+          onToggle={() => toggle('notifications')}
+        >
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -410,10 +468,15 @@ export default function AccountClient({ session }: { session: any }) {
             </div>
             <SaveButton loading={notifSaving} saved={notifSaved} onClick={saveNotifications} />
           </div>
-        </Card>
+        </Section>
 
         {/* ── TAX SETTINGS ── */}
-        <Card title="Tax settings">
+        <Section
+          title="Tax settings"
+          subtitle={`${taxRate}% set-aside rate`}
+          open={openSection === 'tax'}
+          onToggle={() => toggle('tax')}
+        >
           <div className="space-y-4">
             <div>
               <label className="block text-xs text-white/40 mb-1.5">Tax set-aside rate (%)</label>
@@ -434,14 +497,17 @@ export default function AccountClient({ session }: { session: any }) {
             </div>
             <SaveButton loading={taxSaving} saved={taxSaved} onClick={saveTax} />
           </div>
-        </Card>
+        </Section>
 
         {/* ── DANGER ZONE ── */}
-        <div className="bg-red-500/5 border border-red-500/20 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-red-500/10">
-            <h2 className="text-sm font-semibold text-red-400">Danger zone</h2>
-          </div>
-          <div className="px-6 py-5 flex items-center justify-between gap-4">
+        <Section
+          title="Danger zone"
+          subtitle="Delete your account permanently"
+          open={openSection === 'danger'}
+          onToggle={() => toggle('danger')}
+          danger
+        >
+          <div className="flex items-center justify-between gap-4">
             <div>
               <div className="text-sm font-medium">Delete account</div>
               <div className="text-xs text-white/40 mt-0.5">Permanently delete your account and all subscriber data. This cannot be undone.</div>
@@ -453,7 +519,7 @@ export default function AccountClient({ session }: { session: any }) {
               Delete account
             </button>
           </div>
-        </div>
+        </Section>
 
       </main>
 
