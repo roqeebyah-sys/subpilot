@@ -99,7 +99,7 @@ function EmailModal({ sub, onClose }: { sub: typeof AT_RISK[0]; onClose: () => v
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="bg-[#111] border border-white/[0.08] rounded-2xl w-full max-w-lg shadow-2xl">
+      <div className="bg-[#0d1117] border border-white/[0.08] rounded-2xl w-full max-w-lg shadow-2xl">
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
           <div>
             <div className="text-sm font-semibold">AI win-back email</div>
@@ -169,8 +169,8 @@ function SubPanel({ sub, onClose }: { sub: typeof ALL_SUBSCRIBERS[0]; onClose: (
       )}
       <div className="fixed inset-0 z-40 flex justify-end">
         <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-        <div className="relative w-full max-w-sm bg-[#0d0d0d] border-l border-white/[0.06] h-full overflow-y-auto">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] sticky top-0 bg-[#0d0d0d]">
+        <div className="relative w-full max-w-sm bg-[#0a0f1a] border-l border-white/[0.06] h-full overflow-y-auto">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06] sticky top-0 bg-[#0a0f1a]">
             <div className="text-sm font-semibold">Subscriber profile</div>
             <button onClick={onClose} className="text-white/30 hover:text-white text-lg leading-none">✕</button>
           </div>
@@ -277,7 +277,15 @@ export default function DemoPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[#080808] text-white flex flex-col">
+    <div className="min-h-screen bg-[#080c14] text-white flex flex-col overflow-hidden">
+
+      {/* Ambient glows */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-emerald-500/8 blur-[120px]" />
+        <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full bg-blue-600/8 blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 flex flex-col min-h-screen">
 
       {/* Demo banner */}
       <div className="bg-emerald-500/10 border-b border-emerald-500/20 px-4 py-2.5 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
@@ -354,7 +362,7 @@ export default function DemoPage() {
         <div className="flex-1 min-w-0 flex flex-col">
 
           {/* Top bar */}
-          <header className="h-[60px] border-b border-white/[0.06] px-4 md:px-6 flex items-center justify-between flex-shrink-0 sticky top-0 bg-[#080808]/90 backdrop-blur z-10">
+          <header className="h-[60px] border-b border-white/[0.06] px-4 md:px-6 flex items-center justify-between flex-shrink-0 sticky top-0 bg-[#080c14]/90 backdrop-blur z-10">
             <div className="flex items-center gap-3">
               <Link href="/" className="lg:hidden text-sm font-semibold hover:opacity-75">
                 User<span className="text-emerald-400">Retain</span>
@@ -367,7 +375,7 @@ export default function DemoPage() {
           </header>
 
           {/* Mobile nav */}
-          <div className="lg:hidden flex border-b border-white/[0.06] bg-[#080808]">
+          <div className="lg:hidden flex border-b border-white/[0.06] bg-[#080c14]">
             {(['overview','subscribers','tools'] as const).map(s => (
               <button
                 key={s}
@@ -514,7 +522,7 @@ export default function DemoPage() {
                   <div className="text-sm font-semibold">Revenue growth</div>
                   <div className="text-xs text-white/40 mt-0.5">MRR, last 6 months</div>
                 </div>
-                <div className="h-48">
+                <div className="h-48" style={{ minWidth: 0 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={MRR_HISTORY} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                       <defs>
@@ -640,6 +648,7 @@ export default function DemoPage() {
       {emailModal && <EmailModal sub={emailModal} onClose={() => setEmailModal(null)} />}
       {subPanel && <SubPanel sub={subPanel} onClose={() => setSubPanel(null)} />}
 
+      </div>{/* end relative z-10 */}
     </div>
   )
 }

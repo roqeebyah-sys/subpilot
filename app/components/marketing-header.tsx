@@ -7,23 +7,23 @@ export default function MarketingHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-16">
+    <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#080c14]/70 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[60px]">
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <div className="w-[28px] h-[28px] rounded-[7px] bg-emerald-400 flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-500/30">
-            <svg width="14" height="10" viewBox="0 0 15 11" fill="none">
-              <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center flex-shrink-0">
+            <svg width="13" height="9" viewBox="0 0 15 11" fill="none">
+              <path d="M1 9L4.5 5L7.5 7L11 3L14 1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <span className="text-[15px] font-bold tracking-tight leading-none">
+          <span className="text-[15px] font-bold tracking-tight">
             User<span className="text-emerald-400">Retain</span>
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-7 text-sm text-white/60">
+        <div className="hidden md:flex items-center gap-8 text-sm text-white/50">
           <Link href="/#features"  className="hover:text-white transition-colors">Features</Link>
           <Link href="/#how"       className="hover:text-white transition-colors">How it works</Link>
           <Link href="/#pricing"   className="hover:text-white transition-colors">Pricing</Link>
@@ -33,12 +33,12 @@ export default function MarketingHeader() {
         {/* Desktop CTAs */}
         <div className="hidden md:flex items-center gap-4">
           <Link href="/auth/login"
-            className="text-sm text-white/60 hover:text-white transition-colors px-3 py-1.5">
-            Log in
+            className="text-sm text-white/50 hover:text-white transition-colors">
+            Sign in
           </Link>
           <Link href="/auth/signup"
-            className="bg-emerald-400 hover:bg-emerald-300 text-black text-sm font-semibold px-4 py-2 rounded-lg transition-all shadow-lg shadow-emerald-500/20">
-            Get started free →
+            className="text-xs font-semibold text-black bg-emerald-400 hover:bg-emerald-300 px-4 py-2 rounded-lg transition-colors">
+            Start free trial
           </Link>
         </div>
 
@@ -58,7 +58,7 @@ export default function MarketingHeader() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-white/[0.06] bg-[#0a0a0a] px-6 py-4 space-y-3">
+        <div className="md:hidden border-t border-white/[0.06] bg-[#080c14]/95 backdrop-blur-xl px-6 py-4 space-y-3">
           {[
             { label: 'Features',    href: '/#features' },
             { label: 'How it works',href: '/#how' },

@@ -3,10 +3,17 @@ import crypto from 'crypto'
 import { Resend } from 'resend'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { rateLimit, getIp } from '@/lib/rate-limit'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 attempts per IP per 15 minutes
+  const rl = rateLimit({ key: `forgot-pw:${getIp(req)}`, limit: 5, windowSecs: 900 })
+  if (!rl.allowed) {
+    return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
+  }
+
   try {
     const { email } = await req.json()
 

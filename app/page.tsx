@@ -51,9 +51,9 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 /* full dashboard preview */
 function DashboardPreview() {
   return (
-    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.7)] bg-[#080808]">
+    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.7)] bg-[#080c14]">
       {/* Browser chrome */}
-      <div className="bg-[#0f0f0f] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
+      <div className="bg-[#0d1117] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
@@ -199,9 +199,9 @@ function DashboardPreview() {
 /* dashboard mockup used in hero */
 function DashboardMockup() {
   return (
-    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.8)] bg-[#080808]">
+    <div className="rounded-2xl border border-white/[0.08] overflow-hidden shadow-[0_32px_80px_rgba(0,0,0,0.8)] bg-[#080c14]">
       {/* Browser chrome */}
-      <div className="bg-[#101010] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
+      <div className="bg-[#0d1117] border-b border-white/[0.06] px-4 py-2.5 flex items-center gap-3">
         <div className="flex gap-1.5">
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
           <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08]" />
@@ -345,8 +345,16 @@ export default function Home() {
   ]
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white antialiased">
+    <main className="min-h-screen bg-[#080c14] text-white antialiased" style={{ overflowX: 'clip' }}>
 
+      {/* ── AMBIENT GLOWS ── */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute -top-40 -left-40 w-[700px] h-[700px] rounded-full bg-emerald-500/10 blur-[120px]" />
+        <div className="absolute -bottom-60 -right-40 w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-violet-600/5 blur-[100px]" />
+      </div>
+
+      <div className="relative z-10">
       <MarketingHeader />
 
       {/* ── HERO ────────────────────────────────────────────────────────────── */}
@@ -501,7 +509,7 @@ export default function Home() {
             },
           ].map(p => (
             <div key={p.title}
-              className="bg-white/[0.025] border border-white/[0.07] rounded-2xl p-5 hover:border-white/[0.12] transition-colors">
+              className="backdrop-blur-xl bg-white/[0.05] border border-white/[0.10] rounded-2xl p-5 hover:bg-white/[0.08] transition-colors">
               <div className="text-2xl mb-3">{p.icon}</div>
               <div className="text-sm font-semibold mb-2">{p.title}</div>
               <p className="text-sm text-white/40 leading-relaxed">{p.desc}</p>
@@ -511,7 +519,7 @@ export default function Home() {
       </section>
 
       {/* ── SOLUTION ──────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-10 md:py-16 lg:py-20">
+      <section className="border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm py-10 md:py-16 lg:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">The solution</div>
@@ -606,7 +614,7 @@ export default function Home() {
             </ul>
           </div>
           {/* Mockup */}
-          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50">
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080c14] shadow-2xl shadow-black/50">
             <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
@@ -639,8 +647,8 @@ export default function Home() {
         {/* Feature 2 — Morning briefing (reversed) */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Mockup left */}
-          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
-            <div className="bg-[#101010] px-4 py-3 border-b border-white/[0.06] flex items-center gap-3">
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080c14] shadow-2xl shadow-black/50 order-2 md:order-1">
+            <div className="bg-[#0d1117] px-4 py-3 border-b border-white/[0.06] flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-400">S</div>
               <div>
                 <div className="text-xs font-semibold">UserRetain Daily Briefing</div>
@@ -717,7 +725,7 @@ export default function Home() {
             </ul>
           </div>
           {/* Mockup */}
-          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50">
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden bg-[#080c14] shadow-2xl shadow-black/50">
             <div className="px-4 py-4 border-b border-white/[0.06] flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-sm font-bold text-red-400 flex-shrink-0">J</div>
               <div className="flex-1">
@@ -761,7 +769,7 @@ export default function Home() {
         {/* Feature 4 — Tax pot (reversed) */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Mockup left */}
-          <div className="rounded-2xl border border-white/[0.10] overflow-hidden bg-[#080808] shadow-2xl shadow-black/50 order-2 md:order-1">
+          <div className="rounded-2xl border border-white/[0.10] overflow-hidden bg-[#080c14] shadow-2xl shadow-black/50 order-2 md:order-1">
             <div className="px-5 py-4 flex items-center gap-3 border-b border-white/[0.06]">
               <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center text-xl flex-shrink-0">💰</div>
               <div className="flex-1">
@@ -813,7 +821,7 @@ export default function Home() {
       </section>
 
       {/* ── RESULTS ───────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-10 md:py-16 lg:py-20">
+      <section className="border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm py-10 md:py-16 lg:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Real results</div>
@@ -885,7 +893,7 @@ export default function Home() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────────── */}
-      <section id="how" className="border-t border-white/[0.06] bg-white/[0.01] py-10 md:py-16 lg:py-20">
+      <section id="how" className="border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm py-10 md:py-16 lg:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-14">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">How it works</div>
@@ -915,7 +923,7 @@ export default function Home() {
       </section>
 
       {/* ── PRICING ──────────────────────────────────────────────────────── */}
-      <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.01] py-10 md:py-16 lg:py-20">
+      <section id="pricing" className="border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm py-10 md:py-16 lg:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="text-center mb-10 md:mb-12">
             <div className="text-xs text-emerald-400 font-medium uppercase tracking-widest mb-3">Pricing</div>
@@ -953,7 +961,7 @@ export default function Home() {
                     : 'bg-white/[0.02] border-white/[0.08] hover:border-white/[0.14]'
                 }`}>
                 {p.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-[#0a0a0a] border border-emerald-500/30 px-3 py-1 rounded-full whitespace-nowrap">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest text-emerald-400 bg-[#080c14] border border-emerald-500/30 px-3 py-1 rounded-full whitespace-nowrap">
                     Most popular
                   </div>
                 )}
@@ -997,7 +1005,7 @@ export default function Home() {
       </section>
 
       {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
-      <section className="border-t border-white/[0.06] bg-white/[0.01] py-10 md:py-16 lg:py-20">
+      <section className="border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm py-10 md:py-16 lg:py-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 text-center">
           <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium px-3 py-1.5 rounded-full mb-7">
             <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
@@ -1034,6 +1042,7 @@ export default function Home() {
 
       <MarketingFooter />
 
+      </div>{/* end relative z-10 wrapper */}
     </main>
   )
 }

@@ -47,6 +47,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
+    // Apply same trial gate as POST — prevents free users from polling indefinitely
+    await connectDB()
+    const user = await User.findById(session.user.id).select('plan createdAt').lean() as { plan?: string; createdAt: Date } | null
+    const trial = getTrialInfo(user?.createdAt ?? new Date(), user?.plan ?? 'starter')
+    if (trial.expired) {
+      return NextResponse.json({ error: 'Your free trial has ended. Upgrade to access metrics.', trialExpired: true }, { status: 403 })
+    }
+
     const metrics = await getStripeMetrics()
     return NextResponse.json(metrics)
 

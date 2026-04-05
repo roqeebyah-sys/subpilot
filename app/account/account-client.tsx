@@ -81,8 +81,18 @@ function SaveButton({ loading, saved, onClick }: { loading: boolean; saved: bool
   )
 }
 
-function DeleteModal({ onConfirm, onCancel, loading }: { onConfirm: () => void; onCancel: () => void; loading: boolean }) {
-  const [typed, setTyped] = useState('')
+function DeleteModal({ onConfirm, onCancel, loading }: { onConfirm: (password: string) => void; onCancel: () => void; loading: boolean }) {
+  const [typed,    setTyped]    = useState('')
+  const [password, setPassword] = useState('')
+  const [error,    setError]    = useState('')
+
+  async function handleConfirm() {
+    if (typed !== 'DELETE') return
+    if (!password) { setError('Password required'); return }
+    setError('')
+    onConfirm(password)
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-[#111] border border-red-500/20 rounded-2xl w-full max-w-md p-6">
@@ -96,12 +106,21 @@ function DeleteModal({ onConfirm, onCancel, loading }: { onConfirm: () => void; 
           value={typed}
           onChange={e => setTyped(e.target.value)}
           placeholder="DELETE"
-          className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-2.5 text-sm font-mono mb-4 focus:outline-none focus:border-red-500/50"
+          className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-2.5 text-sm font-mono mb-3 focus:outline-none focus:border-red-500/50"
         />
+        <p className="text-xs text-white/40 mb-2">Enter your password:</p>
+        <input
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          placeholder="Your password"
+          className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-2.5 text-sm mb-4 focus:outline-none focus:border-red-500/50"
+        />
+        {error && <p className="text-xs text-red-400 mb-3">{error}</p>}
         <div className="flex gap-3">
           <button
-            onClick={onConfirm}
-            disabled={typed !== 'DELETE' || loading}
+            onClick={handleConfirm}
+            disabled={typed !== 'DELETE' || !password || loading}
             className="flex-1 bg-red-500 hover:bg-red-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
           >
             {loading ? 'Deleting…' : 'Delete my account'}
@@ -252,9 +271,13 @@ export default function AccountClient({ session }: { session: any }) {
     setPortalLoading(false)
   }
 
-  async function deleteAccount() {
+  async function deleteAccount(password: string) {
     setDeleteLoading(true)
-    const res = await fetch('/api/account', { method: 'DELETE' })
+    const res = await fetch('/api/account', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
     if (res.ok) {
       await signOut({ callbackUrl: '/' })
     } else {

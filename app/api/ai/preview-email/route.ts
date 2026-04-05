@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
 import { generateWinBackEmail } from '@/lib/ai-insights'
+import { rateLimit } from '@/lib/rate-limit'
+import mongoose from 'mongoose'
 
 export const maxDuration = 30
 
@@ -17,9 +19,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
+    // Rate limit: 20 AI email generations per user per hour (protects Anthropic bill)
+    const rl = rateLimit({ key: `ai-email:${session.user.id}`, limit: 20, windowSecs: 3600 })
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again in an hour.' }, { status: 429 })
+    }
+
     const { subscriberId } = await req.json()
     if (!subscriberId) {
       return NextResponse.json({ error: 'subscriberId required' }, { status: 400 })
+    }
+
+    // Validate ObjectId format to prevent injection
+    if (!mongoose.Types.ObjectId.isValid(subscriberId)) {
+      return NextResponse.json({ error: 'Invalid subscriberId' }, { status: 400 })
     }
 
     await connectDB()
