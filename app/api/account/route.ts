@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { Subscriber } from '@/models/Subscriber'
+import { parseBody, deleteAccountSchema } from '@/lib/validations'
 
 // DELETE /api/account — permanently delete account and all data
 // Requires password confirmation to prevent accidental or unauthorised deletion
@@ -13,12 +14,9 @@ export async function DELETE(req: NextRequest) {
     if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
     // Require password re-confirmation before destructive action
-    const body = await req.json().catch(() => ({}))
-    const { password } = body as { password?: string }
-
-    if (!password) {
-      return NextResponse.json({ error: 'Password required to delete account' }, { status: 400 })
-    }
+    const parsed = await parseBody(req, deleteAccountSchema)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+    const { password } = parsed.data
 
     await connectDB()
 

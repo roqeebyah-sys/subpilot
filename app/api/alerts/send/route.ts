@@ -4,6 +4,7 @@ import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
 import { generateWinBackEmail } from '@/lib/ai-insights'
 import { sendChurnAlertEmail } from '@/lib/email-service'
+import { parseBody, sendAlertSchema } from '@/lib/validations'
 
 export const maxDuration = 30
 
@@ -19,10 +20,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
-    await connectDB()
+    const parsed = await parseBody(req, sendAlertSchema)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+    const { subscriberId } = parsed.data
 
-    const body = await req.json().catch(() => ({}))
-    const { subscriberId } = body as { subscriberId?: string }
+    await connectDB()
 
     const query: Record<string, any> = {
       userId: session.user.id,

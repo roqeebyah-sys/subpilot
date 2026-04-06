@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { parseBody, checkoutSchema } from '@/lib/validations'
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!)
@@ -15,17 +16,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
-    const { plan } = await req.json()
-    if (!plan) {
-      return NextResponse.json({ error: 'plan is required' }, { status: 400 })
-    }
-
-    // Resolve the Stripe price ID server-side — env vars without NEXT_PUBLIC_
-    // are never sent to the browser, so the lookup must happen here
-    const VALID_PLANS = ['starter', 'growth', 'pro']
-    if (!VALID_PLANS.includes(plan as string)) {
-      return NextResponse.json({ error: `Invalid plan: ${plan}` }, { status: 400 })
-    }
+    const parsed = await parseBody(req, checkoutSchema)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+    const { plan } = parsed.data
 
     // Resolve the Stripe price ID server-side — env vars without NEXT_PUBLIC_
     // are never sent to the browser, so the lookup must happen here

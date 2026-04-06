@@ -3,23 +3,23 @@ import crypto from 'crypto'
 import { Resend } from 'resend'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
-import { rateLimit, getIp } from '@/lib/rate-limit'
+import { checkAuthLimit } from '@/lib/ratelimit'
+import { parseBody, forgotPasswordSchema } from '@/lib/validations'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
-  // Rate limit: 5 attempts per IP per 15 minutes
-  const rl = rateLimit({ key: `forgot-pw:${getIp(req)}`, limit: 5, windowSecs: 900 })
-  if (!rl.allowed) {
+  // Upstash rate limit: 5 requests per 10 minutes per IP
+  const limit = await checkAuthLimit(req)
+  if (limit.limited) {
     return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
   }
 
-  try {
-    const { email } = await req.json()
+  const parsed = await parseBody(req, forgotPasswordSchema)
+  if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+  const { email } = parsed.data
 
-    if (!email) {
-      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
-    }
+  try {
 
     await connectDB()
 

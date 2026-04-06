@@ -5,6 +5,8 @@ import { Subscriber } from '@/models/Subscriber'
 import { User } from '@/models/User'
 import { generateWinBackEmail } from '@/lib/ai-insights'
 import { getTrialInfo } from '@/lib/trial'
+import { checkAiLimit } from '@/lib/ratelimit'
+import { parseBody, winbackSchema } from '@/lib/validations'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,17 +15,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
+    // Upstash rate limit: 20 AI generations per minute per user
+    const limit = await checkAiLimit(session.user.id)
+    if (limit.limited) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again shortly.' }, { status: 429 })
+    }
+
+    const parsed = await parseBody(req, winbackSchema)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+    const { subscriberId, tone } = parsed.data
+
     await connectDB()
 
     const user = await User.findById(session.user.id).select('plan createdAt').lean() as { plan?: string; createdAt: Date } | null
     const trial = getTrialInfo(user?.createdAt ?? new Date(), user?.plan ?? 'starter')
     if (trial.expired) {
       return NextResponse.json({ error: 'Your free trial has ended. Upgrade to send AI win-back emails.', trialExpired: true }, { status: 403 })
-    }
-
-    const { subscriberId, tone = 'warm' } = await req.json()
-    if (!subscriberId) {
-      return NextResponse.json({ error: 'subscriberId is required' }, { status: 400 })
     }
 
     // Verify the subscriber belongs to this user

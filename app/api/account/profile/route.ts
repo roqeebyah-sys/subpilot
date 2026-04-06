@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { parseBody, updateProfileSchema } from '@/lib/validations'
 
 // GET /api/account/profile — fetch current user settings
 export async function GET() {
@@ -45,16 +46,16 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
     }
 
-    await connectDB()
-    const body = await req.json()
-    const { name, email, currentPassword, newPassword, notifications, taxRate } = body
+    const parsed = await parseBody(req, updateProfileSchema)
+    if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+    const { name, currentPassword, newPassword, notifications, taxRate } = parsed.data
 
+    await connectDB()
     const user = await User.findById(session.user.id)
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-    // Name / email
-    if (name)  user.name  = name.trim()
-    if (email) user.email = email.toLowerCase().trim()
+    // Name only (email is read-only)
+    if (name) user.name = name
 
     // Password change
     if (newPassword) {

@@ -2,32 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
-import { rateLimit, getIp } from '@/lib/rate-limit'
+import { checkAuthLimit } from '@/lib/ratelimit'
+import { parseBody, signupSchema } from '@/lib/validations'
 
 export async function POST(req: NextRequest) {
-  // Rate limit: 10 signups per IP per hour
-  const rl = rateLimit({ key: `signup:${getIp(req)}`, limit: 10, windowSecs: 3600 })
-  if (!rl.allowed) {
+  // Upstash rate limit: 5 signups per 10 minutes per IP (degrades gracefully)
+  const limit = await checkAuthLimit(req)
+  if (limit.limited) {
     return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
   }
 
+  const parsed = await parseBody(req, signupSchema)
+  if (!parsed.ok) return NextResponse.json({ error: parsed.error }, { status: parsed.status })
+  const { name, email, password } = parsed.data
+
   try {
-    const { name, email, password } = await req.json()
-
-    // Basic validation
-    if (!name || !email || !password) {
-      return NextResponse.json(
-        { error: 'Name, email and password are required' },
-        { status: 400 }
-      )
-    }
-
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters' },
-        { status: 400 }
-      )
-    }
 
     await connectDB()
 
