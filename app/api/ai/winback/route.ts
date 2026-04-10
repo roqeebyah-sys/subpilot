@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('Win-back email error:', error?.message)
     return NextResponse.json(
-      { error: 'Failed to generate email', details: error?.message },
+      { error: 'Failed to generate email' },
       { status: 500 }
     )
   }

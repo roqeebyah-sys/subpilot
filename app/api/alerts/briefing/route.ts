@@ -4,6 +4,7 @@ import { connectDB } from '@/lib/mongodb'
 import { Subscriber } from '@/models/Subscriber'
 import { generateDailyBriefing } from '@/lib/ai-insights'
 import { sendBriefingEmail } from '@/lib/email-service'
+import { checkAiLimit } from '@/lib/ratelimit'
 
 export const maxDuration = 30
 
@@ -51,6 +52,12 @@ export async function GET() {
     const session = await auth()
     if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
+    // Upstash rate limit: 20 AI generations per minute per user
+    const limit = await checkAiLimit(session.user.id)
+    if (limit.limited) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again shortly.' }, { status: 429 })
+    }
+
     const { briefingText, topPriority, topActions, mrr, active, atRisk, revenueAtRisk, churnRate } =
       await buildBriefing(session.user.id)
 
@@ -75,6 +82,12 @@ export async function POST(req: NextRequest) {
     const session = await auth()
     if (!session?.user?.id || !session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    }
+
+    // Upstash rate limit: 20 AI generations per minute per user
+    const limit = await checkAiLimit(session.user.id)
+    if (limit.limited) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again shortly.' }, { status: 429 })
     }
 
     const { mrr, active, atRisk, revenueAtRisk, churnRate, briefingText, topPriority, topActions } =

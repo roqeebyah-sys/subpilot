@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     )
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message)
-    return NextResponse.json({ error: `Webhook error: ${err.message}` }, { status: 400 })
+    return NextResponse.json({ error: 'Webhook signature verification failed' }, { status: 400 })
   }
 
   await connectDB()

@@ -33,7 +33,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
-    // MIME type check
+    // File extension + MIME type check
+    const fileName = file.name || ''
+    if (!fileName.toLowerCase().endsWith('.csv') && file.type !== 'text/csv') {
+      return NextResponse.json({ error: 'Only CSV files are allowed' }, { status: 400 })
+    }
     if (file.type && !ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json({ error: 'Invalid file type. Please upload a CSV file.' }, { status: 400 })
     }

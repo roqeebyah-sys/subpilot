@@ -17,6 +17,7 @@ const UserSchema = new Schema(
     },
     password: {
       type: String,
+      select: false, // never returned by default — use .select('+password') to opt in
       // not required because OAuth users (Google etc) won't have one
     },
     plan: {

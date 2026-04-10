@@ -5,6 +5,7 @@ import { Subscriber } from '@/models/Subscriber'
 import { generateWinBackEmail } from '@/lib/ai-insights'
 import { sendChurnAlertEmail } from '@/lib/email-service'
 import { parseBody, sendAlertSchema } from '@/lib/validations'
+import { checkAiLimit } from '@/lib/ratelimit'
 
 export const maxDuration = 30
 
@@ -18,6 +19,12 @@ export async function POST(req: NextRequest) {
     const session = await auth()
     if (!session?.user?.id || !session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    }
+
+    // Upstash rate limit: 20 AI generations per minute per user
+    const limit = await checkAiLimit(session.user.id)
+    if (limit.limited) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again shortly.' }, { status: 429 })
     }
 
     const parsed = await parseBody(req, sendAlertSchema)

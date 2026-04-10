@@ -82,7 +82,7 @@ export default function AIInsightsPanel({ trialExpired }: { trialExpired?: boole
   }
 
   return (
-    <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 mb-6">
+    <div className="bg-[#161616] border border-white/10 rounded-2xl p-5">
       <div className="flex items-start justify-between mb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">

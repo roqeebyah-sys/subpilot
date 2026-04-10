@@ -73,9 +73,9 @@ type DashboardData = {
 
 function ScoreBadge({ score }: { score: number }) {
   const cls =
-    score >= 8 ? 'bg-red-500/20 text-red-400 border-red-500/30' :
-    score >= 6 ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' :
-    score >= 4 ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
+    score >= 9 ? 'bg-red-500/20 text-red-400 border-red-500/30' :
+    score >= 7 ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' :
+    score >= 5 ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
                  'bg-white/10 text-white/40 border-white/10'
   return (
     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold border ${cls}`}>
@@ -150,79 +150,45 @@ function EmailPreviewModal({ preview, onClose, onSend, sending, sent }: {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/75 backdrop-blur-md">
-      <div
-        className="w-full sm:max-w-2xl rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-[0_0_120px_rgba(0,0,0,0.9)]"
-        style={{ background: '#0a0c12', border: '1px solid rgba(255,255,255,0.07)' }}
-      >
-
-        {/* Header */}
-        <div className="relative px-8 pt-7 pb-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          {/* Pill handle — mobile */}
-          <div className="w-10 h-1 bg-white/10 rounded-full mx-auto mb-6 sm:hidden" />
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-[11px] font-medium tracking-widest uppercase text-white/25 mb-1.5">Win-back email</div>
-              <div className="text-xl font-semibold text-white leading-snug">For {preview.subscriberName}</div>
-              <div className="text-sm text-white/35 mt-1">{preview.subscriberEmail}</div>
-            </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/40 hover:text-white transition-all text-sm flex-shrink-0 mt-0.5"
-            >
-              ✕
-            </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="bg-[#111] border border-white/[0.08] rounded-2xl w-full max-w-lg shadow-2xl">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+          <div>
+            <div className="text-sm font-semibold">AI win-back email</div>
+            <div className="text-xs text-white/40 mt-0.5">For {preview.subscriberName} · {preview.subscriberEmail}</div>
           </div>
+          <button onClick={onClose} className="text-white/30 hover:text-white transition-colors text-lg leading-none">✕</button>
         </div>
-
-        {/* Meta */}
-        <div className="px-8 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-          <div className="space-y-3">
-            <div className="flex items-center gap-4">
-              <span className="text-[10px] font-medium tracking-wider uppercase text-white/20 w-16 flex-shrink-0">To</span>
-              <span className="text-sm text-white/60">{preview.subscriberEmail}</span>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-[10px] font-medium tracking-wider uppercase text-white/20 w-16 flex-shrink-0 mt-0.5">Subject</span>
-              <span className="text-sm text-white/80 font-medium leading-relaxed">{preview.subject}</span>
-            </div>
+        <div className="p-5 space-y-4">
+          <div className="space-y-1.5 text-xs text-white/50">
+            <div className="flex gap-2"><span className="w-14 flex-shrink-0">To:</span><span className="text-white/80">{preview.subscriberEmail}</span></div>
+            <div className="flex gap-2"><span className="w-14 flex-shrink-0">Subject:</span><span className="text-white/80">{preview.subject}</span></div>
           </div>
-        </div>
-
-        {/* Body */}
-        <div className="px-8 py-6 max-h-[28rem] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.1) transparent' }}>
-          <p className="text-sm text-white/60 leading-[1.85] whitespace-pre-wrap">
+          <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-xs text-[#e8eaed] leading-relaxed whitespace-pre-wrap font-mono">
             {preview.body}
-          </p>
-        </div>
-
-        {/* Actions */}
-        <div className="px-8 pb-8 pt-4 flex gap-3">
-          {sent ? (
-            <div className="flex-1 text-center text-sm text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 py-3.5 rounded-2xl font-medium">
-              ✓ Draft sent to your inbox
-            </div>
-          ) : (
+          </div>
+          <div className="flex gap-2">
+            {sent ? (
+              <div className="flex-1 text-center text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 py-2.5 rounded-lg font-medium">
+                ✓ Draft sent to your inbox
+              </div>
+            ) : (
+              <button
+                onClick={onSend}
+                disabled={sending}
+                className="flex-1 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black text-xs font-semibold py-2.5 rounded-lg transition-colors"
+              >
+                {sending ? 'Sending…' : 'Send draft to my inbox'}
+              </button>
+            )}
             <button
-              onClick={onSend}
-              disabled={sending}
-              className="flex-1 py-3.5 rounded-2xl text-sm font-semibold transition-all disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: '#fff' }}
+              onClick={copy}
+              className="flex-1 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 text-xs font-medium py-2.5 rounded-lg transition-colors"
             >
-              {sending ? 'Sending…' : 'Send draft to my inbox'}
+              {copied ? '✓ Copied!' : 'Copy email'}
             </button>
-          )}
-          <button
-            onClick={copy}
-            className="flex-1 py-3.5 rounded-2xl text-sm font-medium transition-all"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.45)' }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.07)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
-          >
-            {copied ? '✓ Copied!' : 'Copy email'}
-          </button>
+          </div>
         </div>
-
       </div>
     </div>
   )
@@ -339,68 +305,6 @@ export default function DashboardClient({ session }: { session: any }) {
   const [previewLoading, setPreviewLoading] = useState<string | null>(null)
   const [sendingFromModal, setSendingFromModal] = useState(false)
   const [sentFromModal, setSentFromModal]       = useState(false)
-
-  // Empty-state onboarding actions
-  const [onboardSyncing, setOnboardSyncing]   = useState(false)
-  const [onboardSyncDone, setOnboardSyncDone] = useState(false)
-  const [onboardSyncError, setOnboardSyncError] = useState('')
-  const [onboardCsvLoading, setOnboardCsvLoading] = useState(false)
-  const [onboardCsvDone, setOnboardCsvDone]   = useState(false)
-  const [onboardCsvError, setOnboardCsvError] = useState('')
-  const onboardCsvRef = useRef<HTMLInputElement>(null)
-  const [onboardChurnLoading, setOnboardChurnLoading] = useState(false)
-  const [onboardChurnDone, setOnboardChurnDone]       = useState(false)
-  const [onboardChurnError, setOnboardChurnError]     = useState('')
-
-  async function onboardSync() {
-    setOnboardSyncing(true)
-    setOnboardSyncError('')
-    try {
-      const res = await fetch('/api/stripe/sync', { method: 'POST' })
-      if (!res.ok) throw new Error()
-      setOnboardSyncDone(true)
-      setTimeout(() => window.location.reload(), 1200)
-    } catch {
-      setOnboardSyncError('Sync failed. Check your Stripe connection.')
-    } finally {
-      setOnboardSyncing(false)
-    }
-  }
-
-  async function onboardCsvUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setOnboardCsvLoading(true)
-    setOnboardCsvError('')
-    const form = new FormData()
-    form.append('file', file)
-    try {
-      const res = await fetch('/api/csv/upload', { method: 'POST', body: form })
-      const d   = await res.json()
-      if (!res.ok || d.error) throw new Error(d.error || 'Upload failed')
-      setOnboardCsvDone(true)
-      setTimeout(() => window.location.reload(), 1200)
-    } catch (err: any) {
-      setOnboardCsvError(err.message || 'Upload failed.')
-    } finally {
-      setOnboardCsvLoading(false)
-    }
-  }
-
-  async function onboardChurnRun() {
-    setOnboardChurnLoading(true)
-    setOnboardChurnError('')
-    try {
-      const res = await fetch('/api/churn/score', { method: 'POST' })
-      if (!res.ok) throw new Error()
-      setOnboardChurnDone(true)
-      setTimeout(() => window.location.reload(), 1200)
-    } catch {
-      setOnboardChurnError('Analysis failed. Please try again.')
-    } finally {
-      setOnboardChurnLoading(false)
-    }
-  }
 
   async function previewBriefing() {
     setBriefingPreviewing(true)
@@ -761,10 +665,12 @@ export default function DashboardClient({ session }: { session: any }) {
               OVERVIEW SECTION
           ════════════════════════════════════════════════════════════════════ */}
           {data && activeSection === 'overview' && (() => {
+            // Derived metrics
             const hist     = data.mrrHistory
             const prevMrr  = hist[hist.length - 2]?.mrr ?? 0
             const currMrr  = hist[hist.length - 1]?.mrr ?? 0
             const mrrDelta = Math.max(0, currMrr - prevMrr)
+            const churnPct = parseFloat(data.metrics.churnRate)
             const isEmpty  = data.metrics.totalSubscribers === 0
 
             const DEMO_MRR = [
@@ -776,355 +682,578 @@ export default function DashboardClient({ session }: { session: any }) {
               { month: 'Mar', mrr: 3200 },
             ]
 
-            // Minimal activity feed items
-            const feed: { text: string; time: string }[] = []
-            if (data.atRisk.length > 0)   feed.push({ text: `${data.atRisk.length} high-risk subscriber${data.atRisk.length > 1 ? 's' : ''} detected`, time: 'Just now' })
-            if (mrrDelta > 0)              feed.push({ text: `$${mrrDelta.toLocaleString()} MRR gained vs last month`, time: 'This month' })
-            if (data.metrics.pastDue > 0)  feed.push({ text: `${data.metrics.pastDue} payment${data.metrics.pastDue > 1 ? 's' : ''} past due`, time: 'Ongoing' })
-            if (sentIds.size > 0)          feed.push({ text: `${sentIds.size} win-back message${sentIds.size > 1 ? 's' : ''} sent today`, time: 'Today' })
-            if (feed.length === 0)         feed.push({ text: `Watching ${data.metrics.activeSubscribers.toLocaleString()} active subscribers`, time: 'Always on' })
+            // Activity feed — synthesised from real data
+            const feed: { icon: string; color: string; text: string; time: string }[] = []
+            if (data.atRisk.length > 0) {
+              feed.push({
+                icon: '⚠',
+                color: 'text-red-400 bg-red-500/10',
+                text: `${data.atRisk.length} high-risk subscriber${data.atRisk.length > 1 ? 's' : ''} detected`,
+                time: 'Just now',
+              })
+            }
+            if (mrrDelta > 0) {
+              feed.push({
+                icon: '↑',
+                color: 'text-emerald-400 bg-emerald-500/10',
+                text: `$${mrrDelta.toLocaleString()} recovered vs last month`,
+                time: 'This month',
+              })
+            }
+            if (data.metrics.pastDue > 0) {
+              feed.push({
+                icon: '!',
+                color: 'text-amber-400 bg-amber-500/10',
+                text: `${data.metrics.pastDue} payment${data.metrics.pastDue > 1 ? 's' : ''} past due — retry recommended`,
+                time: 'Ongoing',
+              })
+            }
+            if (sentIds.size > 0) {
+              feed.push({
+                icon: '✉',
+                color: 'text-emerald-400 bg-emerald-500/10',
+                text: `${sentIds.size} win-back message${sentIds.size > 1 ? 's' : ''} sent today`,
+                time: 'Today',
+              })
+            }
+            if (feed.length < 3) {
+              feed.push({
+                icon: '✓',
+                color: 'text-white/40 bg-white/5',
+                text: `Watching ${data.metrics.activeSubscribers.toLocaleString()} active subscribers`,
+                time: 'Always on',
+              })
+            }
+
+            const kpis = [
+              {
+                label:  'Revenue at risk',
+                value:  `$${data.metrics.revenueAtRisk.toLocaleString()}`,
+                sub:    `${data.metrics.atRiskCount} subscribers`,
+                delta:  data.metrics.revenueAtRisk > 0 ? { dir: 'down', pct: null } : null,
+                accent: data.metrics.revenueAtRisk > 0 ? {
+                  num: 'text-red-400', border: 'border-red-500/20', glow: 'bg-red-500/[0.03]',
+                  dot: 'bg-red-400',
+                } : {
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                },
+              },
+              {
+                label:  'Recovered revenue',
+                value:  `$${mrrDelta.toLocaleString()}`,
+                sub:    'vs last month',
+                delta:  mrrDelta > 0 ? { dir: 'up', pct: null } : null,
+                accent: mrrDelta > 0 ? {
+                  num: 'text-emerald-400', border: 'border-emerald-500/20', glow: 'bg-emerald-500/[0.03]',
+                  dot: 'bg-emerald-400',
+                } : {
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                },
+              },
+              {
+                label:  'Churn rate',
+                value:  `${data.metrics.churnRate}%`,
+                sub:    `${data.metrics.cancelledSubscribers} cancelled`,
+                delta:  churnPct > 5 ? { dir: 'down', pct: null } : churnPct < 2 ? { dir: 'up', pct: null } : null,
+                accent: churnPct > 5 ? {
+                  num: 'text-red-400', border: 'border-red-500/20', glow: 'bg-red-500/[0.03]', dot: 'bg-red-400',
+                } : {
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                },
+              },
+              {
+                label:  'Subscribers saved',
+                value:  String(sentIds.size),
+                sub:    'win-backs sent today',
+                delta:  sentIds.size > 0 ? { dir: 'up', pct: null } : null,
+                accent: sentIds.size > 0 ? {
+                  num: 'text-emerald-400', border: 'border-emerald-500/20', glow: 'bg-emerald-500/[0.03]',
+                  dot: 'bg-emerald-400',
+                } : {
+                  num: 'text-[#e8eaed]', border: 'border-white/[0.06]', glow: 'bg-white/[0.02]', dot: '',
+                },
+              },
+            ]
 
             return (
-              <div className="p-6 md:p-8 space-y-6">
+              <div className="p-4 md:p-6 space-y-5">
 
-                {/* ── 1. Headline ───────────────────────────────────────────── */}
-                <div>
-                  {isEmpty ? (
-                    <>
-                      <div className="text-4xl font-semibold tracking-tight text-white">Connect your data</div>
-                      <div className="text-sm text-white/35 mt-2">Import subscribers via Stripe sync or CSV upload</div>
-                    </>
-                  ) : data.metrics.revenueAtRisk > 0 ? (
-                    <>
-                      <div className="text-4xl font-semibold tracking-tight">
-                        ${data.metrics.revenueAtRisk.toLocaleString()} at risk
-                      </div>
-                      <div className="text-sm text-white/35 mt-2">
-                        {data.metrics.atRiskCount} subscriber{data.metrics.atRiskCount !== 1 ? 's' : ''} · {data.metrics.churnRate}% churn rate · {sentIds.size} recovered this month
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="text-4xl font-semibold tracking-tight">No revenue at risk</div>
-                      <div className="text-sm text-white/35 mt-2">
-                        {data.metrics.churnRate}% churn rate · {data.metrics.activeSubscribers} active subscribers
-                      </div>
-                    </>
+                {/* ── Page title ──────────────────────────────────────────── */}
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <h1 className="text-xl font-bold tracking-tight">Good morning, {firstName} 👋</h1>
+                    <p className="text-sm text-[#e8eaed] mt-0.5">
+                      {data.metrics.atRiskCount > 0
+                        ? `${data.metrics.atRiskCount} subscriber${data.metrics.atRiskCount > 1 ? 's' : ''} at risk · $${data.metrics.revenueAtRisk.toLocaleString()}/mo in danger`
+                        : `Watching ${data.metrics.activeSubscribers.toLocaleString()} active subscribers · No critical alerts`}
+                    </p>
+                  </div>
+                  {data.metrics.atRiskCount > 0 && (
+                    <div className="hidden sm:flex items-center gap-1.5 text-xs text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-1.5 rounded-full flex-shrink-0">
+                      <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse" />
+                      Live alerts
+                    </div>
                   )}
                 </div>
 
-                {/* ── 2. Priority — full-width, most prominent ──────────────── */}
-                {!isEmpty && (
-                  <div className="bg-[#161616] border border-white/10 rounded-2xl px-7 py-6">
-                    <div className="text-[11px] font-medium text-white/30 uppercase tracking-widest mb-3">Priority</div>
-                    {data.atRisk.length > 0 ? (
-                      <p className="text-base text-white/80 leading-relaxed">
-                        Contact <span className="text-white font-semibold">{data.atRisk[0].name}</span> today to protect{' '}
-                        <span className="text-white font-semibold">${data.atRisk[0].amount}/mo</span>.
-                      </p>
-                    ) : (
-                      <p className="text-base text-white/40 leading-relaxed">
-                        All subscribers look healthy. Focus on onboarding new ones.
-                      </p>
+                {/* ── KPI Strip ───────────────────────────────────────────── */}
+                {isEmpty ? (
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {['Revenue at risk', 'Recovered revenue', 'Churn rate', 'Subscribers saved'].map(label => (
+                      <div key={label} className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                        <div className="text-xs text-[#e8eaed] font-medium mb-3">{label}</div>
+                        <div className="text-2xl font-bold tracking-tight mb-1.5 text-white/15">—</div>
+                        <div className="text-xs text-white/25">Connect data to see metrics</div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {kpis.map(k => (
+                      <div
+                        key={k.label}
+                        className={`${k.accent.glow} border ${k.accent.border} rounded-xl p-4 group hover:border-white/20 transition-all duration-200`}
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs text-[#e8eaed] font-medium">{k.label}</span>
+                          {k.delta && (
+                            <span className={`text-xs font-bold ${k.delta.dir === 'up' ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {k.delta.dir === 'up' ? '↑' : '↓'}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`text-2xl font-bold tracking-tight mb-1 ${k.accent.num}`}>
+                          {k.value}
+                        </div>
+                        <div className="text-xs text-white/50">{k.sub}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* ── Tax Pot ─────────────────────────────────────────────── */}
+                {data.taxPot.mrr > 0 && (
+                  <div
+                    className="bg-white/[0.02] border border-white/[0.08] rounded-xl overflow-hidden cursor-pointer hover:border-white/[0.14] transition-colors"
+                    onClick={() => setTaxOpen(o => !o)}
+                  >
+                    <div className="px-5 py-3.5 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-white/[0.05] flex items-center justify-center text-base flex-shrink-0">💰</div>
+                        <div>
+                          <div className="text-sm font-medium">
+                            Set aside <span className="text-[#e8eaed]">${data.taxPot.setAside.toLocaleString()}</span> this month for taxes
+                          </div>
+                          <div className="text-xs text-[#e8eaed] mt-0.5">
+                            {data.taxPot.rate}% of ${data.taxPot.mrr.toLocaleString()} MRR · tap to expand
+                          </div>
+                        </div>
+                      </div>
+                      <span className="text-white/50 text-xs flex-shrink-0">{taxOpen ? '▲' : '▼'}</span>
+                    </div>
+                    {taxOpen && (
+                      <div className="border-t border-white/[0.06] px-5 py-4 bg-white/[0.015] space-y-3">
+                        {[
+                          { label: 'Total MRR',              value: `$${data.taxPot.mrr.toLocaleString()}`,      note: 'All active subscriber revenue' },
+                          { label: `× ${data.taxPot.rate}% tax rate`, value: '',                               note: 'Standard self-employed set-aside' },
+                          { label: 'Recommended set-aside',  value: `$${data.taxPot.setAside.toLocaleString()}`, note: 'Transfer to a separate account', bold: true },
+                        ].map(row => (
+                          <div key={row.label} className="flex items-center justify-between gap-4">
+                            <div>
+                              <div className={`text-xs ${row.bold ? 'font-semibold text-[#e8eaed]' : 'text-white/50'}`}>{row.label}</div>
+                              <div className="text-[10px] text-white/50">{row.note}</div>
+                            </div>
+                            {row.value && <div className="text-sm font-bold text-[#e8eaed] flex-shrink-0">{row.value}</div>}
+                          </div>
+                        ))}
+                        <div className="text-[10px] text-white/45 pt-1 border-t border-white/[0.04]">
+                          Guide only — consult a tax professional for your jurisdiction.
+                        </div>
+                      </div>
                     )}
                   </div>
                 )}
 
-                {/* ── 3. High Risk Subscribers — main focus ─────────────────── */}
-                <div className="bg-[#161616] border border-white/10 rounded-2xl overflow-hidden">
-                  <div className="px-6 py-5 border-b border-white/[0.07] flex items-center justify-between">
-                    <h2 className="text-sm font-semibold">
-                      {isEmpty ? 'Get started' : 'High risk subscribers'}
-                    </h2>
-                    {!isEmpty && data.atRisk.length > 0 && (
-                      <span className="text-xs text-white/35">{data.atRisk.length} flagged</span>
-                    )}
-                  </div>
+                {/* ── Main 2-col: Action Center + Insights ───────────────── */}
+                <div className="grid lg:grid-cols-[1fr_320px] gap-5 items-start">
 
-                  {/* Onboarding */}
-                  {isEmpty && (
-                    <div className="p-6 space-y-3">
-                      {([
-                        {
-                          num: 1,
-                          title: 'Import your subscribers',
-                          desc: 'Connect Stripe for live sync, or upload a CSV file to get started instantly.',
-                          active: true,
-                          action: (
-                            <div className="space-y-2 mt-3">
-                              <div className="flex flex-wrap gap-2">
-                                <button
-                                  onClick={onboardSync}
-                                  disabled={onboardSyncing || onboardSyncDone}
-                                  className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-60 text-black text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5"
-                                >
-                                  {onboardSyncing ? (
-                                    <><span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />Syncing...</>
-                                  ) : onboardSyncDone ? '✓ Synced!' : 'Connect & sync Stripe →'}
-                                </button>
-                                <label className="cursor-pointer">
-                                  <div className={`bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 ${onboardCsvLoading || onboardCsvDone ? 'opacity-60 pointer-events-none' : ''}`}>
-                                    {onboardCsvLoading ? (
-                                      <><span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />Uploading...</>
-                                    ) : onboardCsvDone ? '✓ Imported!' : '📂 Upload CSV file'}
-                                  </div>
-                                  <input ref={onboardCsvRef} type="file" accept=".csv" onChange={onboardCsvUpload} className="hidden" />
-                                </label>
-                              </div>
-                              {onboardSyncError && <div className="text-xs text-red-400">⚠ {onboardSyncError}</div>}
-                              {onboardCsvError  && <div className="text-xs text-red-400">⚠ {onboardCsvError}</div>}
-                            </div>
-                          ),
-                        },
-                        {
-                          num: 2,
-                          title: 'Run churn analysis',
-                          desc: 'SubPilot scores every subscriber for churn risk based on activity and payment signals.',
-                          active: false,
-                          action: null,
-                        },
-                        {
-                          num: 3,
-                          title: 'See who is at risk and act',
-                          desc: 'Get a prioritised list of subscribers about to leave — then send AI win-back messages in one click.',
-                          active: false,
-                          action: null,
-                        },
-                      ] as const).map((step) => (
-                        <div
-                          key={step.num}
-                          className={`flex gap-4 p-4 rounded-xl border transition-all ${
-                            step.active ? 'border-white/[0.12]' : 'border-white/[0.05] opacity-40'
-                          }`}
-                        >
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 border ${
-                            step.active ? 'border-white/20 text-white/60' : 'border-white/10 text-white/25'
-                          }`}>
-                            {step.num}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className={`text-sm font-medium ${step.active ? 'text-white' : 'text-white/40'}`}>{step.title}</div>
-                            <div className="text-xs text-white/35 mt-0.5 leading-relaxed">{step.desc}</div>
-                            {step.action}
+                  {/* LEFT — High Risk Subscribers */}
+                  <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
+
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+                      <div className="flex items-center gap-2.5">
+                        {isEmpty ? (
+                          <span className="w-2 h-2 bg-emerald-400/60 rounded-full flex-shrink-0" />
+                        ) : (
+                          <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse flex-shrink-0" />
+                        )}
+                        <h2 className="text-sm font-semibold">
+                          {isEmpty ? 'Quick start' : 'High Risk Subscribers'}
+                        </h2>
+                      </div>
+                      {!isEmpty && data.atRisk.length > 0 && (
+                        <span className="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2.5 py-1 rounded-full font-medium">
+                          {data.atRisk.length} at risk
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Empty state */}
+                    {data.atRisk.length === 0 && !isEmpty && (
+                      <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+                        <div className="text-4xl mb-4">🎯</div>
+                        <div className="text-sm font-medium text-emerald-400 mb-1.5">No at-risk subscribers</div>
+                        <div className="text-xs text-[#e8eaed] max-w-xs">
+                          Go to Tools → Run churn analysis to score your subscribers
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Onboarding checklist — shown only when no data imported yet */}
+                    {isEmpty && (
+                      <div className="p-6 space-y-3">
+                        <div className="flex items-center gap-3 mb-5">
+                          <div className="w-9 h-9 bg-emerald-500/15 border border-emerald-500/25 rounded-lg flex items-center justify-center text-lg flex-shrink-0">🚀</div>
+                          <div>
+                            <div className="text-sm font-semibold">Get started in 3 steps</div>
+                            <div className="text-xs text-white/40 mt-0.5">Takes about 60 seconds</div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* No risk */}
-                  {data.atRisk.length === 0 && !isEmpty && (
-                    <div className="flex flex-col items-center justify-center py-12 text-center px-6">
-                      <div className="text-sm font-medium text-white/50 mb-1.5">No at-risk subscribers yet</div>
-                      <div className="text-xs text-white/25 mb-5">Score your subscribers to see who needs attention</div>
-                      <button
-                        onClick={onboardChurnRun}
-                        disabled={onboardChurnLoading || onboardChurnDone}
-                        className="bg-emerald-500 hover:bg-emerald-400 disabled:opacity-60 text-black text-xs font-semibold px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"
-                      >
-                        {onboardChurnLoading ? (
-                          <><span className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" />Analysing...</>
-                        ) : onboardChurnDone ? '✓ Done! Reloading…' : '✦ Run churn analysis →'}
-                      </button>
-                      {onboardChurnError && <div className="text-xs text-red-400 mt-3">⚠ {onboardChurnError}</div>}
-                    </div>
-                  )}
-
-                  {/* Rows */}
-                  {data.atRisk.length > 0 && (
-                    <div className="divide-y divide-white/[0.06]">
-                      {(showAllRisk ? data.atRisk : data.atRisk.slice(0, 5)).map(s => {
-                        const isSent = sentIds.has(s.id)
-                        const reason =
-                          s.daysInactive && s.daysInactive > 0
-                            ? `Inactive ${s.daysInactive} days`
-                            : (data.subscribers.find(sub => sub.id === s.id)?.status === 'past_due')
-                            ? 'Payment failed'
-                            : 'Low recent activity'
-                        return (
+                        {([
+                          {
+                            num: 1,
+                            title: 'Import your subscribers',
+                            desc: 'Connect Stripe for live sync, or upload a CSV file to get started instantly.',
+                            active: true,
+                            action: (
+                              <div className="flex flex-wrap gap-2 mt-3">
+                                <SyncButton />
+                                <CSVUploadButton />
+                              </div>
+                            ),
+                          },
+                          {
+                            num: 2,
+                            title: 'Run churn analysis',
+                            desc: 'SubPilot scores every subscriber for churn risk based on activity and payment signals.',
+                            active: false,
+                            action: null,
+                          },
+                          {
+                            num: 3,
+                            title: 'See who is at risk and act',
+                            desc: 'Get a prioritised list of subscribers about to leave — then send AI win-back messages in one click.',
+                            active: false,
+                            action: null,
+                          },
+                        ] as const).map((step) => (
                           <div
-                            key={s.id}
-                            className="flex items-center gap-5 px-6 py-4 hover:bg-white/[0.03] transition-colors cursor-pointer group"
-                            onClick={() => window.location.href = `/dashboard/subscribers/${s.id}`}
+                            key={step.num}
+                            className={`flex gap-4 p-4 rounded-xl border transition-all ${
+                              step.active
+                                ? 'bg-emerald-500/5 border-emerald-500/20'
+                                : 'bg-white/[0.02] border-white/[0.05] opacity-45'
+                            }`}
                           >
-                            <div className="w-8 h-8 rounded-full bg-white/[0.07] flex items-center justify-center text-xs font-semibold flex-shrink-0">
-                              {s.name[0]?.toUpperCase()}
+                            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${
+                              step.active
+                                ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400'
+                                : 'bg-white/10 border border-white/10 text-white/30'
+                            }`}>
+                              {step.num}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium truncate">{s.name}</div>
-                              <div className="text-xs text-white/35 mt-0.5">{reason}</div>
+                              <div className={`text-sm font-medium ${step.active ? 'text-white' : 'text-white/50'}`}>{step.title}</div>
+                              <div className="text-xs text-white/35 mt-0.5 leading-relaxed">{step.desc}</div>
+                              {step.action}
                             </div>
-                            {s.churnScore !== undefined && <ScoreBadge score={s.churnScore} />}
-                            {isSent ? (
-                              <span className="text-xs text-white/35 font-medium whitespace-nowrap flex-shrink-0">✓ Sent</span>
-                            ) : (
-                              <button
-                                onClick={e => { e.stopPropagation(); openEmailPreview(s.id, s.name) }}
-                                disabled={!!previewLoading}
-                                className="flex-shrink-0 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.10] disabled:opacity-40 text-white/60 hover:text-white border border-white/[0.08] px-3.5 py-1.5 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
-                              >
-                                {previewLoading === s.id
-                                  ? <><span className="w-2.5 h-2.5 border-2 border-black/40 border-t-transparent rounded-full animate-spin" />Generating…</>
-                                  : 'Send email'}
-                              </button>
-                            )}
                           </div>
-                        )
-                      })}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
 
-                  {data.atRisk.length > 5 && (
-                    <div className="px-6 py-3.5 border-t border-white/[0.06] flex items-center justify-between">
-                      <button onClick={() => setShowAllRisk(v => !v)} className="text-xs text-white/35 hover:text-white/60 transition-colors">
-                        {showAllRisk ? 'Show less' : `Show ${data.atRisk.length - 5} more`}
-                      </button>
-                      <button onClick={() => setSection('subscribers')} className="text-xs text-white/35 hover:text-white/60 transition-colors">
-                        All subscribers →
-                      </button>
-                    </div>
-                  )}
-                </div>
+                    {/* Subscriber rows */}
+                    {data.atRisk.length > 0 && (
+                      <div className="divide-y divide-white/[0.045]">
+                        {(showAllRisk ? data.atRisk : data.atRisk.slice(0, 4)).map(s => {
+                          const risk    = riskLabel(s.churnScore)
+                          const reasons = riskReasons(s)
+                          const urgency = churnWindow(s.churnScore, s.daysInactive)
+                          const isSent  = sentIds.has(s.id)
+                          const isSending = sendingId === s.id
 
-                {/* ── 4. Revenue (60%) + Chart (40%) ───────────────────────── */}
-                <div className="grid lg:grid-cols-2 gap-5 items-start">
+                          return (
+                            <div key={s.id} className="px-5 py-4 hover:bg-white/[0.02] transition-colors group cursor-pointer" onClick={() => window.location.href = `/dashboard/subscribers/${s.id}`}>
+                              <div className="flex items-start justify-between gap-4">
 
-                  {/* Revenue */}
-                  <div className="bg-[#161616] border border-white/10 rounded-2xl p-6">
-                    <div className="text-[11px] font-medium text-white/30 uppercase tracking-widest mb-5">Revenue</div>
-                    <div className="space-y-4">
-                      {[
-                        { label: 'MRR',       value: `$${data.metrics.mrr.toLocaleString()}` },
-                        { label: 'At risk',   value: data.metrics.revenueAtRisk > 0 ? `$${data.metrics.revenueAtRisk.toLocaleString()}` : '—' },
-                        { label: 'Recovered', value: mrrDelta > 0 ? `$${mrrDelta.toLocaleString()}` : '—' },
-                        { label: 'ARPU',      value: `$${data.metrics.arpu}` },
-                        { label: 'Past due',  value: data.metrics.pastDue > 0 ? String(data.metrics.pastDue) : '—' },
-                      ].map(row => (
-                        <div key={row.label} className="flex items-center justify-between">
-                          <span className="text-sm text-white/40">{row.label}</span>
-                          <span className="text-sm font-semibold text-white">{row.value}</span>
+                                {/* Left: avatar + details */}
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                    {s.name[0]?.toUpperCase()}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-medium">{s.name}</div>
+                                    <div className="text-xs text-white/40 mt-0.5">{s.plan} · ${s.amount}/mo</div>
+                                    <div className={`text-[11px] font-medium mt-1 ${
+                                      s.churnScore && s.churnScore >= 8 ? 'text-red-400' :
+                                      s.churnScore && s.churnScore >= 6 ? 'text-orange-400' : 'text-amber-400'
+                                    }`}>{urgency}</div>
+                                    <div className="flex gap-1.5 mt-2 flex-wrap">
+                                      {reasons.map(r => (
+                                        <span key={r} className="text-[10px] bg-white/[0.06] text-white/50 px-2 py-0.5 rounded-full">{r}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Right: score + button */}
+                                <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                                  {s.churnScore !== undefined && <ScoreBadge score={s.churnScore} />}
+                                  {isSent ? (
+                                    <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium whitespace-nowrap">
+                                      ✓ Sent
+                                    </span>
+                                  ) : (
+                                    <button
+                                      onClick={e => { e.stopPropagation(); openEmailPreview(s.id, s.name) }}
+                                      disabled={!!previewLoading}
+                                      className="text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap disabled:opacity-50 flex items-center gap-1.5"
+                                    >
+                                      {previewLoading === s.id ? (
+                                        <><span className="w-2.5 h-2.5 border border-emerald-400 border-t-transparent rounded-full animate-spin" />Generating…</>
+                                      ) : 'Send AI email →'}
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {/* Footer */}
+                    {data.atRisk.length > 0 && (
+                      <div className="px-5 py-3 border-t border-white/[0.05] flex items-center justify-between gap-3">
+                        <span className="text-[11px] text-white/50">
+                          ${data.metrics.revenueAtRisk.toLocaleString()}/mo at risk
+                        </span>
+                        <div className="flex items-center gap-3">
+                          {data.atRisk.length > 4 && (
+                            <button
+                              onClick={() => setShowAllRisk(v => !v)}
+                              className="text-[11px] font-medium text-white/50 hover:text-white/80 bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] px-2.5 py-1 rounded-lg transition-colors"
+                            >
+                              {showAllRisk
+                                ? '↑ See less'
+                                : `↓ See ${data.atRisk.length - 4} more`}
+                            </button>
+                          )}
+                          <button
+                            onClick={() => setSection('subscribers')}
+                            className="text-[11px] text-[#e8eaed] hover:text-white/55 transition-colors"
+                          >
+                            All subscribers →
+                          </button>
                         </div>
-                      ))}
-                    </div>
-                    {data.taxPot.mrr > 0 && (
-                      <>
-                        <div
-                          className="mt-5 pt-4 border-t border-white/[0.07] flex items-center justify-between cursor-pointer"
-                          onClick={() => setTaxOpen(o => !o)}
-                        >
-                          <span className="text-sm text-white/40">Tax set-aside</span>
-                          <span className="text-sm font-semibold text-white">${data.taxPot.setAside.toLocaleString()}</span>
-                        </div>
-                        {taxOpen && (
-                          <div className="mt-3 text-xs text-white/25 leading-relaxed">
-                            {data.taxPot.rate}% of ${data.taxPot.mrr.toLocaleString()} MRR · guide only, consult a tax professional.
-                          </div>
-                        )}
-                      </>
+                      </div>
                     )}
                   </div>
 
-                  {/* Chart */}
-                  <div className="bg-[#161616] rounded-2xl overflow-hidden border border-white/10">
-                    <div className="px-5 py-4 border-b border-white/[0.05] flex items-center justify-between">
-                      <span className="text-xs text-white/40 font-medium">MRR · 6 months</span>
-                      {!isEmpty && prevMrr > 0 && currMrr > 0 && (() => {
+                  {/* RIGHT — AI Insights Panel */}
+                  <div className="space-y-3">
+                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="text-emerald-400 text-xs">✦</span>
+                        <h3 className="text-sm font-semibold">AI Insights</h3>
+                      </div>
+
+                      {isEmpty ? (
+                        <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
+                          <div className="text-sm font-medium text-white/60 mb-1">AI insights will appear here</div>
+                          <div className="text-xs text-white/30 leading-relaxed max-w-[200px]">Import your first subscribers to unlock AI-powered churn predictions and win-back recommendations.</div>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {/* Today's briefing */}
+                          <div className="bg-red-500/10 border border-red-500/15 rounded-lg p-3">
+                            <div className="text-[10px] text-red-400 uppercase tracking-widest mb-1.5 font-semibold">Today's briefing</div>
+                            <div className="text-xs text-[#e8eaed] leading-relaxed">
+                              {data.atRisk.length > 0
+                                ? `${data.atRisk.length} subscriber${data.atRisk.length > 1 ? 's' : ''} show elevated churn risk. Immediate action on ${data.atRisk[0].name} could protect $${data.atRisk[0].amount}/mo.`
+                                : 'All subscribers look healthy today. Keep monitoring for early signals.'}
+                            </div>
+                          </div>
+
+                          {/* Top priority */}
+                          {data.atRisk.length > 0 && (
+                            <div className="bg-amber-500/10 border border-amber-500/15 rounded-lg p-3">
+                              <div className="text-[10px] text-amber-400 uppercase tracking-widest mb-1.5 font-semibold">Top priority</div>
+                              <div className="text-xs text-[#e8eaed] leading-relaxed">
+                                Reach out to {data.atRisk[0].name} today.
+                                {data.atRisk[0].daysInactive ? ` ${data.atRisk[0].daysInactive} days inactive` : ''}
+                                {data.atRisk[0].churnScore ? `, score ${data.atRisk[0].churnScore}/10.` : '.'}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Revenue opportunities */}
+                          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                            <div className="text-[10px] text-white/40 uppercase tracking-widest mb-2 font-semibold">Revenue opportunities</div>
+                            <div className="space-y-1.5 text-xs text-white/50">
+                              {data.metrics.pastDue > 0 && (
+                                <div>↑ Recover {data.metrics.pastDue} failed payment{data.metrics.pastDue > 1 ? 's' : ''}</div>
+                              )}
+                              {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length > 1 && (
+                                <div>↑ {data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length} high-risk subscribers need a personal message</div>
+                              )}
+                              {mrrDelta > 0 && (
+                                <div>↑ MRR up ${mrrDelta.toLocaleString()} vs last month — keep momentum</div>
+                              )}
+                              {data.metrics.pastDue === 0 && data.atRisk.filter(s => (s.churnScore ?? 0) >= 7).length <= 1 && (
+                                <div>↑ Good health — focus on onboarding new subscribers</div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Quick stats */}
+                    <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl p-4 space-y-2">
+                      <div className="text-[10px] text-white/30 uppercase tracking-widest mb-3 font-semibold">Overview</div>
+                      {[
+                        { label: 'Active subscribers', value: data.metrics.activeSubscribers.toLocaleString(), color: 'text-emerald-400' },
+                        { label: 'Avg revenue / sub',  value: `$${data.metrics.arpu}`,                         color: 'text-white' },
+                        { label: 'Past due',            value: String(data.metrics.pastDue),                    color: data.metrics.pastDue > 0 ? 'text-amber-400' : 'text-white/40' },
+                        { label: 'Total MRR',           value: `$${data.metrics.mrr.toLocaleString()}`,         color: 'text-white' },
+                      ].map(stat => (
+                        <div key={stat.label} className="flex items-center justify-between text-xs">
+                          <span className="text-white/40">{stat.label}</span>
+                          <span className={`font-semibold ${stat.color}`}>{stat.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Lower Section: Chart + Activity Feed ────────────────── */}
+                <div className="grid lg:grid-cols-[1fr_320px] gap-5 items-start">
+
+                  {/* Revenue / MRR Chart */}
+                  <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
+                    <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
+                      <div>
+                        <h2 className="text-sm font-semibold">Revenue growth</h2>
+                        <p className="text-xs text-[#e8eaed] mt-0.5">MRR — last 6 months</p>
+                      </div>
+                      {!isEmpty && (() => {
+                        if (prevMrr === 0 || currMrr === 0) return null
                         const pct = ((currMrr - prevMrr) / prevMrr) * 100
+                        const pos = pct >= 0
                         return (
-                          <span className="text-xs text-white/30">
-                            {pct >= 0 ? '+' : ''}{pct.toFixed(1)}%
+                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg border ${
+                            pos
+                              ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+                              : 'text-red-400 bg-red-500/10 border-red-500/20'
+                          }`}>
+                            {pos ? '↑' : '↓'} {Math.abs(pct).toFixed(1)}% vs last month
                           </span>
                         )
                       })()}
                     </div>
-                    <div className="px-4 pt-3 pb-4">
+                    <div className="p-5">
                       {isEmpty ? (
                         <div className="relative">
                           <div className="blur-sm pointer-events-none select-none">
-                            <ResponsiveContainer width="100%" height={140}>
-                              <AreaChart data={DEMO_MRR} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+                            <ResponsiveContainer width="100%" height={220}>
+                              <AreaChart data={DEMO_MRR} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                                 <defs>
                                   <linearGradient id="demoGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%"  stopColor="rgba(16,185,129,0.18)" stopOpacity={1} />
-                                    <stop offset="95%" stopColor="rgba(16,185,129,0)" stopOpacity={1} />
+                                    <stop offset="5%"  stopColor="#10b981" stopOpacity={0.2} />
+                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                                   </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-                                <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.18)', fontSize: 10 }} axisLine={false} tickLine={false} dy={6} />
-                                <YAxis hide />
-                                <Area type="monotone" dataKey="mrr" stroke="rgba(16,185,129,0.4)" strokeWidth={1.5} fill="url(#demoGrad)" dot={false} />
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.055)" vertical={false} />
+                                <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} dy={6} />
+                                <YAxis tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} width={46} />
+                                <Area type="monotone" dataKey="mrr" stroke="#10b981" strokeWidth={2.5} fill="url(#demoGrad)" dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }} />
                               </AreaChart>
                             </ResponsiveContainer>
                           </div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="bg-[#161616]/95 border border-white/[0.08] rounded-xl px-4 py-2.5 text-center">
-                              <div className="text-xs text-white/40">Connect Stripe to unlock</div>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="bg-[#080808]/80 border border-white/[0.10] rounded-xl px-6 py-4 text-center backdrop-blur-sm shadow-xl">
+                              <div className="text-sm font-semibold mb-1">Your MRR chart will appear here</div>
+                              <div className="text-xs text-white/40">Connect Stripe or import a CSV to unlock</div>
                             </div>
                           </div>
                         </div>
                       ) : (
-                        <ResponsiveContainer width="100%" height={140}>
-                          <AreaChart data={data.mrrHistory} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
+                        <ResponsiveContainer width="100%" height={220}>
+                          <AreaChart data={data.mrrHistory} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                             <defs>
                               <linearGradient id="mrrGrad" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%"  stopColor="rgba(16,185,129,0.2)" stopOpacity={1} />
-                                <stop offset="95%" stopColor="rgba(16,185,129,0)" stopOpacity={1} />
+                                <stop offset="5%"  stopColor="#10b981" stopOpacity={0.2} />
+                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                               </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-                            <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.22)', fontSize: 10 }} axisLine={false} tickLine={false} dy={6} />
-                            <YAxis hide />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.055)" vertical={false} />
+                            <XAxis dataKey="month" tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} dy={6} />
+                            <YAxis tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 11 }} axisLine={false} tickLine={false} tickFormatter={v => `$${v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}`} width={46} />
                             <Tooltip
-                              contentStyle={{ background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, fontSize: 11, padding: '5px 10px' }}
-                              labelStyle={{ color: 'rgba(255,255,255,0.3)', marginBottom: 2 }}
-                              itemStyle={{ color: 'rgb(16,185,129)', fontWeight: 600 }}
+                              contentStyle={{ background: '#111', border: '1px solid rgba(255,255,255,0.10)', borderRadius: 10, fontSize: 12, padding: '8px 14px' }}
+                              labelStyle={{ color: 'rgba(255,255,255,0.45)', marginBottom: 3 }}
+                              itemStyle={{ color: '#fff', fontWeight: 600 }}
                               formatter={(val: any) => [`$${Number(val).toLocaleString()}`, 'MRR']}
-                              cursor={{ stroke: 'rgba(255,255,255,0.05)', strokeWidth: 1 }}
+                              cursor={{ stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1 }}
                             />
-                            <Area type="monotone" dataKey="mrr" stroke="rgb(16,185,129)" strokeWidth={2} fill="url(#mrrGrad)" dot={false} activeDot={{ r: 3, fill: 'rgb(16,185,129)', strokeWidth: 0 }} />
+                            <Area type="monotone" dataKey="mrr" stroke="#10b981" strokeWidth={2.5} fill="url(#mrrGrad)" dot={{ r: 3, fill: '#10b981', strokeWidth: 0 }} activeDot={{ r: 5, fill: '#10b981', stroke: 'rgba(16,185,129,0.25)', strokeWidth: 4 }} />
                           </AreaChart>
                         </ResponsiveContainer>
                       )}
                     </div>
                   </div>
-                </div>
 
-                {/* ── 5. Activity feed — low emphasis ──────────────────────── */}
-                <div className="space-y-0">
-                  {feed.slice(0, 4).map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 py-2.5 border-b border-white/[0.04] last:border-0">
-                      <span className="w-1 h-1 rounded-full bg-white/20 flex-shrink-0" />
-                      <span className="text-xs text-white/35 flex-1">{item.text}</span>
-                      <span className="text-[11px] text-white/20 whitespace-nowrap">{item.time}</span>
+                  {/* Activity Feed */}
+                  <div className="bg-white/[0.02] border border-white/[0.07] rounded-xl overflow-hidden">
+                    <div className="px-5 py-4 border-b border-white/[0.06]">
+                      <h2 className="text-sm font-semibold">Activity feed</h2>
+                      <p className="text-xs text-[#e8eaed] mt-0.5">Latest events</p>
                     </div>
-                  ))}
-                </div>
-
-                {/* ── 6. Upgrade — subtle, no red ──────────────────────────── */}
-                {data.planInfo.atLimit && data.planInfo.limit !== null && (() => {
-                  const next = data.planInfo.plan === 'starter' ? 'Pro' : data.planInfo.plan === 'growth' ? 'Studio' : null
-                  if (!next) return null
-                  const pct = Math.min(100, Math.round((data.planInfo.total / data.planInfo.limit) * 100))
-                  return (
-                    <div className="border border-white/[0.08] rounded-2xl p-5 flex items-center justify-between gap-4">
-                      <div className="min-w-0">
-                        <div className="text-sm font-medium text-white/70 mb-0.5">Plan limit reached</div>
-                        <div className="text-xs text-white/35">
-                          {data.planInfo.total.toLocaleString()} of {data.planInfo.limit.toLocaleString()} subscribers shown
+                    <div className="divide-y divide-white/[0.04]">
+                      {feed.map((item, i) => (
+                        <div key={i} className="flex items-start gap-3.5 px-5 py-3.5 hover:bg-white/[0.02] transition-colors">
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 ${item.color}`}>
+                            {item.icon}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-xs text-white/70 leading-relaxed">{item.text}</div>
+                            <div className="text-[10px] text-white/50 mt-0.5">{item.time}</div>
+                          </div>
                         </div>
-                        <div className="mt-2.5 h-1 w-32 bg-white/[0.06] rounded-full overflow-hidden">
-                          <div className="h-full bg-white/25 rounded-full" style={{ width: `${pct}%` }} />
-                        </div>
-                      </div>
-                      <a
-                        href="/billing"
-                        className="flex-shrink-0 text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-black px-4 py-2 rounded-lg transition-colors whitespace-nowrap"
+                      ))}
+                    </div>
+                    <div className="px-5 py-3 border-t border-white/[0.04]">
+                      <button
+                        onClick={sendBriefing}
+                        disabled={briefingSending || briefingSent}
+                        className="w-full text-xs font-medium text-white/40 hover:text-white/70 transition-colors text-left disabled:opacity-40"
                       >
-                        Upgrade to {next} →
-                      </a>
+                        {briefingSent ? '✓ Briefing sent to your inbox' : '📋 Get morning briefing via email →'}
+                      </button>
                     </div>
-                  )
-                })()}
+                  </div>
+                </div>
+
+                {/* Upgrade prompt */}
+                {data.planInfo.atLimit && data.planInfo.limit !== null && (
+                  <UpgradePrompt
+                    plan={data.planInfo.plan}
+                    total={data.planInfo.total}
+                    limit={data.planInfo.limit}
+                  />
+                )}
 
               </div>
             )
@@ -1353,30 +1482,24 @@ export default function DashboardClient({ session }: { session: any }) {
               TOOLS SECTION
           ════════════════════════════════════════════════════════════════════ */}
           {data && activeSection === 'tools' && (
-            <div className="p-4 md:p-6 space-y-6">
+            <div className="p-4 md:p-6 space-y-5">
 
               <div>
-                <h1 className="text-2xl font-semibold mb-1">Tools</h1>
-                <p className="text-sm text-white/35">Connect your data, score your subscribers, and act before they leave.</p>
+                <h1 className="text-xl font-bold mb-1">Tools</h1>
+                <p className="text-sm text-white/40">Connect your data, score your subscribers, and act before they leave.</p>
               </div>
 
-              {/* Row 1 — Stripe sync + CSV import */}
-              <div className="grid sm:grid-cols-2 gap-5">
-
-                <div className="bg-[#161616] border border-white/10 rounded-2xl p-5">
-                  <div className="mb-4">
-                    <h2 className="text-sm font-semibold mb-1">Stripe sync</h2>
-                    <p className="text-xs text-white/40">Refresh subscriber data directly from your Stripe account.</p>
-                  </div>
-                  <SyncButton trialExpired={data.trial.expired} />
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
+                <div className="mb-4">
+                  <h2 className="text-sm font-semibold mb-1">Stripe sync</h2>
+                  <p className="text-xs text-white/40">Refresh subscriber data directly from your Stripe account.</p>
                 </div>
-
-                <CSVUploadButton />
-
+                <SyncButton trialExpired={data.trial.expired} />
               </div>
 
-              {/* Row 2 — Churn risk analysis */}
-              <div className="bg-[#161616] border border-white/10 rounded-2xl p-5">
+              <CSVUploadButton />
+
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-5">
                 <div className="mb-4">
                   <h2 className="text-sm font-semibold mb-1">Churn risk analysis</h2>
                   <p className="text-xs text-white/40">
@@ -1386,7 +1509,6 @@ export default function DashboardClient({ session }: { session: any }) {
                 <ChurnScoreButton trialExpired={data.trial.expired} />
               </div>
 
-              {/* Row 3 — AI insights */}
               <AIInsightsPanel trialExpired={data.trial.expired} />
 
             </div>

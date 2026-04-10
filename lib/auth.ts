@@ -21,11 +21,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB()
 
-        // Find the user in MongoDB by email
-        const user = await User.findOne({ email: credentials.email })
+        // Find the user in MongoDB by email (cast to string to prevent NoSQL injection)
+        const user = await User.findOne({ email: String(credentials.email).toLowerCase().trim() }).select('+password')
 
         if (!user) {
-          throw new Error('No account found with that email')
+          throw new Error('Invalid email or password')
         }
 
         if (!user.password) {
@@ -40,7 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         )
 
         if (!passwordMatch) {
-          throw new Error('Incorrect password')
+          throw new Error('Invalid email or password')
         }
 
         // Return the user object — NextAuth stores this in the session

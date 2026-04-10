@@ -5,12 +5,19 @@ import { Subscriber } from '@/models/Subscriber'
 import { User } from '@/models/User'
 import { generateFullInsights } from '@/lib/ai-insights'
 import { getTrialInfo } from '@/lib/trial'
+import { checkAiLimit } from '@/lib/ratelimit'
 
 export async function POST(req: NextRequest) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+    }
+
+    // Upstash rate limit: 20 AI generations per minute per user
+    const limit = await checkAiLimit(session.user.id)
+    if (limit.limited) {
+      return NextResponse.json({ error: 'Rate limit reached. Try again shortly.' }, { status: 429 })
     }
 
     await connectDB()
@@ -79,7 +86,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('AI insights error:', error?.message)
     return NextResponse.json(
-      { error: 'Failed to generate insights', details: error?.message },
+      { error: 'Failed to generate insights' },
       { status: 500 }
     )
   }

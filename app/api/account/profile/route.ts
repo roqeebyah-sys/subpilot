@@ -13,7 +13,7 @@ export async function GET() {
 
     await connectDB()
     const user = await User.findById(session.user.id)
-      .select('name email plan stripeCustomerId stripeConnected stripeConnectedAt taxRate notifications createdAt')
+      .select('name email plan stripeConnected stripeConnectedAt taxRate notifications createdAt')
       .lean() as any
 
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -22,7 +22,6 @@ export async function GET() {
       name:               user.name,
       email:              user.email,
       plan:               user.plan || 'starter',
-      stripeCustomerId:   user.stripeCustomerId || null,
       stripeConnected:    user.stripeConnected || false,
       stripeConnectedAt:  user.stripeConnectedAt || null,
       taxRate:            user.taxRate ?? 30,
@@ -51,7 +50,7 @@ export async function PUT(req: NextRequest) {
     const { name, currentPassword, newPassword, notifications, taxRate } = parsed.data
 
     await connectDB()
-    const user = await User.findById(session.user.id)
+    const user = await User.findById(session.user.id).select('+password')
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
     // Name only (email is read-only)

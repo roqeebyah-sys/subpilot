@@ -27,7 +27,7 @@ export default function CSVUploadButton() {
   }
 
   return (
-    <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 mb-6">
+    <div className="bg-[#161616] border border-white/10 rounded-2xl p-5">
       <h2 className="text-sm font-semibold mb-1">Import customers</h2>
       <p className="text-xs text-white/40 mb-4">
         Upload a CSV from PayPal, Gumroad, Teachable, or any spreadsheet.
@@ -61,8 +61,8 @@ export default function CSVUploadButton() {
               <div className="text-xs text-white/50 space-y-1">
                 <div>{result.imported} customers imported</div>
                 {result.skipped > 0 && <div>{result.skipped} rows skipped (no email)</div>}
-                <div className="text-[#e8eaed] mt-2">
-                  Detected columns: {JSON.stringify(result.mapping)}
+                <div className="text-white/35 mt-2">
+                  Detected: {Object.keys(result.mapping).join(', ')}
                 </div>
               </div>
             </div>
