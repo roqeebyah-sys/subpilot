@@ -1,27 +1,30 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import Google from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+
     CredentialsProvider({
-      // This provider handles email + password login
       name: 'credentials',
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // This function runs when someone tries to log in
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Email and password are required')
         }
 
         await connectDB()
 
-        // Find the user in MongoDB by email
         const user = await User.findOne({ email: credentials.email })
 
         if (!user) {
@@ -32,8 +35,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error('Please log in with Google')
         }
 
-        // Compare the password they typed with the hashed one in the DB
-        // bcrypt.compare returns true if they match
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
           user.password
@@ -43,7 +44,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error('Incorrect password')
         }
 
-        // Return the user object — NextAuth stores this in the session
         return {
           id: user._id.toString(),
           email: user.email,
@@ -55,15 +55,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    // This runs after login and adds extra data to the session token
-    async jwt({ token, user }) {
-      if (user) {
+    // Auto-create a MongoDB user on first Google sign-in
+    async signIn({ account, profile }) {
+      if (account?.provider === 'google') {
+        try {
+          await connectDB()
+          const existing = await User.findOne({ email: profile?.email })
+          if (!existing) {
+            await User.create({
+              name: profile?.name,
+              email: profile?.email,
+              // no password field — Google users log in via OAuth only
+            })
+          }
+          return true
+        } catch {
+          return false
+        }
+      }
+      return true
+    },
+
+    async jwt({ token, user, account }) {
+      // On credentials login — user object has our MongoDB ID already
+      if (user && account?.provider === 'credentials') {
         token.id = user.id
         token.plan = (user as any).plan
       }
+
+      // On Google login — look up the MongoDB user by email to get our ID + plan
+      if (account?.provider === 'google' && token.email) {
+        try {
+          await connectDB()
+          const dbUser = await User.findOne({ email: token.email })
+          if (dbUser) {
+            token.id = dbUser._id.toString()
+            token.plan = dbUser.plan
+          }
+        } catch { /* non-fatal */ }
+      }
+
       return token
     },
-    // This makes the extra data available in useSession()
+
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string
@@ -74,12 +108,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   pages: {
-    signIn: '/auth/login', // redirect to our custom login page
-    error: '/auth/login',  // redirect errors to login page too
+    signIn: '/auth/login',
+    error: '/auth/login',
   },
 
   session: {
-    strategy: 'jwt', // store sessions in JWT tokens, not the database
+    strategy: 'jwt',
   },
 
   secret: process.env.NEXTAUTH_SECRET,
