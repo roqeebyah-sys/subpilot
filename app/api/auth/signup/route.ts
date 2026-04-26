@@ -2,8 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { rateLimit, getIP } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 10 signups per 15 minutes per IP
+  const ip = getIP(req)
+  const { allowed, resetAt } = rateLimit(`signup:${ip}`, 10, 15 * 60 * 1000)
+
+  if (!allowed) {
+    const retryAfter = Math.ceil((resetAt - Date.now()) / 1000)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+    )
+  }
+
   try {
     const { name, email, password } = await req.json()
 

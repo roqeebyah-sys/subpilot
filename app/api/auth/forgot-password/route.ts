@@ -3,10 +3,33 @@ import crypto from 'crypto'
 import { Resend } from 'resend'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { rateLimit, getIP } from '@/lib/rate-limit'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 requests per 15 minutes per IP
+  const ip = getIP(req)
+  const { allowed, resetAt } = rateLimit(`forgot-password:${ip}`, 5, 15 * 60 * 1000)
+
+  if (!allowed) {
+    const retryAfter = Math.ceil((resetAt - Date.now()) / 1000)
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+    )
+  }
+
+  // Guard: ensure reset links will be well-formed
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+  if (!appUrl) {
+    console.error('NEXT_PUBLIC_APP_URL is not set — reset links would be malformed')
+    return NextResponse.json(
+      { error: 'Server misconfiguration. Please contact support.' },
+      { status: 500 }
+    )
+  }
+
   try {
     const { email } = await req.json()
 
@@ -32,7 +55,7 @@ export async function POST(req: NextRequest) {
       resetTokenExpiry: expiry,
     })
 
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${token}`
+    const resetUrl = `${appUrl}/auth/reset-password?token=${token}`
 
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
