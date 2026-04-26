@@ -74,7 +74,7 @@ export default function LoginPage() {
                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
                 <span className="text-xs font-semibold text-white/70">Today&apos;s alerts</span>
               </div>
-              <span className="text-[10px] text-white/30">Updated 2 mins ago</span>
+              <span className="text-[10px] text-white/30 bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 rounded-full">Sample data</span>
             </div>
             <div className="divide-y divide-white/[0.04]">
               {[
@@ -152,7 +152,7 @@ export default function LoginPage() {
 
           <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
           <p className="text-white/40 text-sm mb-8">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" className="text-emerald-400 hover:text-emerald-300">
               Sign up free
             </Link>
