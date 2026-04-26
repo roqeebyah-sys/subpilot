@@ -35,9 +35,9 @@ export async function POST(req: NextRequest) {
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${token}`
 
     await resend.emails.send({
-      from: 'SubPilot <noreply@subpilot.io>',
+      from: process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
       to: user.email,
-      subject: 'Reset your SubPilot password',
+      subject: 'Reset your password',
       html: `
         <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; background: #0a0a0a; color: #fff; padding: 40px 32px; border-radius: 12px;">
           <h2 style="margin: 0 0 8px; font-size: 22px;">Reset your password</h2>

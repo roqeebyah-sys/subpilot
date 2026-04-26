@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-export default function CSVUploadButton() {
+export default function CSVUploadButton({ onUploaded }: { onUploaded?: () => void }) {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
 
@@ -24,14 +24,18 @@ export default function CSVUploadButton() {
     const data = await res.json()
     setResult(data)
     setLoading(false)
+
+    // Auto-refresh dashboard data after successful upload
+    if (data.imported > 0 && onUploaded) {
+      setTimeout(() => onUploaded(), 1000)
+    }
   }
 
   return (
     <div className="bg-white/[0.02] border border-white/10 rounded-xl p-5 mb-6">
       <h2 className="text-sm font-semibold mb-1">Import customers</h2>
       <p className="text-xs text-white/40 mb-4">
-        Upload a CSV from PayPal, Gumroad, Teachable, or any spreadsheet.
-        SubPilot auto-detects the columns.
+        Upload a CSV from PayPal, Gumroad, Teachable, or any spreadsheet. SubPilot auto-detects the columns.
       </p>
 
       <label className="cursor-pointer">
@@ -43,27 +47,18 @@ export default function CSVUploadButton() {
             </>
           ) : '📂 Upload CSV file'}
         </div>
-        <input
-          type="file"
-          accept=".csv"
-          onChange={handleUpload}
-          className="hidden"
-        />
+        <input type="file" accept=".csv" onChange={handleUpload} className="hidden" />
       </label>
 
       {result && (
         <div className="mt-4">
           {result.imported !== undefined ? (
             <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4">
-              <div className="text-sm font-medium text-emerald-400 mb-1">
-                ✓ Import complete
-              </div>
+              <div className="text-sm font-medium text-emerald-400 mb-1">✓ Import complete</div>
               <div className="text-xs text-white/50 space-y-1">
                 <div>{result.imported} customers imported</div>
-                {result.skipped > 0 && <div>{result.skipped} rows skipped (no email)</div>}
-                <div className="text-white/30 mt-2">
-                  Detected columns: {JSON.stringify(result.mapping)}
-                </div>
+                {result.skipped > 0 && <div>{result.skipped} rows skipped</div>}
+                <div className="text-white/30 mt-1">Dashboard refreshing...</div>
               </div>
             </div>
           ) : (
@@ -71,7 +66,7 @@ export default function CSVUploadButton() {
               ⚠ {result.error || 'Upload failed'}
               {result.needsMapping && (
                 <div className="text-xs text-white/40 mt-2">
-                  Could not auto-detect columns. Headers found: {result.headers?.join(', ')}
+                  Could not detect columns. Headers: {result.headers?.join(', ')}
                 </div>
               )}
             </div>
